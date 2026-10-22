@@ -56,6 +56,25 @@ The snapshot has no nested Git repositories, so do not cherry-pick inside
    an upstream change as an original implementation.
 7. Push only the reviewed OriginSix commit to `https://github.com/rk1ngg/OriginSix`.
 
+### Custom web interface changes
+
+OriginSix web-interface enhancements are local changes, not a reason to reject
+later upstream fixes. When an upstream web PR is reviewed:
+
+- Changes in unrelated files apply normally and leave the custom UI unchanged.
+- Changes in the same file are applied only after reviewing both the upstream
+  behavior and the OriginSix UI changes.
+- Overlapping lines, renamed components, deleted components, and changed markup
+  require manual adaptation. Never blindly choose upstream or local content.
+- Preserve upstream correctness/security behavior, then reapply the intended
+  OriginSix presentation and component structure around it.
+- Prefer separate styles, components, and extension points for new UI so future
+  upstream patches touch fewer local lines.
+
+An upstream update therefore does not reset the interface. It becomes a reviewed
+merge into the current OriginSix UI, with the resulting behavior and any
+intentional deviation recorded in the ledger.
+
 ## Review and approval workflow
 
 Run each repository independently, with its working directory explicitly selected.
