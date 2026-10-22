@@ -34,6 +34,28 @@ resulting `main` branch to the personal `origin` remote. Keep an upstream review
 ledger entry with the full SHA, PR, reason for applying or skipping, and exact
 verification results.
 
+### Applying an upstream PR to the snapshot
+
+The snapshot has no nested Git repositories, so do not cherry-pick inside
+`server/` or `client/`. Use a temporary clone as the review source:
+
+1. Inspect the PR and its diff without changing OriginSix:
+   `gh pr view NUMBER --repo MUnique/OpenMU` and
+   `gh pr diff NUMBER --repo MUnique/OpenMU`.
+2. Confirm the PR is relevant, review its dependencies and tests, and record its
+   merged commit or PR head. An open PR is not applied without approval.
+3. Fetch the PR into a temporary clone, then produce a patch from the official
+   repository's base to the reviewed PR head.
+4. Apply the patch to the matching snapshot directory with `git apply --check`
+   first, then `git apply --directory=server` or `git apply --directory=client`.
+   Review generated files and conflicts manually.
+5. Build and run the affected server/client tests. Paired protocol or data
+   changes require verification on both sides.
+6. Commit the OriginSix change as the local author, while crediting the source
+   repository, PR number, and full upstream SHA in the commit body. Do not claim
+   an upstream change as an original implementation.
+7. Push only the reviewed OriginSix commit to `https://github.com/rk1ngg/OriginSix`.
+
 ## Review and approval workflow
 
 Run each repository independently, with its working directory explicitly selected.
