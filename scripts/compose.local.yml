@@ -1,0 +1,54 @@
+services:
+  database:
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    environment:
+      POSTGRES_DB: openmu
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_ADMIN_PW:?Use local-server.ps1 Start}
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d openmu"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  openmu:
+    image: originsix-openmu:statboost-20261022
+    environment:
+      DB_HOST: database
+      DB_ADMIN_USER: postgres
+      DB_ADMIN_PW: ${DB_ADMIN_PW:?Use local-server.ps1 Start}
+      Database__AssumeExternallyProvisioned: "true"
+      RESOLVE_IP: loopback
+      ASPNETCORE_URLS: http://+:8080
+      OPENMU_ADMIN_USER: originsix-admin
+      OPENMU_ADMIN_PASSWORD: ${ORIGINSIX_ADMIN_PASSWORD:?Use local-server.ps1 Start}
+    ports:
+      - "127.0.0.1:8080:8080"
+      - "127.127.127.127:44406:44406"
+      - "127.127.127.127:45901:45901"
+      - "127.127.127.127:45902:45902"
+      - "127.127.127.127:45903:45903"
+      - "127.127.127.127:45904:45904"
+      - "127.127.127.127:45905:45905"
+      - "127.127.127.127:45906:45906"
+      - "127.127.127.127:45980:45980"
+    volumes:
+      - admin-keys:/app/data-protection-keys
+      - server-logs:/app/logs
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/"]
+      interval: 15s
+      timeout: 5s
+      start_period: 180s
+      retries: 6
+    stop_grace_period: 60s
+
+volumes:
+  database-data:
+  admin-keys:
+  server-logs:

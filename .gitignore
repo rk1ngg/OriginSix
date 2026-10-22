@@ -1,0 +1,14 @@
+# Local runtime state and credentials
+.local/
+**/.local/
+**/*.clixml
+**/.env
+**/.env.*
+
+# Local editor output
+**/.vs/
+**/.vscode/
+
+# Parent repository's nested Git metadata is kept outside the snapshot.
+server/.git/
+client/.git/
