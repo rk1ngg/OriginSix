@@ -44,6 +44,9 @@ The snapshot has no nested Git repositories, so do not cherry-pick inside
    `gh pr diff NUMBER --repo MUnique/OpenMU`.
 2. Confirm the PR is relevant, review its dependencies and tests, and record its
    merged commit or PR head. An open PR is not applied without approval.
+   Before applying it, write a short impact decision covering the benefits,
+   risks, affected files/APIs/data/configuration, required dependencies, and
+   interactions with existing OriginSix modifications.
 3. Fetch the PR into a temporary clone, then produce a patch from the official
    repository's base to the reviewed PR head.
 4. Apply the patch to the matching snapshot directory with `git apply --check`
@@ -74,6 +77,10 @@ later upstream fixes. When an upstream web PR is reviewed:
 An upstream update therefore does not reset the interface. It becomes a reviewed
 merge into the current OriginSix UI, with the resulting behavior and any
 intentional deviation recorded in the ledger.
+
+No upstream change is accepted solely because it is newer. The decision must
+state why it is useful, what it can break, what OriginSix code it touches, and
+why applying, adapting, deferring, or skipping it is the safest choice.
 
 ## Review and approval workflow
 
