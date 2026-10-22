@@ -1,5 +1,9 @@
 # Repository and environment audit
 
+> Historical audit recorded before the one-repository OriginSix snapshot was
+> created. The source identity and upstream URLs remain valid; the current Git
+> layout is documented in `README.md` and `docs/UPSTREAM_STRATEGY.md`.
+
 Inspected **2026-10-21** using read-only local commands and public GitHub metadata.
 This is an initial static assessment, not a complete code/security audit.
 

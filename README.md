@@ -9,22 +9,20 @@ are out of scope until they are separately approved and tested.
 
 ## Layout
 
-The current workspace keeps the source repositories independent:
+The current workspace is a single snapshot repository:
 
 ```text
 OriginSix/
-|-- server/   MUnique/OpenMU
-|-- client/   sven-n/MuMain
+|-- server/   OpenMU server snapshot
+|-- client/   MuMain client snapshot
 |-- docs/     decisions, evidence, roadmap, and upstream review records
 |-- scripts/  approved local runtime and verification helpers
 |-- AGENTS.md repository maintenance rules for contributors and automation tools
 `-- README.md this project overview
 ```
 
-The planned personal GitHub repository is also named `OriginSix`. When the
-one-repository migration is approved, `server/` and `client/` will live under
-this root while their official source URLs remain documented and checked
-periodically.
+The official source URLs remain documented and are checked periodically before
+upstream fixes are applied to either snapshot.
 
 ## Upstream maintenance
 

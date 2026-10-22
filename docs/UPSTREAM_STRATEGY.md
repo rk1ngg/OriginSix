@@ -2,34 +2,37 @@
 
 ## Current state
 
-Both repositories retain their official URLs as remote `origin`. Keep those
-references. The server was fast-forwarded to upstream `master` at
+OriginSix is a single snapshot monorepo. The official source URLs are retained
+as documented references rather than nested remotes. The server snapshot was
+fast-forwarded to upstream `master` at
 `cc0ccd268d70303b1b65bce58b178afcb1437fd5` on 2026-10-22 to include the recent
 Castle Siege merges. The local anti-cheat changes remain uncommitted. No
 OriginSix fork remote or push has been created. Default branches are server
 `master` and client `main`; baseline full SHAs are in
 [REPOSITORY_AUDIT.md](REPOSITORY_AUDIT.md).
 
-When the personal GitHub repositories are ready, add them as separately named
-push remotes such as `fork`; keep official upstream as `origin`. Do not silently
-repoint `origin`, and never push to the official upstream. Never use `git pull`
-as the update procedure.
+The personal GitHub repository is the only Git remote for OriginSix. Never push
+to the official upstream repositories. Use temporary read-only clones or another
+explicit fetch location when reviewing their changes; never use `git pull` as
+the update procedure.
 
 ## Personal fork and recurring checks
 
 The intended layout is:
 
-- `origin`: official `MUnique/OpenMU` or `sven-n/MuMain`, fetch only;
-- `fork`: the user's GitHub repository, push only after explicit approval;
-- local `master`/`main`: the working baseline, with OriginSix changes reviewed
+- `origin`: `https://github.com/rk1ngg/OriginSix.git`, push only after approval;
+- `server/`: OpenMU snapshot;
+- `client/`: MuMain snapshot;
+- `main`: the OriginSix baseline, with server and client changes reviewed
   separately from upstream changes.
 
-For a periodic review, record status and current heads, fetch only the official
-reference, enumerate commits after the last reviewed upstream SHA, and inspect
-each candidate before applying it. Apply only approved commits or a reviewed
-fast-forward, run the paired tests, then push the resulting local branch to the
-personal `fork` remote. Keep an upstream review ledger entry with the full SHA,
-PR, reason for applying or skipping, and exact verification results.
+For a periodic review, record OriginSix status and current heads, fetch only the
+official references in temporary clones, enumerate commits after the last
+reviewed upstream SHA, and inspect each candidate before applying it. Apply only
+approved patches or reviewed source changes, run the paired tests, then push the
+resulting `main` branch to the personal `origin` remote. Keep an upstream review
+ledger entry with the full SHA, PR, reason for applying or skipping, and exact
+verification results.
 
 ## Review and approval workflow
 

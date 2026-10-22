@@ -9,11 +9,12 @@ with proven vanilla behavior.
 
 ## Workspace and repository boundaries
 
-- Work from `D:\OriginSix` across independent `server/` (MUnique/OpenMU) and
-  `client/` (sven-n/MuMain) Git repositories. Never combine their histories or
-  create duplicate nested clones.
-- Parent `docs/` contains OriginSix decisions and evidence; `scripts/` is for
-  approved development automation. The parent is currently not a Git repository.
+- Work from the single `D:\OriginSix` Git repository. `server/` is the OpenMU
+  server snapshot and `client/` is the MuMain client snapshot. Their official
+  source URLs are recorded in `docs/UPSTREAM_STRATEGY.md`; do not create nested
+  Git repositories or silently replace either snapshot.
+- `docs/` contains OriginSix decisions and evidence; `scripts/` is for approved
+  development automation.
 - Before changes, inspect each affected repository's status, branch and HEAD.
   Preserve existing work. Never delete or overwrite existing files without approval.
 - Before diagnosing or implementing a bug fix, check the official upstream
@@ -23,8 +24,8 @@ with proven vanilla behavior.
   Do not duplicate an upstream fix without explaining the difference.
 - Read repository-local `AGENTS.md` and `docs/CODING_RULES.md` before source changes.
   Follow applicable deeper instructions. Preserve licenses and attribution.
-- Keep official upstream remotes. No automatic merge, pull, reset, branch update,
-  commit, push, or public deployment. Use the selective workflow in
+- Keep official upstream URLs documented. No automatic merge, pull, reset, branch
+  update, commit, push, or public deployment. Use the selective workflow in
   `docs/UPSTREAM_STRATEGY.md`; all applications of upstream patches need approval.
 
 ## Approval gates
