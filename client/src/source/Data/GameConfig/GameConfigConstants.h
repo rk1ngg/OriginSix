@@ -116,7 +116,7 @@ namespace CfgDefaults
 
     // "legacy" reproduces the pre-RmlUi look with programmatic RCSS and no sprite dependency.
     // Defaults to legacy so nothing changes for existing players until they opt in.
-    inline constexpr wchar_t CfgDefaultRmlTheme[] = L"legacy";
+    inline constexpr wchar_t CfgDefaultRmlTheme[] = L"s18-originsix";
 
     // 100% = unscaled. The options window's UI tab offers a fixed ladder of values
     // (UI::Options::UIScalePercentChoices()); a hand-edited config.ini may hold anything in
