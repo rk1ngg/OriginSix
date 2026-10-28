@@ -1,0 +1,266 @@
+/* S18 OriginSix theme for main_frame.rml: Season 18 slate-navy metallic HUD strip,
+   extracted Season 18 HP/MP orb gauges (guege_hp.ozd, guege_mp.ozd), S18 skill boxes,
+   and S18 metallic action buttons. */
+
+#gauge_fill_left, #gauge_fill_right, #item_band_fill, #skill_band_fill, #gauge_frame,
+.gauge-num.value-full {
+	display: none;
+}
+
+#hud_layout { position: absolute; left: 50%; bottom: 0; margin-left: -320dp;
+    width: 640dp; height: 51dp; overflow: visible; pointer-events: none; }
+#hud_layout.workspace-placed { margin-left: 0; bottom: auto; transform-origin: left top; }
+.hud-part {
+	position: absolute;
+	left: 50%;
+	font-family: "token(font-body)";
+	font-size: 9dp;
+}
+#hud_strip    { margin-left: -320dp; bottom: 10dp; width: 488dp; height: 41dp; pointer-events: auto; }
+#gauges_left  { margin-left: -162dp; bottom: 9dp;  width: 62dp;  height: 40dp; }
+#gauges_right { margin-left: 100dp;  bottom: 9dp;  width: 62dp;  height: 40dp; }
+#buttons      { margin-left: 168dp;  bottom: 10dp; width: 300dp; height: 41dp; }
+#exp          { margin-left: -320dp; bottom: 0dp;  width: 640dp; height: 10dp; pointer-events: auto; }
+#item_slots   { margin-left: -310dp; bottom: 17dp; width: 134dp; height: 20dp; }
+#skill_slots  { margin-left: -98dp;  bottom: 11dp; width: 190dp; height: 40dp; }
+#skill_list   { margin-left: 65dp;   bottom: 52dp; width: 32dp;  height: 38dp; }
+
+@spritesheet mainframe-menu01-sheet { src: "textures/s18_menu01.tga"; mainframe-frame-left: 0px 0px 256px 41px; mainframe-exp-left: 0px 41px 256px 10px; }
+@spritesheet mainframe-menu02-sheet { src: "textures/s18_menu02.tga"; mainframe-frame-middle: 0px 0px 128px 41px; mainframe-exp-middle: 0px 41px 128px 10px; }
+@spritesheet mainframe-menu03-sheet { src: "textures/s18_menu03.tga"; mainframe-frame-right: 0px 0px 104px 41px; mainframe-exp-right: 0px 41px 256px 10px; }
+
+.frame-art { position: absolute; top: 0dp; height: 41dp; pointer-events: none; }
+#frame_left   { left: 0dp;   width: 256dp; decorator: image(mainframe-frame-left); }
+#frame_middle { left: 256dp; width: 128dp; decorator: image(mainframe-frame-middle); }
+#frame_right  { left: 384dp; width: 104dp; decorator: image(mainframe-frame-right); }
+
+@spritesheet mainframe-highlight-sheet { src: "../../../newui_menu02-03.jpg"; mainframe-skill-list-highlight: 0px 0px 160px 40px; }
+#skill_list_highlight { position: absolute; left: 0dp; top: 0dp; width: 160dp; height: 40dp; pointer-events: none; decorator: image(mainframe-skill-list-highlight); }
+
+.gauge-slot {
+	position: absolute;
+	pointer-events: auto;
+}
+#bar_hp   { left: 0dp;  top: 1dp; width: 45dp; height: 39dp; }
+#bar_sd   { left: 46dp; top: 0dp; width: 16dp; height: 39dp; }
+#bar_ag   { left: 0dp;  top: 0dp; width: 16dp; height: 39dp; }
+#bar_mp   { left: 17dp; top: 1dp; width: 45dp; height: 39dp; }
+
+@spritesheet mainframe-gauge-hp-sheet  { src: "textures/s18_gauge_hp.tga";   mainframe-gauge-hp:          0px 0px 45px 39px; }
+@spritesheet mainframe-gauge-hpp-sheet { src: "../../../newui_menu_green.jpg"; mainframe-gauge-hp-poisoned: 0px 0px 45px 39px; }
+@spritesheet mainframe-gauge-mp-sheet  { src: "textures/s18_gauge_mp.tga";   mainframe-gauge-mp:          0px 0px 45px 39px; }
+@spritesheet mainframe-gauge-ag-sheet  { src: "../../../newui_menu_ag.jpg";    mainframe-gauge-ag:          0px 0px 16px 39px; }
+@spritesheet mainframe-gauge-sd-sheet  { src: "../../../newui_menu_sd.jpg";    mainframe-gauge-sd:          0px 0px 16px 39px; }
+
+.gauge-fill {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+.gauge-fill-horizontal { display: none; }
+.gauge-fill-hp { decorator: image(mainframe-gauge-hp cover left bottom); }
+.gauge-fill-hp.poisoned { decorator: image(mainframe-gauge-hp-poisoned cover left bottom); }
+.gauge-fill-mp { decorator: image(mainframe-gauge-mp cover left bottom); }
+.gauge-fill-ag { decorator: image(mainframe-gauge-ag cover left bottom); }
+.gauge-fill-sd { decorator: image(mainframe-gauge-sd cover left bottom); }
+
+.gauge-num {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	top: 30dp;
+	width: 96dp;
+	font-size: 11dp;
+	transform: scaleX(0.91);
+	transform-origin: center top;
+	line-height: 12dp;
+	text-align: center;
+	color: token(text-primary);
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+#bar_hp .gauge-num { left: -25.25dp; }
+#bar_mp .gauge-num { left: -20dp; }
+#bar_sd .gauge-num { left: -35dp; top: 31dp; }
+#bar_ag .gauge-num { left: -40.5dp; top: 31dp; }
+
+@spritesheet mainframe-btn-cshop-sheet   { src: "textures/s18_bt05.tga"; mainframe-btn-cshop-normal: 0px 0px 30px 41px; mainframe-btn-cshop-hover: 0px 41px 30px 41px; mainframe-btn-cshop-open: 0px 82px 30px 41px; }
+@spritesheet mainframe-btn-chainfo-sheet { src: "textures/s18_bt01.tga"; mainframe-btn-chainfo-normal: 0px 0px 30px 41px; mainframe-btn-chainfo-hover: 0px 41px 30px 41px; mainframe-btn-chainfo-open: 0px 82px 30px 41px; }
+@spritesheet mainframe-btn-myinven-sheet { src: "textures/s18_bt02.tga"; mainframe-btn-myinven-normal: 0px 0px 30px 41px; mainframe-btn-myinven-hover: 0px 41px 30px 41px; mainframe-btn-myinven-open: 0px 82px 30px 41px; }
+@spritesheet mainframe-btn-friend-sheet  { src: "textures/s18_bt03.tga"; mainframe-btn-friend-normal: 0px 0px 30px 41px; mainframe-btn-friend-hover: 0px 41px 30px 41px; mainframe-btn-friend-open: 0px 82px 30px 41px; }
+@spritesheet mainframe-btn-window-sheet  { src: "textures/s18_bt04.tga"; mainframe-btn-window-normal: 0px 0px 30px 41px; mainframe-btn-window-hover: 0px 41px 30px 41px; mainframe-btn-window-open: 0px 82px 30px 41px; }
+
+.frame-btn {
+	position: absolute;
+	top: 0dp;
+	width: 30dp;
+	height: 41dp;
+	cursor: pointer;
+	pointer-events: auto;
+}
+#btn_cshop:hover   { decorator: image(mainframe-btn-cshop-hover); }
+#btn_chainfo:hover { decorator: image(mainframe-btn-chainfo-hover); }
+#btn_myinven:hover { decorator: image(mainframe-btn-myinven-hover); }
+#btn_friend:hover  { decorator: image(mainframe-btn-friend-hover); }
+#btn_window:hover  { decorator: image(mainframe-btn-window-hover); }
+
+.btn-icon-label { display: none; }
+.slot-hotkey-label { display: none; }
+
+.item-stack-label {
+	position: absolute;
+	left: 19dp;
+	top: 14dp;
+	transform: translateX(-50%);
+	color: token(text-primary);
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-size: 12dp;
+	line-height: 12dp;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+#skill_slot_0 { position: absolute; left: 0dp;   top: 2dp; width: 32dp; height: 38dp; }
+#skill_slot_1 { position: absolute; left: 32dp;  top: 2dp; width: 32dp; height: 38dp; }
+#skill_slot_2 { position: absolute; left: 64dp;  top: 2dp; width: 32dp; height: 38dp; }
+#skill_slot_3 { position: absolute; left: 96dp;  top: 2dp; width: 32dp; height: 38dp; }
+#skill_slot_4 { position: absolute; left: 128dp; top: 2dp; width: 32dp; height: 38dp; }
+#current_skill_slot { position: absolute; left: 170dp; top: 8dp; width: 20dp; height: 28dp; }
+
+@spritesheet skill-box-sheet { src: "textures/s18_skillbox.tga"; skill-box: 0px 0px 32px 38px; }
+@spritesheet skill-box-use-sheet { src: "textures/s18_skillbox2.tga"; skill-box-use: 0px 0px 32px 38px; }
+#skill_slots .selected { decorator: image(skill-box-use); }
+
+.skill-icon {
+	position: absolute;
+	left: 6dp;
+	top: 6dp;
+	width: 20dp;
+	height: 28dp;
+	pointer-events: none;
+}
+#current_skill_slot .skill-icon { left: 0; top: 0; }
+
+#item_slot_0 { position: absolute; left: 0dp;   top: 0dp; width: 20dp; height: 20dp; }
+#item_slot_1 { position: absolute; left: 38dp;  top: 0dp; width: 20dp; height: 20dp; }
+#item_slot_2 { position: absolute; left: 76dp;  top: 0dp; width: 20dp; height: 20dp; }
+#item_slot_3 { position: absolute; left: 114dp; top: 0dp; width: 20dp; height: 20dp; }
+.item-icon { position: absolute; left: 0; top: 0; width: 20dp; height: 20dp; pointer-events: none; }
+
+#item_slot_0, #item_slot_1, #item_slot_2, #item_slot_3,
+#skill_slot_0, #skill_slot_1, #skill_slot_2, #skill_slot_3, #skill_slot_4,
+#current_skill_slot {
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+#skill_grid, #pet_skill_row {
+	position: absolute;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+}
+
+.skill-cell {
+	position: absolute;
+	width: 32dp;
+	height: 38dp;
+	pointer-events: auto;
+	cursor: pointer;
+	decorator: image(skill-box);
+}
+.skill-cell.selected { decorator: image(skill-box-use); }
+
+.cooldown-wipe {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: rgba(255, 128, 128, 128);
+	pointer-events: none;
+}
+
+.skill-hotkey-label {
+	position: absolute;
+	right: 3dp;
+	bottom: 2dp;
+	color: token(text-primary);
+	font-family: "token(font-body)";
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-size: 12dp;
+	line-height: 12dp;
+	white-space: nowrap;
+	pointer-events: none;
+}
+#current_skill_slot .skill-hotkey-label { right: -3dp; bottom: -2dp; }
+
+#btn_cshop    { left: 1dp;   decorator: image(mainframe-btn-cshop-normal); }
+#btn_cshop.open    { decorator: image(mainframe-btn-cshop-open); }
+#btn_chainfo  { left: 31dp;  decorator: image(mainframe-btn-chainfo-normal); }
+#btn_chainfo.open  { decorator: image(mainframe-btn-chainfo-open); }
+#btn_myinven  { left: 61dp;  decorator: image(mainframe-btn-myinven-normal); }
+#btn_myinven.open  { decorator: image(mainframe-btn-myinven-open); }
+#btn_friend   { left: 91dp;  decorator: image(mainframe-btn-friend-normal); }
+#btn_friend.open   { decorator: image(mainframe-btn-friend-open); }
+#btn_window   { left: 121dp; decorator: image(mainframe-btn-window-normal); }
+#btn_window.open   { decorator: image(mainframe-btn-window-open); }
+
+.alert-dot {
+	position: absolute;
+	top: -2dp;
+	right: -2dp;
+	width: 8dp;
+	height: 8dp;
+	border-radius: 4dp;
+	background-color: #ffd700;
+	pointer-events: none;
+}
+
+.exp-frame { position: absolute; top: 0dp; height: 10dp; pointer-events: none; }
+#exp_frame_left { left: 0dp; width: 256dp; decorator: image(mainframe-exp-left); }
+#exp_frame_middle { left: 256dp; width: 128dp; decorator: image(mainframe-exp-middle); }
+#exp_frame_right { left: 384dp; width: 256dp; decorator: image(mainframe-exp-right); }
+#exp_track {
+	position: absolute;
+	left: 2dp;
+	width: 629dp;
+	top: 3dp;
+	height: 4dp;
+}
+@spritesheet mainframe-gauge-exp-sheet { src: "../../../newui_exbar.jpg"; mainframe-gauge-exp: 0px 0px 6px 4px; }
+#exp_fill {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	decorator: image(mainframe-gauge-exp);
+}
+#exp_digit {
+	position: absolute;
+	right: 1dp;
+	top: -1dp;
+	color: token(text-primary);
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-family: "token(font-body)";
+	font-size: 12dp;
+	line-height: 12dp;
+	pointer-events: none;
+}
+
+#skill_grid .skill-cell { top: 0dp; }
+#skill_grid .skill-cell:nth-child(2n+1):nth-child(-n+13) { left: calc(var(--i, 0) * 16dp); }
+#skill_grid .skill-cell:nth-child(2n):nth-child(-n+14) { left: calc(var(--i, 0) * -16dp - 16dp); }
+#skill_grid .skill-cell:nth-child(n+15):nth-child(-n+18) { left: calc(192dp - var(--i, 0) * 32dp); }
+#skill_grid .skill-cell:nth-child(n+19) { left: calc(var(--i, 0) * 32dp - 928dp); top: -38dp; }
+#pet_skill_row .skill-cell { top: -38dp; }
+#pet_skill_row .skill-cell:nth-child(1) { left: -32dp; }
+#pet_skill_row .skill-cell:nth-child(2) { left: 0dp; }
+#pet_skill_row .skill-cell:nth-child(3) { left: 32dp; }
+#pet_skill_row .skill-cell:nth-child(4) { left: 64dp; }

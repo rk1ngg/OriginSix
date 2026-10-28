@@ -1,0 +1,66 @@
+/* S18 OriginSix shared frame for right-docked windows using decrypted Season 18 panel textures. */
+
+@spritesheet docked-bg-fill-sheet  { src: "textures/s18_panel_fill.tga";   docked-bg-fill:   0px 0px 190px 429px; }
+@spritesheet docked-bg-top-a-sheet { src: "textures/s18_panel_top.tga";    docked-bg-top-a:  0px 0px 190px 64px; }
+@spritesheet docked-bg-top-b-sheet { src: "textures/s18_panel_top.tga";    docked-bg-top-b:  0px 0px 190px 64px; }
+@spritesheet docked-bg-left-sheet  { src: "textures/s18_panel_left.tga";   docked-bg-left:   0px 0px 21px 320px; }
+@spritesheet docked-bg-right-sheet { src: "textures/s18_panel_right.tga";  docked-bg-right:  0px 0px 21px 320px; }
+@spritesheet docked-bg-bottom-sheet { src: "textures/s18_panel_bottom.tga"; docked-bg-bottom: 0px 0px 190px 45px; }
+
+@spritesheet docked-corner-tl-sheet { src: "../../../newui_item_table01(L).tga"; docked-corner-tl: 0px 0px 14px 14px; }
+@spritesheet docked-corner-tr-sheet { src: "../../../newui_item_table01(R).tga"; docked-corner-tr: 0px 0px 14px 14px; }
+@spritesheet docked-corner-bl-sheet { src: "../../../newui_item_table02(L).tga"; docked-corner-bl: 0px 0px 14px 14px; }
+@spritesheet docked-corner-br-sheet { src: "../../../newui_item_table02(R).tga"; docked-corner-br: 0px 0px 14px 14px; }
+@spritesheet docked-edge-top-sheet    { src: "../../../newui_item_table03(Up).tga"; docked-edge-top:    0px 0px 1px 14px; }
+@spritesheet docked-edge-bottom-sheet { src: "../../../newui_item_table03(Dw).tga"; docked-edge-bottom: 0px 0px 1px 14px; }
+@spritesheet docked-edge-left-sheet   { src: "../../../newui_item_table03(L).tga";  docked-edge-left:   0px 0px 14px 1px; }
+@spritesheet docked-edge-right-sheet  { src: "../../../newui_item_table03(R).tga";  docked-edge-right:  0px 0px 14px 1px; }
+
+@spritesheet docked-exit-btn-sheet { src: "../../../newui_exit_00.tga"; docked-exit-btn: 0px 0px 36px 29px; }
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	decorator: image(docked-bg-fill);
+	font-family: "token(font-body)";
+}
+
+.frame-piece { position: absolute; pointer-events: none; }
+.frame-top    { left: 0;  right: 0; top: 0;     height: 64px; }
+.frame-left   { left: 0;  top: 64px; bottom: 45px; width: 21px; decorator: image(docked-bg-left); }
+.frame-right  { right: 0; top: 64px; bottom: 45px; width: 21px; decorator: image(docked-bg-right); }
+.frame-bottom { left: 0;  right: 0; bottom: 0;  height: 45px; decorator: image(docked-bg-bottom); }
+
+.gbox-corner { position: absolute; width: 14px; height: 14px; pointer-events: none; }
+.gbox-edge { position: absolute; pointer-events: none; }
+.gbox-edge-top { height: 14px; decorator: image(docked-edge-top); }
+.gbox-edge-bottom { height: 14px; decorator: image(docked-edge-bottom); }
+.gbox-edge-left { width: 14px; decorator: image(docked-edge-left); }
+.gbox-edge-right { width: 14px; decorator: image(docked-edge-right); }
+.gbox-title-fill { position: absolute; background-color: token(surface-panel-title); pointer-events: none; }
+.gbox-content-fill { position: absolute; background-color: token(surface-panel-content); pointer-events: none; }
+.gbox-title-text {
+	display: block;
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1em;
+	color: token(text-heading);
+	pointer-events: none;
+}
+
+#btn_exit {
+	position: absolute;
+	left: 13px;
+	bottom: 8px;
+	width: 36px;
+	height: 29px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(docked-exit-btn);
+}
+#btn_exit:hover { filter: brightness(1.25); }
+
+#panel.fill-placement { box-sizing: border-box; }
