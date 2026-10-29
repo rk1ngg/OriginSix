@@ -1,3 +1,0 @@
-/* Superseded: the S2024 Red Server inventory now inherits s18-originsix/my_inventory.rcss, which uses
-   the same InventoryFrame_I1 atlas (byte-identical in the S18.2 and 2024 Red Server clients) with
-   the official S18 InventoryFrame layout. Not linked from my_inventory.rml. */
