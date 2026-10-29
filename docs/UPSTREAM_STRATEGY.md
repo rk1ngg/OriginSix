@@ -3,13 +3,23 @@
 ## Current state
 
 OriginSix is a single snapshot monorepo. The official source URLs are retained
-as documented references rather than nested remotes. The server snapshot was
-fast-forwarded to upstream `master` at
-`cc0ccd268d70303b1b65bce58b178afcb1437fd5` on 2026-10-22 to include the recent
-Castle Siege merges. The local anti-cheat changes remain uncommitted. No
-OriginSix fork remote or push has been created. Default branches are server
-`master` and client `main`; baseline full SHAs are in
-[REPOSITORY_AUDIT.md](REPOSITORY_AUDIT.md).
+as documented references rather than nested remotes:
+
+- `server/` (`https://github.com/MUnique/OpenMU`): Updated on 2026-10-28 from
+  `cc0ccd268d70303b1b65bce58b178afcb1437fd5` to upstream `master`
+  `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` (48 merged PRs / 380 commits).
+  Local speed-hack anti-cheat mount scaling (`SpeedHackDetectPlugIn.cs`) and
+  loopback scripts remain preserved.
+- `client/` (`https://github.com/sven-n/MuMain`): Updated on 2026-10-28 from
+  `063169014914add35a777178b15d8c9fbaae4b51` to upstream `main`
+  `55a7b4459c18487f6517fdf75d62a360117cc1ed` (27 merged PRs / 1,062 commits,
+  including BMD v14 support via `cryptopp` and JSON item tooltips).
+- `web/` (`https://github.com/mamfloo/open-mu-web`): Imported on 2026-10-28 at
+  upstream `master` `093908290dd09e21e0058de0309ee1df413c8aee` and customized
+  with the OriginSix Dark Obsidian & Arcane Gold (`WeiCMS`/MurenMU-inspired) UI.
+
+Default branches are server `master`, client `main`, and web `master`; baseline
+full SHAs are in [REPOSITORY_AUDIT.md](REPOSITORY_AUDIT.md).
 
 The personal GitHub repository is the only Git remote for OriginSix. Never push
 to the official upstream repositories. Use temporary read-only clones or another
@@ -151,6 +161,9 @@ large). Use full SHAs and statuses **reviewed**, **applied**, **skipped**, or
 | Date | Repository / upstream commit | Status | Relevance / dependencies | Decision / resulting commit | Verification |
 |---|---|---|---|---|---|
 | 2026-10-21 | Both: baseline SHAs in repository audit | reviewed (baseline identity only) | Live upstream heads match local heads | No upstream patches applied; individual historical fixes not reviewed | Read-only Git/source inspection; no regression run |
+| 2026-10-28 | `MUnique/OpenMU` `cc0ccd268d70303b1b65bce58b178afcb1437fd5..c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` | applied (working tree) | 48 PRs / 380 commits: monster roaming/aggro fixes, Chaos Mix client rate/cost sync (`#1300`), item stat profile formulas (`#1321`), Illusion Temple/Doppelganger/Kalima/Lucky Item/Imperial Guardian fixes | Applied via `git apply --directory=server`; preserved local `SpeedHackDetectPlugIn.cs` mount scaling | `dotnet build src/MUnique.OpenMU.sln -c Release` (0 errors); `SpeedHackAntiCheatTests` (22/22 passed) |
+| 2026-10-28 | `sven-n/MuMain` `063169014914add35a777178b15d8c9fbaae4b51..55a7b4459c18487f6517fdf75d62a360117cc1ed` | applied (working tree) | 27 PRs / 1,062 commits: BMD v14 model loader (`#804`, adds vcpkg `cryptopp`), JSON item tooltips (`#819`–`#836`, `#863`), `std::chrono` gameplay timers (`#847`), UI & pathfinding fixes | Applied via `git apply --directory=client` | `cmake --preset windows-x64` & `cmake --build --preset windows-x64-release` (`979/979` targets built, `Main.exe` succeeded with `cryptopp`) |
+| 2026-10-28 | `mamfloo/open-mu-web` `093908290dd09e21e0058de0309ee1df413c8aee` | applied (working tree) | Initial import of OpenMU Next.js + Prisma web portal into `web/` | Adapted with loopback-only scripts (`local-web.ps1`, port `127.0.0.1:3080`) and WeiCMS/MurenMU-inspired Dark Obsidian & Arcane Gold UI | `local-web.ps1 -Action Dev -Port 3080` verified HTTP 200 across `/`, `/ranking`, `/register`, `/info`, `/download` |
 
 Future entry must include PR/reference, vanilla impact, prerequisite commits,
 conflicts/adaptation, approval reference, local resulting SHA if committed, and
