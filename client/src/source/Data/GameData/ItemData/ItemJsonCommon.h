@@ -48,7 +48,8 @@ void AddFileIssue(std::vector<ItemDataIssue>& issues, const std::string& source,
 bool ReadFileVersion(std::string_view text, const std::string& source, int maxFormatVersion, OrderedJson& root,
                      std::vector<ItemDataIssue>& issues);
 
-// The whole file as text without a UTF-8 byte order mark; nothing when it cannot be opened.
+// The whole file as text without a UTF-8 byte order mark; nothing when it cannot be opened or is not a
+// regular file (a folder).
 std::optional<std::string> ReadTextFile(const std::filesystem::path& path);
 
 // ReadFileVersion, and checks that the file has a valid "group".
@@ -171,4 +172,8 @@ std::string PutListsOnOneLine(const std::string& text, std::string_view key);
 // Puts every object of `key`, with the lists and objects in it, on one line:
 // "angle": {"y": 0}. A space stays after each comma and colon.
 std::string PutObjectsOnOneLine(const std::string& text, std::string_view key);
+
+// Puts each entry of every list of `key`, with the lists and objects in it, on
+// a line of its own, as the profile rules of the item stat file are written.
+std::string PutListEntriesOnOneLine(const std::string& text, std::string_view key);
 } // namespace Data::Items::Json
