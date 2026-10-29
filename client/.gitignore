@@ -43,6 +43,8 @@ build-linux/
 !src/bin/Data/Interface/
 !src/bin/Data/Interface/RmlUi/
 !src/bin/Data/Interface/RmlUi/**
+# Webzen client textures used by local themes stay outside the repository.
+src/bin/Data/Interface/RmlUi/themes/*/textures/
 # Item data (JSON, written by the item editor) is source-controlled.
 !src/bin/Data/Items/
 !src/bin/Data/Items/**

@@ -13,8 +13,6 @@
 server/.git/
 client/.git/
 
-# Webzen client textures used by the local UI themes stay outside the repository.
-client/src/bin/Data/Interface/RmlUi/themes/*/textures/
 
 # Client crash logs
 MuError.log
