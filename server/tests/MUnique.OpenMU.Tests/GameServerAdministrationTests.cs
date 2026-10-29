@@ -34,6 +34,7 @@ public sealed class GameServerAdministrationTests
         this._player.SelectedCharacter.Id = Guid.NewGuid();
         this._player.GameContext.Configuration.MaximumLevel = 400;
         this._player.GameContext.Configuration.MaximumMasterLevel = 200;
+        Mock.Get(this._player.GameContext.Configuration).Setup(c => c.ItemOptions).Returns(new List<ItemOptionDefinition>());
         var context = new Mock<IGameContext>();
         context.Setup(c => c.GetPlayerByCharacterName("Hero")).Returns(this._player);
         context.Setup(c => c.GetPlayersAsync()).ReturnsAsync(new List<Player> { this._player });
@@ -97,6 +98,77 @@ public sealed class GameServerAdministrationTests
         }
 
         Assert.That(this._player.Inventory!.Items, Is.Empty);
+    }
+
+    /// <summary>Sockets, the socket bonus, harmony, the guardian option, durability and quantity become option links on every given item.</summary>
+    [Test]
+    public async Task GivesSocketedHarmonyGuardianItemsAsync()
+    {
+        var definition = this.AddItemDefinition();
+        definition.MaximumSockets = 3;
+        var fire = this.AddOptionDefinition(definition, ItemOptionTypes.SocketOption, 1, (int)SocketSubOptionType.Fire, 5);
+        var bonus = this.AddOptionDefinition(definition, ItemOptionTypes.SocketBonusOption, 0, 0, 0);
+        var harmony = this.AddOptionDefinition(definition, ItemOptionTypes.HarmonyOption, 2, 0, 5);
+        var guardian = this.AddOptionDefinition(definition, ItemOptionTypes.GuardianOption, 1, 0, 0);
+        var specification = new ItemSpecification(0, 1, 9, Sockets: [new(2, "fire", 1, 5)], SocketBonusOption: 0, HarmonyOption: 2, HarmonyLevel: 3, GuardianOption: true, Durability: 50, Quantity: 2);
+
+        var result = await this._administration.GiveItemAsync("Hero", this._player.SelectedCharacter!.Id, specification, CancellationToken.None).ConfigureAwait(false);
+
+        Assert.That(result.Succeeded, Is.True, result.Error);
+        Assert.That(this._player.Inventory!.Items.Count(), Is.EqualTo(2));
+        foreach (var item in this._player.Inventory.Items)
+        {
+            Assert.That(item.SocketCount, Is.EqualTo(3));
+            Assert.That(item.Durability, Is.EqualTo(50));
+            Assert.That(item.ItemOptions.Single(l => l.ItemOption == fire), Has.Property("Index").EqualTo(2).And.Property("Level").EqualTo(5));
+            Assert.That(item.ItemOptions.Single(l => l.ItemOption == harmony).Level, Is.EqualTo(3));
+            Assert.That(item.ItemOptions.Any(l => l.ItemOption == bonus), Is.True);
+            Assert.That(item.ItemOptions.Any(l => l.ItemOption == guardian), Is.True);
+        }
+    }
+
+    /// <summary>Unforced items only accept the elements, socket count, levels and quantities of their definition.</summary>
+    [Test]
+    public async Task RejectsSocketsOutsideTheDefinitionAsync()
+    {
+        var definition = this.AddItemDefinition();
+        definition.MaximumSockets = 3;
+        this.AddOptionDefinition(definition, ItemOptionTypes.SocketOption, 1, (int)SocketSubOptionType.Water, 5);
+        var id = this._player.SelectedCharacter!.Id;
+        foreach (var item in new ItemSpecification[]
+                 {
+                     new(0, 1, Sockets: [new(0, "Fire", 1, 5)]), // a weapon element on an armor-like definition
+                     new(0, 1, Sockets: [new(3, "Water", 1, 5)]), // beyond the definition's sockets
+                     new(0, 1, Sockets: [new(0, "Water", 1, 6)]), // beyond the sphere levels
+                     new(0, 1, Sockets: [new(0, "Water", 1, 1), new(0, "Water", 1, 2)]), // the same socket twice
+                     new(0, 1, Sockets: [new(0, "Steam", 1, 1)]), // an unknown element
+                     new(0, 1, HarmonyOption: 1, HarmonyLevel: 1), // no harmony option on the definition
+                     new(0, 1, GuardianOption: true),
+                     new(0, 1, Quantity: 0),
+                     new(0, 1, Quantity: 101),
+                 })
+        {
+            Assert.That((await this._administration.GiveItemAsync("Hero", id, item, CancellationToken.None).ConfigureAwait(false)).Succeeded, Is.False, item.ToString());
+        }
+
+        Assert.That(this._player.Inventory!.Items, Is.Empty);
+    }
+
+    /// <summary>A forced item may use any configured option, which also widens its socket count.</summary>
+    [Test]
+    public async Task ForcedItemUsesConfiguredOptionsOutsideTheDefinitionAsync()
+    {
+        var definition = this.AddItemDefinition();
+        var elsewhere = this.AddItemDefinition(2);
+        var fire = this.AddOptionDefinition(elsewhere, ItemOptionTypes.SocketOption, 1, (int)SocketSubOptionType.Fire, 5);
+
+        var result = await this._administration.GiveItemAsync("Hero", this._player.SelectedCharacter!.Id, new(0, 1, 15, Sockets: [new(1, "Fire", 1, 4)], Force: true), CancellationToken.None).ConfigureAwait(false);
+
+        Assert.That(result.Succeeded, Is.True, result.Error);
+        var item = this._player.Inventory!.Items.Single();
+        Assert.That(item.Definition, Is.SameAs(definition));
+        Assert.That(item.SocketCount, Is.EqualTo(2));
+        Assert.That(item.ItemOptions.Single().ItemOption, Is.SameAs(fire));
     }
 
     /// <summary>Reads filter before paging and never substitute persisted state for a disconnected character.</summary>
@@ -232,17 +304,38 @@ public sealed class GameServerAdministrationTests
         Assert.That(starter.Starts, Is.Zero);
     }
 
-    private ItemDefinition AddItemDefinition()
+    private ItemDefinition AddItemDefinition(short number = 1)
     {
         var item = this._player.PersistenceContext.CreateNew<ItemDefinition>();
         item.Group = 0;
-        item.Number = 1;
+        item.Number = number;
         item.MaximumItemLevel = 15;
         item.Width = 1;
         item.Height = 1;
         item.Durability = 20;
         this._player.GameContext.Configuration.Items.Add(item);
         return item;
+    }
+
+    private IncreasableItemOption AddOptionDefinition(ItemDefinition item, ItemOptionType type, short number, int subOptionType, int levels)
+    {
+        var context = this._player.PersistenceContext;
+        var option = context.CreateNew<IncreasableItemOption>();
+        option.OptionType = type;
+        option.Number = number;
+        option.SubOptionType = subOptionType;
+        for (var level = 1; level <= levels; level++)
+        {
+            var optionOfLevel = context.CreateNew<ItemOptionOfLevel>();
+            optionOfLevel.Level = level;
+            option.LevelDependentOptions.Add(optionOfLevel);
+        }
+
+        var definition = context.CreateNew<ItemOptionDefinition>();
+        definition.PossibleOptions.Add(option);
+        item.PossibleItemOptions.Add(definition);
+        this._player.GameContext.Configuration.ItemOptions.Add(definition);
+        return option;
     }
 
     /// <summary>A controllable event starter used to verify live start safety.</summary>

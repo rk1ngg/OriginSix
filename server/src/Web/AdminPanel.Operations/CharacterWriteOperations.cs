@@ -14,6 +14,7 @@ using MUnique.OpenMU.DataModel;
 using MUnique.OpenMU.DataModel.Configuration;
 using MUnique.OpenMU.DataModel.Entities;
 using MUnique.OpenMU.GameLogic;
+using MUnique.OpenMU.GameLogic.Administration;
 using MUnique.OpenMU.GameLogic.Attributes;
 using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.Persistence;
@@ -44,7 +45,7 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
     /// <returns>The preview or applied result.</returns>
     [AdminOperation(AdminRole.Operator, ReadOnly = false)]
     public ValueTask<JsonObject> UpdateAsync(string characterName, string patch, bool apply, string? confirmationToken, CancellationToken cancellationToken)
-        => this.ChangeAsync(characterName, patch, null, 0, false, apply, confirmationToken, cancellationToken);
+        => this.ChangeAsync(characterName, patch, null, 0, null, false, apply, confirmationToken, cancellationToken);
 
     /// <summary>Adds one plain item to an offline character's bag or vault, respecting item dimensions.</summary>
     /// <param name="characterName">The exact character name.</param>
@@ -57,7 +58,19 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
     /// <returns>The proposed slot and item, or applied result.</returns>
     [AdminOperation(AdminRole.Operator, ReadOnly = false)]
     public ValueTask<JsonObject> AddItemAsync(string characterName, Guid itemId, byte level, bool vault, bool apply, string? confirmationToken, CancellationToken cancellationToken)
-        => this.ChangeAsync(characterName, "{}", itemId, level, vault, apply, confirmationToken, cancellationToken);
+        => this.ChangeAsync(characterName, "{}", itemId, level, null, vault, apply, confirmationToken, cancellationToken);
+
+    /// <summary>Gives structured items to an offline character's bag or vault, with the same options as the live give.</summary>
+    /// <param name="characterName">The exact character name.</param>
+    /// <param name="item">The item specification, including sockets, harmony, the guardian option, durability and quantity.</param>
+    /// <param name="vault">Whether to use the account vault instead of the bag.</param>
+    /// <param name="apply">Whether to apply the preview.</param>
+    /// <param name="confirmationToken">The preview token.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The proposed slots and item, or applied result.</returns>
+    [AdminOperation(AdminRole.Operator, ReadOnly = false)]
+    public ValueTask<JsonObject> GiveItemAsync(string characterName, ItemSpecification item, bool vault, bool apply, string? confirmationToken, CancellationToken cancellationToken)
+        => this.ChangeAsync(characterName, "{}", null, item.Level, item, vault, apply, confirmationToken, cancellationToken);
 
     private static JsonObject Snapshot(Character character) => new()
     {
@@ -97,9 +110,15 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
         }
     }
 
-    private async ValueTask<JsonObject> ChangeAsync(string characterName, string patch, Guid? itemId, byte level, bool vault, bool apply, string? token, CancellationToken cancellationToken)
+    private async ValueTask<JsonObject> ChangeAsync(string characterName, string patch, Guid? itemId, byte level, ItemSpecification? specification, bool vault, bool apply, string? token, CancellationToken cancellationToken)
     {
         var actor = await AdminChangeExecution.RequireAsync(executor, settings, AdminRoles.Operator, cancellationToken).ConfigureAwait(false);
+        if (specification?.Force is true)
+        {
+            // Forced items leave the configured definition, e.g. a fire seed in an armor socket.
+            await executor.RequireAsync(AdminRoles.Administrator, cancellationToken).ConfigureAwait(false);
+        }
+
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(TimeSpan.FromMinutes(1));
         cancellationToken = timeout.Token;
@@ -143,8 +162,17 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
             var after = before.DeepClone().AsObject();
             ItemStorage? storage = null;
             DataModel.Configuration.Items.ItemDefinition? definition = null;
-            byte? slot = null;
-            if (itemId is { } definitionId)
+            var slots = new List<byte>();
+            if (specification is not null)
+            {
+                definition = config.Items.SingleOrDefault(d => d.Group == specification.Group && d.Number == specification.Number)
+                    ?? throw new AdminOperationException("Item definition not found.", AdminOperationErrorKind.InvalidInput);
+                if (!GameMasterItemFactory.IsValid(definition, specification, config))
+                {
+                    throw new AdminOperationException("The item or one of its options is outside its configured definition. Use force (Administrator) to skip definition limits.", AdminOperationErrorKind.InvalidInput);
+                }
+            }
+            else if (itemId is { } definitionId)
             {
                 definition = config.Items.SingleOrDefault(d => d.GetId() == definitionId)
                     ?? throw new AdminOperationException("Item definition not found.", AdminOperationErrorKind.InvalidInput);
@@ -152,6 +180,10 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
                 {
                     throw new AdminOperationException("The requested item level exceeds its definition's maximum.", AdminOperationErrorKind.InvalidInput);
                 }
+            }
+
+            if (definition is not null)
+            {
 
                 storage = vault ? account.Vault : character.Inventory;
                 if (storage is null)
@@ -167,28 +199,37 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
                         InventoryConstants.EquippableSlotsCount,
                         0,
                         new ItemStorageAdapter(detached, 0, InventoryConstants.GetInventorySize(0)));
-                slot = grid.CheckInvSpace(new Item { Definition = definition, Level = level });
-                if (slot is null)
+                var quantity = specification?.Quantity ?? 1;
+                for (var i = 0; i < quantity; i++)
                 {
-                    throw new AdminOperationException("The base bag or vault has no free rectangle for this item. Free space first.");
+                    // Occupy each proposed rectangle in the detached grid so the next item gets its own.
+                    var placeholder = new Item { Definition = definition, Level = level };
+                    if (grid.CheckInvSpace(placeholder) is not { } free || !await grid.AddItemAsync(free, placeholder).ConfigureAwait(false))
+                    {
+                        throw new AdminOperationException($"The base bag or vault has no free rectangle for item {i + 1} of {quantity}. Free space first.");
+                    }
+
+                    slots.Add(free);
                 }
 
                 before["storage"] = JsonSerializer.SerializeToNode(storage.Items.OrderBy(i => i.ItemSlot).Select(i => new { id = i.GetId(), i.ItemSlot, definitionId = i.Definition?.GetId(), i.Level, i.Durability }));
-                after["addItem"] = JsonSerializer.SerializeToNode(new { itemId, level, vault, slot });
+                after["addItem"] = specification is null
+                    ? JsonSerializer.SerializeToNode(new { itemId, level, vault, slot = slots[0] })
+                    : JsonSerializer.SerializeToNode(new { item = specification, vault, slots });
             }
             else
             {
                 after["requestedValues"] = changes.DeepClone();
             }
 
-            var operation = itemId is null ? "characters_update" : "characters_add_item";
+            var operation = specification is not null ? "characters_give_item" : itemId is null ? "characters_update" : "characters_add_item";
             result = await AdminChangeExecution.RunAsync(
                 executor,
                 confirmations,
                 actor,
                 AdminRoles.Operator,
                 operation,
-                new { characterName, patch, itemId, level, vault },
+                new { characterName, patch, itemId, level, item = specification, vault },
                 new JsonObject { ["before"] = before, ["after"] = after },
                 apply,
                 token,
@@ -223,14 +264,26 @@ public sealed class CharacterWriteOperations(IPersistenceContextProvider persist
                         }
                     }
 
-                    if (definition is not null && storage is not null && slot is { } freeSlot)
+                    if (definition is not null && storage is not null)
                     {
-                        var item = edit.CreateNew<Item>();
-                        item.Definition = definition;
-                        item.Level = level;
-                        item.Durability = definition.Durability;
-                        item.ItemSlot = freeSlot;
-                        storage.Items.Add(item);
+                        foreach (var freeSlot in slots)
+                        {
+                            Item item;
+                            if (specification is not null)
+                            {
+                                item = GameMasterItemFactory.CreateItem(definition, specification, config).MakePersistent(edit);
+                            }
+                            else
+                            {
+                                item = edit.CreateNew<Item>();
+                                item.Definition = definition;
+                                item.Level = level;
+                                item.Durability = definition.Durability;
+                            }
+
+                            item.ItemSlot = freeSlot;
+                            storage.Items.Add(item);
+                        }
                     }
 
                     await AdminChangeExecution.SaveAsync(edit, cancellationToken).ConfigureAwait(false);

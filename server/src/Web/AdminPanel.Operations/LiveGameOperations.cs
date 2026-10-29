@@ -59,9 +59,9 @@ public sealed class LiveGameOperations(IServerProvider servers, IPersistenceCont
         return await this.ChangePlayerAsync("players_teleport", characterName, new { mapNumber, x, y }, apply, confirmationToken, (server, player) => ((IGameServerAdministration)server).TeleportAsync(characterName, player.CharacterId, mapNumber, x, y, cancellationToken), cancellationToken).ConfigureAwait(false);
     }
 
-    /// <summary>Previews or gives one structured item through the live inventory.</summary>
+    /// <summary>Previews or gives structured items through the live inventory.</summary>
     /// <param name="characterName">The exact character name.</param>
-    /// <param name="item">The item specification.</param>
+    /// <param name="item">The item specification, including sockets, harmony, the guardian option and quantity.</param>
     /// <param name="apply">Whether to apply a confirmed preview.</param>
     /// <param name="confirmationToken">The preview token.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -70,9 +70,15 @@ public sealed class LiveGameOperations(IServerProvider servers, IPersistenceCont
     public async ValueTask<JsonObject> GiveItemAsync(string characterName, ItemSpecification item, bool apply, string? confirmationToken, CancellationToken cancellationToken)
     {
         await AdminChangeExecution.RequireAsync(executor, settings, AdminRoles.Operator, cancellationToken).ConfigureAwait(false);
+        if (item.Force)
+        {
+            // Forced items leave the configured definition, e.g. a fire seed in an armor socket.
+            await executor.RequireAsync(AdminRoles.Administrator, cancellationToken).ConfigureAwait(false);
+        }
+
         var configuration = await configurations.GetOwnerAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
         var definition = configuration.Items.SingleOrDefault(d => d.Group == item.Group && d.Number == item.Number);
-        if (definition is null || !GameMasterItemFactory.IsValid(definition, item))
+        if (definition is null || !GameMasterItemFactory.IsValid(definition, item, configuration))
         {
             throw new ArgumentException("The item or its options are outside the configured definition.", nameof(item));
         }

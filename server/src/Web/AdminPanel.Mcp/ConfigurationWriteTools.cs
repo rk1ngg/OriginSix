@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelContextProtocol.Server;
 using MUnique.OpenMU.DataModel.Configuration;
+using MUnique.OpenMU.Interfaces;
 using MUnique.OpenMU.Web.AdminPanel.Operations;
 
 /// <summary>Configuration and offline character tools with shared authorization and preview safeguards.</summary>
@@ -267,6 +268,29 @@ public sealed class ConfigurationWriteTools
         [Description("False returns a preview; true applies exactly that preview.")] bool apply = false,
         [Description("Single-use token from the preview; expires after five minutes.")] string? confirmationToken = null)
         => AdminToolExecution.ExecuteAsync(() => operations.AddItemAsync(characterName, itemId, level, vault, apply, confirmationToken, cancellationToken));
+
+    /// <summary>Give structured items to an offline character bag or vault after preview, with the same specification as players_give_item: options, excellent mask, ancient set, sockets, socket bonus, harmony, the level 380 guardian option, durability, quantity and force.</summary>
+    /// <param name="operations">The shared operations.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="characterName">Exact offline character name.</param>
+    /// <param name="item">Item group and number with level, options, sockets, harmony, guardian option, durability, quantity and force.</param>
+    /// <param name="vault">Use the account vault; otherwise use the base bag.</param>
+    /// <param name="apply">False returns a preview; true applies exactly that preview.</param>
+    /// <param name="confirmationToken">Single-use token from the preview; expires after five minutes.</param>
+    /// <returns>The safe operation result.</returns>
+    [McpServerTool(Name = "characters_give_item", ReadOnly = false, Destructive = true, Idempotent = false, OpenWorld = false, UseStructuredContent = true)]
+    [Description("Give structured items to an offline character bag or vault after preview, with the same specification as players_give_item: options, excellent mask, ancient set, sockets (index, element Fire/Water/Ice/Wind/Lightning/Earth, option number, sphere level 1-5), socket bonus, harmony, the level 380 guardian option, durability, quantity (1-100) and force (Administrator).")]
+    [Authorize(Roles = "Operator")]
+    [ExposesOperation(typeof(CharacterWriteOperations), nameof(CharacterWriteOperations.GiveItemAsync))]
+    public static ValueTask<JsonObject> CharactersGiveItemAsync(
+        [FromServices] CharacterWriteOperations operations,
+        CancellationToken cancellationToken,
+        [Description("Exact offline character name.")] string characterName,
+        [Description("Item group and number with level, options, sockets, harmony, guardian option, durability, quantity and force.")] ItemSpecification item,
+        [Description("Use the account vault; otherwise use the base bag.")] bool vault = false,
+        [Description("False returns a preview; true applies exactly that preview.")] bool apply = false,
+        [Description("Single-use token from the preview; expires after five minutes.")] string? confirmationToken = null)
+        => AdminToolExecution.ExecuteAsync(() => operations.GiveItemAsync(characterName, item, vault, apply, confirmationToken, cancellationToken));
 
     /// <summary>Restrict the game to the content of a version of the original game after preview: maps, character classes, monsters, items and mini games introduced up to it are activated, later ones deactivated. Entries of an unknown version stay unchanged.</summary>
     /// <param name="operations">The shared operations.</param>

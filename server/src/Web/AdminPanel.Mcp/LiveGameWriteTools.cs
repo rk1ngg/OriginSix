@@ -46,23 +46,23 @@ public sealed class LiveGameWriteTools
         [Description("Single-use token from the identical preview.")] string? confirmationToken = null)
         => AdminToolExecution.ExecuteAsync(() => operations.TeleportAsync(characterName, mapNumber, x, y, apply, confirmationToken, cancellationToken));
 
-    /// <summary>Preview or give one structured item to a live inventory, using the owning player context. Never retry an uncertain outcome without inspecting the inventory.</summary>
+    /// <summary>Preview or give structured items to a live inventory, using the owning player context. Supports level, skill, luck, option, excellent mask, ancient set, sockets (index, element Fire/Water/Ice/Wind/Lightning/Earth, option number, sphere level 1-5), socket bonus, harmony option and level, the level 380 guardian option, durability and quantity (1-100). Unforced items must fit their definition: weapons take Fire/Lightning/Ice seeds, armors Water/Earth/Wind. force=true (Administrator) skips those limits. Never retry an uncertain outcome without inspecting the inventory.</summary>
     /// <param name="operations">The shared live operations.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <param name="characterName">Exact online character name.</param>
-    /// <param name="item">Item group, number, level and configured options.</param>
+    /// <param name="item">Item group and number with level, options, sockets, harmony, guardian option, durability, quantity and force.</param>
     /// <param name="apply">Apply only after approving the preview.</param>
     /// <param name="confirmationToken">Single-use token from the identical preview.</param>
     /// <returns>The safe live result or preview.</returns>
     [McpServerTool(Name = "players_give_item", ReadOnly = false, Destructive = true, Idempotent = false, OpenWorld = false, UseStructuredContent = true)]
-    [Description("Preview or give one structured item to a live inventory, using the owning player context. Never retry an uncertain outcome without inspecting the inventory.")]
+    [Description("Preview or give structured items to a live inventory, using the owning player context. Supports level, skill, luck, option, excellent mask, ancient set, sockets (index, element Fire/Water/Ice/Wind/Lightning/Earth, option number, sphere level 1-5), socket bonus, harmony option and level, the level 380 guardian option, durability and quantity (1-100). Unforced items must fit their definition: weapons take Fire/Lightning/Ice seeds, armors Water/Earth/Wind. force=true (Administrator) skips those limits. Never retry an uncertain outcome without inspecting the inventory.")]
     [Authorize(Roles = "Operator")]
     [ExposesOperation(typeof(LiveGameOperations), nameof(LiveGameOperations.GiveItemAsync))]
     public static ValueTask<JsonObject> PlayersGiveItemAsync(
         [FromServices] LiveGameOperations operations,
         CancellationToken cancellationToken,
         [Description("Exact online character name.")] string characterName,
-        [Description("Item group, number, level and configured options.")] ItemSpecification item,
+        [Description("Item group and number with level, options, sockets, harmony, guardian option, durability, quantity and force.")] ItemSpecification item,
         [Description("Apply only after approving the preview.")] bool apply = false,
         [Description("Single-use token from the identical preview.")] string? confirmationToken = null)
         => AdminToolExecution.ExecuteAsync(() => operations.GiveItemAsync(characterName, item, apply, confirmationToken, cancellationToken));

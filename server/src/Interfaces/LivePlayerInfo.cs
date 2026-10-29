@@ -15,4 +15,13 @@ namespace MUnique.OpenMU.Interfaces;
 /// <param name="MasterLevel">The live master level.</param>
 /// <param name="GuildId">The live guild identifier.</param>
 /// <param name="Privileged">Whether changing this character requires Administrator.</param>
-public sealed record LivePlayerInfo(Guid CharacterId, string Account, string Character, ushort? Map, byte X, byte Y, int Level, int MasterLevel, uint? GuildId, bool Privileged);
+/// <param name="Stats">The live combat stats, if the character has attributes.</param>
+public sealed record LivePlayerInfo(Guid CharacterId, string Account, string Character, ushort? Map, byte X, byte Y, int Level, int MasterLevel, uint? GuildId, bool Privileged, LivePlayerStats? Stats = null);
+
+/// <summary>The live combat stats of a character, e.g. to check what equipment adds.</summary>
+/// <param name="MaximumHealth">The maximum health.</param>
+/// <param name="DefenseBase">The base defense, which the equipment adds to.</param>
+/// <param name="DefenseFinal">The final defense.</param>
+/// <param name="AttackSpeed">The attack speed.</param>
+/// <param name="MagicSpeed">The magic speed.</param>
+public sealed record LivePlayerStats(float MaximumHealth, float DefenseBase, float DefenseFinal, float AttackSpeed, float MagicSpeed);

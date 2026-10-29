@@ -80,14 +80,15 @@ public static class GameMasterActions
             ? GameServerAdminResult.Success : new(false, "The map transition was refused. Refresh the live character before retrying.");
     }
 
-    /// <summary>Inserts one validated item into the live inventory and notifies the client.</summary>
+    /// <summary>Inserts validated items into the live inventory and notifies the client.</summary>
     /// <param name="player">The live player.</param>
-    /// <param name="specification">The requested item.</param>
+    /// <param name="specification">The requested item and its quantity.</param>
     /// <returns>The action result.</returns>
     public static async ValueTask<GameServerAdminResult> GiveItemAsync(Player player, ItemSpecification specification)
     {
-        var definition = player.GameContext.Configuration.Items.SingleOrDefault(d => d.Group == specification.Group && d.Number == specification.Number);
-        if (definition is null || !GameMasterItemFactory.IsValid(definition, specification))
+        var configuration = player.GameContext.Configuration;
+        var definition = configuration.Items.SingleOrDefault(d => d.Group == specification.Group && d.Number == specification.Number);
+        if (definition is null || !GameMasterItemFactory.IsValid(definition, specification, configuration))
         {
             return new(false, "The item or one of its options is outside its configured definition.");
         }
@@ -97,21 +98,25 @@ public static class GameMasterActions
             return new(false, "The character has no live inventory.");
         }
 
-        var temporary = GameMasterItemFactory.CreateItem(definition, specification);
-        if (inventory.CheckInvSpace(temporary) is not { } slot)
+        for (var given = 0; given < specification.Quantity; given++)
         {
-            return new(false, "The live inventory has no free rectangle for this item. Free space first.");
+            var temporary = GameMasterItemFactory.CreateItem(definition, specification, configuration);
+            if (inventory.CheckInvSpace(temporary) is not { } slot)
+            {
+                return new(false, $"The live inventory has no free rectangle for item {given + 1} of {specification.Quantity}; {given} were given. Free space first.");
+            }
+
+            // Persist in the player's own context, including extension slots. Never save through an offline context.
+            var item = temporary.MakePersistent(player.PersistenceContext);
+            if (!await inventory.AddItemAsync(slot, item).ConfigureAwait(false))
+            {
+                player.PersistenceContext.Detach(item);
+                return new(false, $"The inventory changed before item {given + 1} of {specification.Quantity} could be inserted; {given} were given. Inspect it before retrying.");
+            }
+
+            await player.InvokeViewPlugInAsync<IItemAppearPlugIn>(p => p.ItemAppearAsync(item)).ConfigureAwait(false);
         }
 
-        // Persist in the player's own context, including extension slots. Never save through an offline context.
-        var item = temporary.MakePersistent(player.PersistenceContext);
-        if (!await inventory.AddItemAsync(slot, item).ConfigureAwait(false))
-        {
-            player.PersistenceContext.Detach(item);
-            return new(false, "The inventory changed before the item could be inserted. Inspect it before retrying.");
-        }
-
-        await player.InvokeViewPlugInAsync<IItemAppearPlugIn>(p => p.ItemAppearAsync(item)).ConfigureAwait(false);
         return GameServerAdminResult.Success;
     }
 

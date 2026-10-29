@@ -5,6 +5,8 @@ services:
       POSTGRES_DB: openmu
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_ADMIN_PW:?Use local-server.ps1 Start}
+    ports:
+      - "127.0.0.1:5434:5432"
     volumes:
       - database-data:/var/lib/postgresql/data
     healthcheck:
@@ -14,18 +16,26 @@ services:
       retries: 30
 
   openmu:
-    image: originsix-openmu:statboost-20261022
+    image: originsix-openmu:guardian-20261029k
     environment:
       DB_HOST: database
       DB_ADMIN_USER: postgres
       DB_ADMIN_PW: ${DB_ADMIN_PW:?Use local-server.ps1 Start}
       Database__AssumeExternallyProvisioned: "true"
       RESOLVE_IP: loopback
-      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_URLS: http://+:8080;https://+:8443
+      # Self-signed loopback certificate from .local/mcp-tls (not in Git); /mcp only accepts HTTPS
+      # from non-loopback clients, which includes the Windows host behind Docker's gateway.
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /app/mcp-tls/mcp.cert.pem
+      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /app/mcp-tls/mcp.key.pem
       OPENMU_ADMIN_USER: originsix-admin
       OPENMU_ADMIN_PASSWORD: ${ORIGINSIX_ADMIN_PASSWORD:?Use local-server.ps1 Start}
+      # Admin MCP endpoint (/mcp) on the loopback-only admin port; API-key authenticated, writes audited.
+      OPENMU_MCP_ENABLED: "true"
+      AdminPanel__Mcp__ReadOnly: "false"
     ports:
       - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8443:8443"
       - "127.127.127.127:44406:44406"
       - "127.127.127.127:45901:45901"
       - "127.127.127.127:45902:45902"
@@ -37,6 +47,7 @@ services:
     volumes:
       - admin-keys:/app/data-protection-keys
       - server-logs:/app/logs
+      - ../.local/mcp-tls:/app/mcp-tls:ro
     depends_on:
       database:
         condition: service_healthy
