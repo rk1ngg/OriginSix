@@ -1,4 +1,4 @@
-/* S18 OriginSix item grid using Season 18 cell sprite. */
+/* S18 OriginSix item grid: uniform dark cells with thin lines and a thin frame, like the S18 inventory. */
 
 @spritesheet item-cell-sheet { src: "textures/s18_item_box.tga"; item-cell-art: 0px 0px 21px 21px; }
 @spritesheet ig-tl-sheet { src: "../../../newui_item_table01(L).tga"; ig-tl: 0px 0px 14px 14px; }
@@ -17,28 +17,28 @@ body { --item-cell: 20px; }
 .item-grid-cells { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 
 .item-cell, .item-count { position: relative; flex: 0 0 var(--item-cell); width: var(--item-cell); height: var(--item-cell); }
-.item-cell.tint-normal { background-color: rgba(65, 110, 128, 153); }
+.item-cell.tint-normal { background-color: rgba(70, 92, 110, 110); }
 .item-cell.tint-durability-50 { background-color: rgba(255, 255, 0, 102); }
 .item-cell.tint-durability-70 { background-color: rgba(255, 168, 0, 102); }
 .item-cell.tint-durability-80 { background-color: rgba(255, 84, 0, 102); }
 .item-cell.tint-durability-100 { background-color: rgba(255, 0, 0, 102); }
 .item-cell.tint-untradeable { background-color: rgba(255, 51, 26, 102); }
-.item-cell-art { position: absolute; left: 0; top: 0; width: calc(var(--item-cell) + 1px); height: calc(var(--item-cell) + 1px); decorator: image(item-cell-art); }
+.item-cell-art { position: absolute; left: 0; top: 0; width: var(--item-cell); height: var(--item-cell); background-color: rgba(14, 14, 16, 200); border-right: 1px rgba(78, 74, 66, 255); border-bottom: 1px rgba(78, 74, 66, 255); }
 .item-cell-drop { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 .item-cell.drop-free .item-cell-drop { background-color: rgba(26, 102, 204, 102); }
 .item-cell.drop-blocked .item-cell-drop, .item-cell.drop-invalid .item-cell-drop { background-color: rgba(255, 51, 51, 102); }
 .item-cell.drop-valid .item-cell-drop { background-color: rgba(51, 102, 51, 102); }
 
-.item-grid-frame { position: absolute; left: -4px; top: -3px; right: -5px; bottom: -6px; }
+.item-grid-frame { position: absolute; left: -2px; top: -2px; right: -1px; bottom: -1px; border: 1px rgba(150, 128, 88, 255); }
 .igf { position: absolute; }
-.igf-tl { left: 0; top: 0; width: 14px; height: 14px; decorator: image(ig-tl); }
-.igf-tr { right: 0; top: 0; width: 14px; height: 14px; decorator: image(ig-tr); }
-.igf-bl { left: 0; bottom: 0; width: 14px; height: 14px; decorator: image(ig-bl); }
-.igf-br { right: 0; bottom: 0; width: 14px; height: 14px; decorator: image(ig-br); }
-.igf-t { left: 14px; right: 14px; top: 0; height: 14px; decorator: image(ig-t); }
-.igf-b { left: 14px; right: 14px; bottom: 0; height: 14px; decorator: image(ig-b); }
-.igf-l { left: 0; top: 14px; bottom: 14px; width: 14px; decorator: image(ig-l); }
-.igf-r { right: 0; top: 14px; bottom: 14px; width: 14px; decorator: image(ig-r); }
+.igf-tl { left: 0; top: 0; width: 14px; height: 14px; decorator: none; }
+.igf-tr { right: 0; top: 0; width: 14px; height: 14px; decorator: none; }
+.igf-bl { left: 0; bottom: 0; width: 14px; height: 14px; decorator: none; }
+.igf-br { right: 0; bottom: 0; width: 14px; height: 14px; decorator: none; }
+.igf-t { left: 14px; right: 14px; top: 0; height: 14px; decorator: none; }
+.igf-b { left: 14px; right: 14px; bottom: 0; height: 14px; decorator: none; }
+.igf-l { left: 0; top: 14px; bottom: 14px; width: 14px; decorator: none; }
+.igf-r { right: 0; top: 14px; bottom: 14px; width: 14px; decorator: none; }
 
 .item-count-text {
 	position: absolute;

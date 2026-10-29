@@ -1,22 +1,71 @@
-/* S18 OriginSix theme for CMyInventory: Season 18 dark stone & gold frame, crimson demon-crest banner,
-   Season 18 equipment slot boxes (including dedicated #slot_guardian), and Season 18 Zen/Ruud bar. */
+/* S18 OriginSix theme for CMyInventory, laid out from the official Season 18 InventoryFrame movie
+   (InventoryFrame.ozg, MUDevs S18.2 client). Its equipment block is 283x276 px with five columns
+   (64 | 43 | 64 | 43 | 64 px, no overlaps); here it is scaled by 0.565 into the 190x429 docked panel
+   (x 15..175, y 42..198), keeping the native 8x8 grid at its fixed size below it.
 
-@spritesheet inv-bg-fill-sheet   { src: "textures/s18_panel_fill.tga";   inv-bg-fill:   0px 0px 190px 429px; }
-@spritesheet inv-bg-top-sheet    { src: "textures/s18_panel_top.tga";    inv-bg-top:    0px 0px 190px 64px;  }
-@spritesheet inv-bg-left-sheet   { src: "textures/s18_panel_left.tga";   inv-bg-left:   0px 0px 21px 320px;  }
-@spritesheet inv-bg-right-sheet  { src: "textures/s18_panel_right.tga";  inv-bg-right:  0px 0px 21px 320px;  }
-@spritesheet inv-bg-bottom-sheet { src: "textures/s18_panel_bottom.tga"; inv-bg-bottom: 0px 0px 190px 45px;  }
+   Every piece comes from one atlas, textures/InventoryFrame_I1.tga (1024x512; the official
+   InventoryFrame_I1, byte-identical in the S18.2 and 2024 Red Server clients; not tracked in Git).
+   image() does not stretch a sprite, so slot boxes, panel, backdrop and money bars use ninepatch()
+   with a 6 px (boxes) or 14-20 px (panels) inner rect. */
 
-.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+@spritesheet s18-inv-sheet
+{
+	src: "textures/InventoryFrame_I1.tga";
+	resolution: 1.5556x;
+	s18-panel:          1px   0px 325px 385px;
+	s18-panel-in:      21px   8px 285px 355px;
+	s18-equip-bg:     618px   0px 317px 181px;
+	s18-equip-bg-in:  632px  14px 289px 153px;
+	s18-helper:       397px 272px  56px  56px;
+	s18-helper-in:    403px 278px  44px  44px;
+	s18-gloves:       463px 272px  56px  56px;
+	s18-gloves-in:    469px 278px  44px  44px;
+	s18-pants:        529px 272px  56px  56px;
+	s18-pants-in:     535px 278px  44px  44px;
+	s18-boots:        595px 272px  56px  56px;
+	s18-boots-in:     601px 278px  44px  44px;
+	s18-helm:         949px 186px  56px  56px;
+	s18-helm-in:      955px 192px  44px  44px;
+	s18-armor:        332px 271px  56px  82px;
+	s18-armor-in:     338px 277px  44px  70px;
+	s18-shield:       942px   3px  56px  82px;
+	s18-shield-in:    948px   9px  44px  70px;
+	s18-sword:        942px  93px  56px  82px;
+	s18-sword-in:     948px  99px  44px  70px;
+	s18-wing:         727px 271px  93px  56px;
+	s18-wing-in:      733px 277px  81px  44px;
+	s18-pendant:      829px 271px  37px  37px;
+	s18-pendant-in:   835px 277px  25px  25px;
+	s18-ring:         874px 271px  37px  37px;
+	s18-ring-in:      880px 277px  25px  25px;
+	s18-bar:          377px 390px  64px  26px;
+	s18-bar-in:       383px 395px  52px  16px;
+}
+/* The crest banner keeps its proportions across the full panel width (325 -> 190). */
+@spritesheet s18-banner-sheet
+{
+	src: "textures/InventoryFrame_I1.tga";
+	resolution: 1.7105x;
+	s18-banner: 617px 183px 325px 73px;
+}
+/* Currency icons sized for the 14 px money rows. */
+@spritesheet s18-coin-sheet
+{
+	src: "textures/InventoryFrame_I1.tga";
+	resolution: 1.3x;
+	s18-coin-ruud: 684px 362px 18px 16px;
+	s18-coin-zen:  711px 361px 18px 17px;
+}
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom, .equip-bg {
 	position: absolute;
 	pointer-events: none;
 }
 
-.bg-fill   { left: 0;     top: 0;    width: 190px; height: 429px; decorator: image(inv-bg-fill); }
-.bg-top    { left: 0;     top: 0;    width: 190px; height: 64px;  decorator: image(inv-bg-top); }
-.bg-left   { left: 0;     top: 64px; width: 21px;  height: 320px; decorator: image(inv-bg-left); }
-.bg-right  { left: 169px; top: 64px; width: 21px;  height: 320px; decorator: image(inv-bg-right); }
-.bg-bottom { left: 0;     top: 384px; width: 190px; height: 45px; decorator: image(inv-bg-bottom); }
+.bg-fill  { left: 0;    top: 0;    width: 190px; height: 429px; decorator: ninepatch(s18-panel, s18-panel-in); }
+.equip-bg { left: 9px; top: 39px; width: 172px; height: 161px; decorator: ninepatch(s18-equip-bg, s18-equip-bg-in); }
+.bg-top   { left: 0;    top: 0;    width: 190px; height: 43px;  decorator: image(s18-banner); }
+.bg-left, .bg-right, .bg-bottom { decorator: none; }
 
 #panel {
 	position: absolute;
@@ -28,10 +77,11 @@
 
 .native-text { white-space: nowrap; pointer-events: none; }
 
+/* Title and Set/Socket labels sit inside the banner's red bar. */
 #title {
 	position: absolute;
 	left: 0;
-	top: 12px;
+	top: 20px;
 	width: 190px;
 	height: 15px;
 	cursor: move;
@@ -45,52 +95,10 @@
 	font-weight: bold;
 }
 
-@spritesheet inv-money-sheet { src: "textures/s18_item_money.tga"; inv-money: 0px 0px 170px 26px; }
-#gold_bg {
-	position: absolute;
-	left: 11px;
-	top: 361px;
-	width: 170px;
-	height: 15px;
-	decorator: image(inv-money);
-	pointer-events: none;
-}
-#gold_text {
-	position: absolute;
-	left: 50px;
-	top: 362px;
-	transform-origin: left top;
-	font-weight: bold;
-}
-
-@spritesheet inv-btn-exit-sheet    { src: "../../../newui_exit_00.tga";        inv-btn-exit:    0px 0px 36px 29px; }
-@spritesheet inv-btn-repair-sheet  { src: "../../../newui_repair_00.tga";      inv-btn-repair:  0px 0px 36px 29px; }
-@spritesheet inv-btn-expand-sheet  { src: "../../../newui_expansion_btn.tga";  inv-btn-expand:  0px 0px 36px 29px; }
-@spritesheet inv-btn-myshop-open-sheet  { src: "../../../newui_Bt_openshop.tga";  inv-btn-myshop-open:  0px 0px 36px 29px; }
-@spritesheet inv-btn-myshop-close-sheet { src: "../../../newui_Bt_closeshop.tga"; inv-btn-myshop-close: 0px 0px 36px 29px; }
-
-.inv-btn {
-	position: absolute;
-	top: 391px;
-	width: 36px;
-	height: 29px;
-	cursor: pointer;
-	pointer-events: auto;
-}
-.inv-btn:hover { filter: brightness(1.25); }
-.inv-btn.hidden { display: none; }
-.inv-btn.locked { pointer-events: none; filter: brightness(0.6); }
-
-.inv-btn-exit    { left: 13px;  decorator: image(inv-btn-exit); }
-.inv-btn-repair  { left: 50px;  decorator: image(inv-btn-repair); }
-.inv-btn-myshop  { left: 87px;  decorator: image(inv-btn-myshop-open); }
-.inv-btn-myshop.close-mode { decorator: image(inv-btn-myshop-close); }
-.inv-btn-expand  { left: 124px; decorator: image(inv-btn-expand); }
-
 .option-labels {
 	position: absolute;
 	left: 0;
-	top: 25px;
+	top: 30px;
 	width: 190px;
 	text-align: center;
 	transform-origin: center top;
@@ -102,46 +110,39 @@
 
 .option-hover {
 	position: absolute;
-	top: 20px;
+	top: 29px;
 	width: 95px;
-	height: 15px;
+	height: 10px;
 	pointer-events: auto;
 	cursor: default;
 }
 .option-hover-set { left: 0; }
 .option-hover-socket { left: 95px; }
 
-@spritesheet inv-slot-helper-sheet       { src: "textures/s18_slot_helper.tga";       inv-slot-helper:       0px 0px 46px 46px; }
-@spritesheet inv-slot-helm-sheet         { src: "textures/s18_slot_helm.tga";         inv-slot-helm:         0px 0px 46px 46px; }
-@spritesheet inv-slot-wing-sheet         { src: "textures/s18_slot_wing.tga";         inv-slot-wing:         0px 0px 61px 46px; }
-@spritesheet inv-slot-weapon-left-sheet  { src: "textures/s18_slot_weapon_left.tga";  inv-slot-weapon-left:  0px 0px 46px 66px; }
-@spritesheet inv-slot-armor-sheet        { src: "textures/s18_slot_armor.tga";        inv-slot-armor:        0px 0px 46px 66px; }
-@spritesheet inv-slot-weapon-right-sheet { src: "textures/s18_slot_weapon_right.tga"; inv-slot-weapon-right: 0px 0px 46px 66px; }
-@spritesheet inv-slot-gloves-sheet       { src: "textures/s18_slot_gloves.tga";       inv-slot-gloves:       0px 0px 46px 46px; }
-@spritesheet inv-slot-pants-sheet        { src: "textures/s18_slot_pants.tga";        inv-slot-pants:        0px 0px 46px 46px; }
-@spritesheet inv-slot-boots-sheet        { src: "textures/s18_slot_boots.tga";        inv-slot-boots:        0px 0px 46px 46px; }
-@spritesheet inv-slot-ring-left-sheet    { src: "textures/s18_slot_ring.tga";         inv-slot-ring-left:    0px 0px 28px 28px; }
-@spritesheet inv-slot-amulet-sheet       { src: "textures/s18_slot_amulet.tga";       inv-slot-amulet:       0px 0px 28px 28px; }
-@spritesheet inv-slot-ring-right-sheet   { src: "textures/s18_slot_ring.tga";         inv-slot-ring-right:   0px 0px 28px 28px; }
-@spritesheet inv-slot-guardian-sheet     { src: "textures/s18_slot_guardian.tga";     inv-slot-guardian:     0px 0px 28px 28px; }
-
+/* Equipment slots: the official five-column block scaled by 0.565 (A x15, S1 x52, B x77, S2 x114,
+   C x139). S6 ids and sides are kept: weapon_right is column A and ring_right is S1. The official
+   bottom-right slot (pentagram there) holds the reserved guardian slot. */
 .native-anchor { position: absolute; pointer-events: none; }
-#slot_helper       { left: 15px;  top: 44px;  width: 46px; height: 46px; decorator: image(inv-slot-helper); }
-#slot_helm         { left: 75px;  top: 44px;  width: 46px; height: 46px; decorator: image(inv-slot-helm); }
-#slot_wing         { left: 120px; top: 44px;  width: 61px; height: 46px; decorator: image(inv-slot-wing); }
-#slot_weapon_left  { left: 135px; top: 87px;  width: 46px; height: 66px; decorator: image(inv-slot-weapon-left); }
-#slot_armor        { left: 75px;  top: 87px;  width: 46px; height: 66px; decorator: image(inv-slot-armor); }
-#slot_weapon_right { left: 15px;  top: 87px;  width: 46px; height: 66px; decorator: image(inv-slot-weapon-right); }
-#slot_gloves       { left: 15px;  top: 150px; width: 46px; height: 46px; decorator: image(inv-slot-gloves); }
-#slot_pants        { left: 75px;  top: 150px; width: 46px; height: 46px; decorator: image(inv-slot-pants); }
-#slot_boots        { left: 135px; top: 150px; width: 46px; height: 46px; decorator: image(inv-slot-boots); }
-#slot_ring_left    { left: 114px; top: 150px; width: 28px; height: 28px; decorator: image(inv-slot-ring-left); }
-#slot_amulet       { left: 54px;  top: 87px;  width: 28px; height: 28px; decorator: image(inv-slot-amulet); }
-#slot_ring_right   { left: 54px;  top: 150px; width: 28px; height: 28px; decorator: image(inv-slot-ring-right); }
-#slot_guardian     { left: 114px; top: 87px;  width: 28px; height: 28px; decorator: image(inv-slot-guardian); }
+#slot_helper        { left: 12px; top: 42px; width: 38px; height: 44px; decorator: ninepatch(s18-helper, s18-helper-in); }
+#slot_amulet        { left: 53px; top: 53px; width: 22px; height: 22px; decorator: ninepatch(s18-pendant, s18-pendant-in); }
+#slot_helm          { left: 76px; top: 42px; width: 38px; height: 44px; decorator: ninepatch(s18-helm, s18-helm-in); }
+#slot_wing          { left: 116px; top: 42px; width: 62px; height: 44px; decorator: ninepatch(s18-wing, s18-wing-in); }
+#slot_weapon_right  { left: 12px; top: 88px; width: 38px; height: 64px; decorator: ninepatch(s18-sword, s18-sword-in); }
+#slot_armor         { left: 76px; top: 88px; width: 38px; height: 64px; decorator: ninepatch(s18-armor, s18-armor-in); }
+#slot_weapon_left   { left: 140px; top: 88px; width: 38px; height: 64px; decorator: ninepatch(s18-shield, s18-shield-in); }
+#slot_gloves        { left: 12px; top: 154px; width: 38px; height: 44px; decorator: ninepatch(s18-gloves, s18-gloves-in); }
+#slot_pants         { left: 76px; top: 154px; width: 38px; height: 44px; decorator: ninepatch(s18-pants, s18-pants-in); }
+#slot_boots         { left: 140px; top: 154px; width: 38px; height: 44px; decorator: ninepatch(s18-boots, s18-boots-in); }
+#slot_ring_right    { left: 53px; top: 165px; width: 22px; height: 22px; decorator: ninepatch(s18-ring, s18-ring-in); }
+#slot_ring_left     { left: 117px; top: 165px; width: 22px; height: 22px; decorator: ninepatch(s18-ring, s18-ring-in); }
+
+/* Reserved slots: drawn but inert until the paired client/server slot exists
+   (docs/GUARDIAN_RUUD_UI_PLAN.md). */
+.equip-slot.slot-reserved { opacity: 0.55; pointer-events: none; }
 
 .equip-slot.no-art { decorator: none; }
-.equip-slot-item { position: absolute; left: 1px; top: 0; right: 3px; bottom: 4px; }
+/* The atlas boxes have a ~3 px frame on every side. */
+.equip-slot-item { position: absolute; left: 3px; top: 3px; right: 3px; bottom: 3px; }
 .equip-slot.broken .equip-slot-item, .equip-slot.unequipable .equip-slot-item { background-color: rgba(255, 0, 0, 64); }
 .equip-slot.durability-20 .equip-slot-item { background-color: rgba(255, 38, 0, 64); }
 .equip-slot.durability-30 .equip-slot-item { background-color: rgba(255, 128, 0, 64); }
@@ -152,28 +153,51 @@
 
 #panel.slot-placed { pointer-events: none; }
 
-/* S18 extras: Zen and Ruud share the S6 money strip as two 15px rows (the docked panel cannot grow
-   past 429px without running under the HUD), plus two reserved earring slots between the
-   pendant/guardian row and the ring row. Reserved = drawn but inert until the paired client/server
-   slot and Ruud balance exist (docs/GUARDIAN_RUUD_UI_PLAN.md). */
-#ruud_bg {
+/* Zen and Ruud: two 14 px rows between the grid (ends at 360) and the buttons, each a stretched
+   atlas bar with its own coin. The Ruud amount is a placeholder until a Ruud balance exists. */
+#gold_bg, #ruud_bg {
 	position: absolute;
-	left: 11px;
-	top: 376px;
-	width: 170px;
-	height: 15px;
-	decorator: image(inv-money);
+	left: 12px;
+	width: 166px;
+	height: 14px;
+	decorator: ninepatch(s18-bar, s18-bar-in);
 	pointer-events: none;
 }
-#ruud_text {
+#gold_bg { top: 362px; }
+#ruud_bg { top: 377px; }
+#coin_zen, #coin_ruud { position: absolute; left: 17px; width: 14px; height: 13px; pointer-events: none; }
+#coin_zen  { top: 362px; decorator: image(s18-coin-zen); }
+#coin_ruud { top: 377px; decorator: image(s18-coin-ruud); }
+#gold_text, #ruud_text {
 	position: absolute;
-	left: 50px;
-	top: 377px;
+	left: 34px;
 	transform-origin: left top;
 	font-weight: bold;
-	color: #d89cff;
 }
-#slot_earring_left, #slot_earring_right { position: absolute; width: 28px; height: 28px; }
-#slot_earring_left  { left: 54px;  top: 118px; decorator: image(inv-slot-ring-left); }
-#slot_earring_right { left: 114px; top: 118px; decorator: image(inv-slot-ring-right); }
-.equip-slot.slot-reserved { opacity: 0.55; pointer-events: none; }
+#gold_text { top: 363px; }
+#ruud_text { top: 378px; color: #d89cff; }
+
+/* Action buttons, centred as one row of four (36 px wide, 4 px apart). */
+@spritesheet inv-btn-exit-sheet    { src: "../../../newui_exit_00.tga";        inv-btn-exit:    0px 0px 36px 29px; }
+@spritesheet inv-btn-repair-sheet  { src: "../../../newui_repair_00.tga";      inv-btn-repair:  0px 0px 36px 29px; }
+@spritesheet inv-btn-expand-sheet  { src: "../../../newui_expansion_btn.tga";  inv-btn-expand:  0px 0px 36px 29px; }
+@spritesheet inv-btn-myshop-open-sheet  { src: "../../../newui_Bt_openshop.tga";  inv-btn-myshop-open:  0px 0px 36px 29px; }
+@spritesheet inv-btn-myshop-close-sheet { src: "../../../newui_Bt_closeshop.tga"; inv-btn-myshop-close: 0px 0px 36px 29px; }
+
+.inv-btn {
+	position: absolute;
+	top: 392px;
+	width: 36px;
+	height: 29px;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.inv-btn:hover { filter: brightness(1.25); }
+.inv-btn.hidden { display: none; }
+.inv-btn.locked { pointer-events: none; filter: brightness(0.6); }
+
+.inv-btn-exit    { left: 17px;  decorator: image(inv-btn-exit); }
+.inv-btn-repair  { left: 57px;  decorator: image(inv-btn-repair); }
+.inv-btn-myshop  { left: 97px;  decorator: image(inv-btn-myshop-open); }
+.inv-btn-myshop.close-mode { decorator: image(inv-btn-myshop-close); }
+.inv-btn-expand  { left: 137px; decorator: image(inv-btn-expand); }

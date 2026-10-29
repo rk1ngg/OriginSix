@@ -12,6 +12,7 @@
 		<div id="frame_corner_close" data-event-click="window_close"></div>
 		<!-- CMyInventory::RenderFrame()'s five pieces. -->
 		<div class="bg-fill"></div>
+		<div class="equip-bg"></div>
 		<div class="bg-top"></div>
 		<div class="bg-left"></div>
 		<div class="bg-right"></div>
@@ -31,10 +32,7 @@
 		<div id="slot_ring_left" data-attr-class="'native-anchor equip-slot ' + slot_states[11]"><div id="slot_ring_left_item" class="equip-slot-item"></div></div>
 		<div id="slot_amulet" data-attr-class="'native-anchor equip-slot ' + slot_states[9]"><div id="slot_amulet_item" class="equip-slot-item"></div></div>
 		<div id="slot_ring_right" data-attr-class="'native-anchor equip-slot ' + slot_states[10]"><div id="slot_ring_right_item" class="equip-slot-item"></div></div>
-		<div id="slot_guardian" data-attr-class="'native-anchor equip-slot ' + slot_states[12]"><div id="slot_guardian_item" class="equip-slot-item"></div></div>
-		<!-- S18 reserved slots: visual only. No earring equipment index or Ruud balance exists in the S6 EP3 client/server pair yet (docs/GUARDIAN_RUUD_UI_PLAN.md). -->
-		<div id="slot_earring_left" class="equip-slot slot-reserved"></div>
-		<div id="slot_earring_right" class="equip-slot slot-reserved"></div>
+		<!-- S18 reserved slots: visual only. No Ruud balance exists in the S6 EP3 client/server pair yet (docs/GUARDIAN_RUUD_UI_PLAN.md). -->
 		<!-- The inventory grid: its cells, then its frame (UI/Inventory/ItemGridModel.h). -->
 		<div id="item_grid" class="native-anchor item-grid">
 			<div class="item-grid-cells">
@@ -60,6 +58,7 @@
 		<div id="title"><span class="native-text title-text counter-scaled" data-style-font-size="text_px + 'px'">{{title}}</span></div>
 
 		<div id="gold_bg"></div>
+		<div id="coin_zen"></div>
 		<span id="gold_text" class="native-text gold-amount counter-scaled"
 		      data-class-gold-base="gold_tier == 'base'"
 		      data-class-gold-hundred-thousand="gold_tier == 'hundred-thousand'"
@@ -68,6 +67,7 @@
 		      data-style-font-size="text_px + 'px'">{{gold_text}}</span>
 
 		<div id="ruud_bg"></div>
+		<div id="coin_ruud"></div>
 		<span id="ruud_text" class="native-text ruud-amount counter-scaled" data-style-font-size="text_px + 'px'">0</span>
 
 		<div id="btn_exit" class="inv-btn inv-btn-exit" data-event-click="my_inventory_exit_click" data-attr-data-hint="exit_tooltip"></div>
