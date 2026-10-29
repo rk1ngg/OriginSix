@@ -729,7 +729,16 @@ bool RenderMount(OBJECT* o, bool bForceRender)
 
             if (GameLogic::Items::IsGuardianMountModel(o->Type))
             {
+                // Move the Guardian back so that its seat is under the rider.
+                const float seatOffset = GameLogic::Items::GuardianSeatOffsets[o->Type - MODEL_GUARDIAN_GHOST_HORSE] * o->Scale;
+                vec3_t back{}, shift{};
+                float matrix[3][4];
+                AngleMatrix(o->Angle, matrix);
+                Vector(0.f, seatOffset, 0.f, back);
+                VectorRotate(back, matrix, shift);
+                VectorAdd(o->Position, shift, o->Position);
                 GameLogic::Items::RenderGuardianModel(o, State);
+                VectorSubtract(o->Position, shift, o->Position);
             }
             else
             {

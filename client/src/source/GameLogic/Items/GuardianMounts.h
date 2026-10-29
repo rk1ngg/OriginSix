@@ -45,7 +45,7 @@ inline bool IsGuardianMountModel(int modelType)
 
 // The scale of each Guardian model, from the Ghost Horse to the Ullr (Rare). The Shining Tail is the
 // standard size; the others are about as large (the Ullr's model is about seven times larger).
-constexpr float GuardianScales[] = {0.72f, 1.12f, 1.12f, 1.1f, 1.1f, 1.08f, 1.08f, 0.216f, 0.216f};
+constexpr float GuardianScales[] = {0.9f, 1.12f, 1.12f, 1.1f, 1.1f, 1.08f, 1.08f, 0.216f, 0.216f};
 
 // Guardians glow like +15 items, as a model and in the inventory.
 constexpr int GuardianGlowLevel = 15;
@@ -53,6 +53,10 @@ constexpr int GuardianGlowLevel = 15;
 // The hip height of each Guardian model and of the Fenrir model, unscaled.
 constexpr float GuardianHipHeights[] = {150.f, 98.f, 98.f, 101.f, 101.f, 103.f, 103.f, 690.f, 690.f};
 constexpr float FenrirHipHeight = 112.f * 0.9f;
+
+// How far each ridden Guardian is moved back so that its seat is under the rider, unscaled. The Ghost
+// Horse's seat is ahead of the model's origin; the others sit right.
+constexpr float GuardianSeatOffsets[] = {45.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
 
 inline float GetGuardianScale(int modelType)
 {
