@@ -5,6 +5,7 @@
 namespace MUnique.OpenMU.GameLogic.PlayerActions.Items;
 
 using MUnique.OpenMU.GameLogic.CastleSiege;
+using MUnique.OpenMU.GameLogic.PlayerShopCurrencies;
 using MUnique.OpenMU.GameLogic.PlugIns;
 using MUnique.OpenMU.GameLogic.Views.Inventory;
 
@@ -90,6 +91,9 @@ public class BuyNpcItemAction
             var newItem = player.PersistenceContext.CreateNew<Item>();
             newItem.AssignValues(storeItem);
             newItem.ItemSlot = (byte)toSlot;
+
+            // A fixed merchant price is not a personal store price of the bought item.
+            newItem.SetStorePrice(null);
             await player.InvokeViewPlugInAsync<INpcItemBoughtPlugIn>(p => p.NpcItemBoughtAsync(newItem)).ConfigureAwait(false);
             await player.Inventory.AddItemAsync(newItem).ConfigureAwait(false);
             player.GameContext.PlugInManager.GetPlugInPoint<IItemBoughtFromMerchantPlugIn>()?.ItemBought(player, newItem, storeItem, player.OpenedNpc);
@@ -100,7 +104,10 @@ public class BuyNpcItemAction
 
     private ValueTask<bool> CheckMoneyAsync(Player player, Item item)
     {
-        var price = this._priceCalculator.CalculateFinalBuyingPrice(item);
+        // A merchant store item may have a fixed zen price; otherwise the price is calculated.
+        var price = item.GetStorePrice() is { PriceItem: null, CoinType: null } fixedPrice
+            ? fixedPrice.Amount
+            : this._priceCalculator.CalculateFinalBuyingPrice(item);
         return this._castleSiegeTaxProvider.TryPayStoreCostAsync(player, price);
     }
 }

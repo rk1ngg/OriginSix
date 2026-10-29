@@ -3829,6 +3829,48 @@
       "name": {"en": "Captured Stone Statue (10)"},
       "kind": "monster",
       "model": "MONSTER_MODEL_BULL_FIGHTER"
+    },
+    {
+      "number": 690,
+      "name": {"en": "Lucky Merchant (Dark Wizard)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 691,
+      "name": {"en": "Lucky Merchant (Dark Knight)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 692,
+      "name": {"en": "Lucky Merchant (Fairy Elf)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 693,
+      "name": {"en": "Lucky Merchant (Magic Gladiator)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 694,
+      "name": {"en": "Lucky Merchant (Dark Lord)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 695,
+      "name": {"en": "Lucky Merchant (Summoner)"},
+      "kind": "npc",
+      "model": "player"
+    },
+    {
+      "number": 696,
+      "name": {"en": "Lucky Merchant (Rage Fighter)"},
+      "kind": "npc",
+      "model": "player"
     }
   ]
 }

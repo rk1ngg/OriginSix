@@ -742,6 +742,67 @@ public class AncientSets : InitializerBase
             (59, ItemGroups.Boots, Stats.TotalAgility, 1));
     }
 
+    /// <summary>
+    /// Adds the set options of the lucky items (sets 39 to 49 of the season 6 client) to an existing configuration.
+    /// </summary>
+    /// <remarks>
+    /// The values are the ones of the client's ItemSetOption.bmd and ItemSetType.bmd: each lucky item number is one set,
+    /// with the set discriminator 1 and no ancient bonus option. The options of the first ticket's sets (62 to 65) are
+    /// weaker than the ones of the second ticket's sets (66 to 72). Atlans (71) and Storm Jahad (72) have four pieces,
+    /// so one more of their options needs the complete set.
+    /// </remarks>
+    /// <returns>The added sets. Nothing is added if a lucky item already belongs to a set.</returns>
+    internal IReadOnlyList<ItemSetGroup> AddLuckySets()
+    {
+        var luckyItems = this.GameConfiguration.Items
+            .Where(item => item.Group is >= 7 and <= 11 && item.Number is >= Armors.LuckyItemNumberStart and <= Armors.LuckyItemNumberEnd)
+            .ToList();
+        if (luckyItems.Count == 0 || luckyItems.Any(item => item.PossibleItemSetGroups.Any(set => set.Items.Any(i => i.AncientSetDiscriminator != 0))))
+        {
+            return [];
+        }
+
+        (AttributeDefinition, float, AggregateType)[] firstTicketOptions =
+        [
+            (Stats.MaximumHealth, 30f, AggregateType.AddRaw),
+            (Stats.SkillDamageBonus, 25f, AggregateType.AddRaw),
+            (Stats.DefenseBase, 20f, AggregateType.AddFinal),
+            (Stats.DoubleDamageChance, 0.10f, AggregateType.AddRaw),
+            (Stats.CriticalDamageChance, 0.10f, AggregateType.AddRaw),
+            (Stats.ExcellentDamageChance, 0.10f, AggregateType.AddRaw),
+            (Stats.CriticalDamageBonus, 10f, AggregateType.AddRaw),
+            (Stats.ExcellentDamageBonus, 10f, AggregateType.AddRaw),
+        ];
+        (AttributeDefinition, float, AggregateType)[] secondTicketOptions =
+        [
+            (Stats.MaximumHealth, 50f, AggregateType.AddRaw),
+            (Stats.DefenseBase, 40f, AggregateType.AddFinal),
+            (Stats.DoubleDamageChance, 0.15f, AggregateType.AddRaw),
+            (Stats.CriticalDamageChance, 0.15f, AggregateType.AddRaw),
+            (Stats.ExcellentDamageChance, 0.15f, AggregateType.AddRaw),
+            (Stats.CriticalDamageBonus, 20f, AggregateType.AddRaw),
+            (Stats.ExcellentDamageBonus, 20f, AggregateType.AddRaw),
+            (Stats.DefenseIgnoreChance, 0.05f, AggregateType.AddRaw),
+        ];
+        string[] setNames = ["Moros", "Dione", "Hades", "Ophion", "Meter", "Hegaton", "Castol", "Taros", "Nemesis", "Amis", "Trite"];
+
+        var sets = new List<ItemSetGroup>();
+        for (short number = Armors.LuckyItemNumberStart; number <= Armors.LuckyItemNumberEnd; number++)
+        {
+            var name = setNames[number - Armors.LuckyItemNumberStart];
+            var setNumber = (short)(number - Armors.LuckyItemNumberStart + 39);
+            var set = this.AddAncientSet(name, $"{name} Set Options", setNumber, number <= 65 ? firstTicketOptions : secondTicketOptions);
+            set.SetGuid(number, 1);
+            var pieces = luckyItems.Where(item => item.Number == number)
+                .Select(item => (number, (ItemGroups)item.Group, (AttributeDefinition?)null, 1))
+                .ToArray();
+            this.AddItems(set, pieces);
+            sets.Add(set);
+        }
+
+        return sets;
+    }
+
     private void AddItems(ItemSetGroup set, params (short Number, ItemGroups Group, AttributeDefinition? BonusOption, int Discriminator)[] items)
     {
         foreach (var itemTuple in items)

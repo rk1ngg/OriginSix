@@ -16,6 +16,16 @@ using MUnique.OpenMU.Persistence.Initialization.Properties;
 public class Armors : ArmorInitializerBase
 {
     /// <summary>
+    /// The number of the first lucky item, which is the same in each armor group.
+    /// </summary>
+    internal const short LuckyItemNumberStart = 62;
+
+    /// <summary>
+    /// The number of the last lucky item, which is the same in each armor group.
+    /// </summary>
+    internal const short LuckyItemNumberEnd = 72;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Armors"/> class.
     /// </summary>
     /// <param name="context">The persistence context.</param>
@@ -349,6 +359,104 @@ public class Armors : ArmorInitializerBase
 
         this.BuildSets();
         this.AddGuardianOptionsToSets();
+    }
+
+    /// <summary>
+    /// Adds the lucky items of the lucky item tickets (helm, armor, pants, gloves and boots 62 to 72) to an existing configuration.
+    /// </summary>
+    /// <returns>The added items. Nothing is added if any lucky item already exists.</returns>
+    internal IReadOnlyList<ItemDefinition> AddLuckyItems()
+    {
+        this.UseExistingLevelBonusTables();
+        return this.CreateLuckyItems();
+    }
+
+    /// <summary>
+    /// Creates the lucky items, which David exchanges for lucky item tickets.
+    /// </summary>
+    /// <remarks>
+    /// The values are the ones of the season 6 client item data: size, drop level, defense, durability 255,
+    /// level requirement, classes, attack speed of gloves and walk speed of boots. Like every other gloves
+    /// definition, the gloves leave out the rage fighter, which the client data lists for the Scale Gloves.
+    /// Lucky items can't be traded, dropped, stored, sold or repaired.
+    /// </remarks>
+    /// <returns>The created items. Nothing is created if any lucky item already exists.</returns>
+    private IReadOnlyList<ItemDefinition> CreateLuckyItems()
+    {
+        if (this.GameConfiguration.Items.Any(item => item.Group is >= 7 and <= 11 && item.Number is >= LuckyItemNumberStart and <= LuckyItemNumberEnd))
+        {
+            return [];
+        }
+
+        var items = new List<ItemDefinition>
+        {
+            this.CreateArmor(62, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.ScaleHelm), 26, 16, 255, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1),
+            this.CreateArmor(63, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.SilkHelm), 16, 11, 255, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(64, 2, 2, 2, "Sphinx Helm", 32, 17, 255, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            this.CreateArmor(65, 2, 2, 2, "Violent Wind Helm", 28, 17, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(66, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.AdamantineMask), 66, 29, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            this.CreateArmor(67, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.DragonHelm), 57, 29, 255, 150, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+            this.CreateArmor(68, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.GuardianHelm), 53, 28, 255, 150, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(69, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.LegendaryHelm), 50, 23, 255, 150, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+            this.CreateArmor(70, 2, 2, 2, LocalizedString.FromResource(() => ItemNames.RedWingHelm), 50, 20, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(72, 2, 2, 2, "Storm Jahad Helm", 70, 32, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            this.CreateArmor(62, 3, 2, 2, LocalizedString.FromResource(() => ItemNames.ScaleArmor), 28, 21, 255, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
+            this.CreateArmor(63, 3, 2, 2, LocalizedString.FromResource(() => ItemNames.SilkArmor), 20, 14, 255, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(64, 3, 2, 3, LocalizedString.FromResource(() => ItemNames.SphinxArmor), 38, 19, 255, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(65, 3, 2, 2, "Violent Wind Armor", 34, 26, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(66, 3, 2, 3, LocalizedString.FromResource(() => ItemNames.AdamantineArmor), 78, 39, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            this.CreateArmor(67, 3, 2, 3, LocalizedString.FromResource(() => ItemNames.DragonArmor), 59, 42, 255, 150, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
+            this.CreateArmor(68, 3, 2, 2, LocalizedString.FromResource(() => ItemNames.GuardianArmor), 57, 29, 255, 150, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(69, 3, 2, 2, LocalizedString.FromResource(() => ItemNames.LegendaryArmor), 56, 24, 255, 150, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(70, 3, 2, 2, LocalizedString.FromResource(() => ItemNames.RedWingArmor), 56, 31, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(71, 3, 2, 3, "Atlans Armor", 80, 47, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(72, 3, 2, 3, "Storm Jahad Armor", 82, 43, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            this.CreateArmor(62, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.ScalePants), 25, 18, 255, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
+            this.CreateArmor(63, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.SilkPants), 18, 13, 255, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(64, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.SphinxPants), 34, 19, 255, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(65, 4, 2, 2, "Violent Wind Pants", 30, 20, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(66, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.AdamantinePants), 70, 31, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            this.CreateArmor(67, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.DragonPants), 55, 28, 255, 150, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
+            this.CreateArmor(68, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.GuardianPants), 54, 30, 255, 150, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateArmor(69, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.LegendaryPants), 53, 25, 255, 150, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(70, 4, 2, 2, LocalizedString.FromResource(() => ItemNames.RedWingPants), 53, 26, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateArmor(71, 4, 2, 2, "Atlans Pants", 74, 39, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            this.CreateArmor(72, 4, 2, 2, "Storm Jahad Pants", 78, 33, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+            this.CreateGloves(62, LocalizedString.FromResource(() => ItemNames.ScaleGloves), 22, 10, 10, 255, 1, 0, 0, 0, 1, 0, 1, 1, 0),
+            this.CreateGloves(63, LocalizedString.FromResource(() => ItemNames.SilkGloves), 14, 6, 8, 255, 1, 0, 0, 0, 0, 1, 0, 0, 0),
+            this.CreateGloves(64, LocalizedString.FromResource(() => ItemNames.SphinxGloves), 28, 12, 0, 255, 1, 0, 0, 1, 0, 0, 1, 0, 0),
+            this.CreateGloves(65, "Violent Wind Gloves", 24, 13, 6, 255, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+            this.CreateGloves(66, LocalizedString.FromResource(() => ItemNames.AdamantineGloves), 57, 20, 6, 255, 150, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateGloves(67, LocalizedString.FromResource(() => ItemNames.DragonGloves), 52, 19, 6, 255, 150, 0, 0, 0, 1, 0, 1, 0, 0),
+            this.CreateGloves(68, LocalizedString.FromResource(() => ItemNames.GuardianGloves), 50, 20, 6, 255, 150, 0, 0, 0, 0, 1, 0, 0, 0),
+            this.CreateGloves(69, LocalizedString.FromResource(() => ItemNames.LegendaryGloves), 44, 16, 0, 255, 150, 0, 0, 1, 0, 0, 1, 0, 0),
+            this.CreateGloves(70, LocalizedString.FromResource(() => ItemNames.RedWingGloves), 44, 18, 8, 255, 150, 0, 0, 0, 0, 0, 0, 0, 1),
+            this.CreateGloves(71, "Atlans Gloves", 70, 25, 6, 255, 150, 0, 0, 0, 0, 0, 1, 0, 0),
+            this.CreateBoots(62, LocalizedString.FromResource(() => ItemNames.ScaleBoots), 22, 12, 8, 255, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
+            this.CreateBoots(63, LocalizedString.FromResource(() => ItemNames.SilkBoots), 15, 7, 0, 255, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateBoots(64, LocalizedString.FromResource(() => ItemNames.SphinxBoots), 30, 13, 8, 255, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateBoots(65, "Violent Wind Boots", 26, 15, 0, 255, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateBoots(66, LocalizedString.FromResource(() => ItemNames.AdamantineBoots), 60, 25, 0, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+            this.CreateBoots(67, LocalizedString.FromResource(() => ItemNames.DragonBoots), 54, 20, 2, 255, 150, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0),
+            this.CreateBoots(68, LocalizedString.FromResource(() => ItemNames.GuardianBoots), 52, 23, 0, 255, 150, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+            this.CreateBoots(69, LocalizedString.FromResource(() => ItemNames.LegendaryBoots), 46, 17, 0, 255, 150, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0),
+            this.CreateBoots(70, LocalizedString.FromResource(() => ItemNames.RedWingBoots), 46, 17, 0, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+            this.CreateBoots(71, "Atlans Boots", 72, 27, 2, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+            this.CreateBoots(72, "Storm Jahad Boots", 62, 20, 0, 255, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+        };
+
+        foreach (var item in items)
+        {
+            item.DropsFromMonsters = false;
+            item.IsTradable = false;
+            item.IsDroppable = false;
+            item.IsStorable = false;
+            item.IsSellableToNpc = false;
+            item.IsPersonalStoreSellable = false;
+            item.IsRepairable = false;
+        }
+
+        return items;
     }
 
     private void AddGuardianOptionsToSets()

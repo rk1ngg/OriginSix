@@ -50,6 +50,18 @@ public abstract class ArmorInitializerBase : InitializerBase
     }
 
     /// <summary>
+    /// Reuses the level bonus tables of the existing armors, so armors which an update adds to an
+    /// existing configuration share them instead of creating copies.
+    /// </summary>
+    protected void UseExistingLevelBonusTables()
+    {
+        var armor = this.GameConfiguration.Items.FirstOrDefault(item => item is { Group: 8, Number: 0 });
+        this._defenseIncreaseTable = armor?.BasePowerUpAttributes.FirstOrDefault(powerUp => powerUp.TargetAttribute == Stats.DefenseBase)?.BonusPerLevelTable;
+        var boots = this.GameConfiguration.Items.FirstOrDefault(item => item is { Group: 11, Number: 0 });
+        this._runningMovementSpeedTable = boots?.BasePowerUpAttributes.FirstOrDefault(powerUp => powerUp.TargetAttribute == Stats.MovementSpeed)?.BonusPerLevelTable;
+    }
+
+    /// <summary>
     /// Builds the <see cref="ItemSetGroup"/> for whole sets.
     /// </summary>
     protected void BuildSets()
