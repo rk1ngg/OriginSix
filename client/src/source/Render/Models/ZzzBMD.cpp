@@ -3875,6 +3875,87 @@ bool DecryptModulusBody(unsigned char* fileData, int fileSize, int& ptr)
     ptr = payloadStart + static_cast<int>(Render::Models::BmdModulusCipher::BodyOffset);
     return true;
 }
+
+std::uint32_t LeaRol(std::uint32_t x, int n) noexcept
+{
+    n &= 31;
+    return n == 0 ? x : ((x << n) | (x >> (32 - n)));
+}
+
+std::uint32_t LeaRor(std::uint32_t x, int n) noexcept
+{
+    n &= 31;
+    return n == 0 ? x : ((x >> n) | (x << (32 - n)));
+}
+
+// Decrypts the payload of a version 15 (0x0F) model using LEA-256 ECB in place.
+bool DecryptLea256Body(unsigned char* fileData, int fileSize, int& ptr)
+{
+    std::int32_t payloadSize = 0;
+    if (fileSize - ptr < static_cast<int>(sizeof(payloadSize)))
+    {
+        return false;
+    }
+
+    std::memcpy(&payloadSize, fileData + ptr, sizeof(payloadSize));
+    const int payloadStart = ptr + static_cast<int>(sizeof(payloadSize));
+    if (payloadSize < 0 || payloadSize > fileSize - payloadStart || (payloadSize % 16) != 0)
+    {
+        return false;
+    }
+
+    static constexpr std::uint32_t kKeyDelta[8] = {
+        0xc3efe9dbu, 0x44626b02u, 0x79e27c8au, 0x78df30ecu,
+        0x715ea49eu, 0xc785da0au, 0xe04ef22au, 0xe5c40957u,
+    };
+    static constexpr std::uint8_t kLeaKey[32] = {
+        0xcc, 0x50, 0x45, 0x13, 0xc2, 0xa6, 0x57, 0x4e,
+        0xd6, 0x9a, 0x45, 0x89, 0xbf, 0x2f, 0xbc, 0xd9,
+        0x39, 0xb3, 0xb3, 0xbd, 0x50, 0xbd, 0xcc, 0xb6,
+        0x85, 0x46, 0xd1, 0xd6, 0x16, 0x54, 0xe0, 0x87,
+    };
+
+    std::uint32_t T[8] = {};
+    std::memcpy(T, kLeaKey, sizeof(T));
+
+    std::uint32_t rk[192] = {};
+    for (int i = 0; i < 32; ++i)
+    {
+        const std::uint32_t d = kKeyDelta[i & 7];
+        const int s = (i * 6) & 7;
+        T[(s + 0) & 7] = LeaRol(T[(s + 0) & 7] + LeaRol(d, i + 0), 1);
+        T[(s + 1) & 7] = LeaRol(T[(s + 1) & 7] + LeaRol(d, i + 1), 3);
+        T[(s + 2) & 7] = LeaRol(T[(s + 2) & 7] + LeaRol(d, i + 2), 6);
+        T[(s + 3) & 7] = LeaRol(T[(s + 3) & 7] + LeaRol(d, i + 3), 11);
+        T[(s + 4) & 7] = LeaRol(T[(s + 4) & 7] + LeaRol(d, i + 4), 13);
+        T[(s + 5) & 7] = LeaRol(T[(s + 5) & 7] + LeaRol(d, i + 5), 17);
+        for (int k = 0; k < 6; ++k)
+        {
+            rk[i * 6 + k] = T[(s + k) & 7];
+        }
+    }
+
+    unsigned char* payload = fileData + payloadStart;
+    for (int off = 0; off + 16 <= payloadSize; off += 16)
+    {
+        std::uint32_t s0[4] = {};
+        std::memcpy(s0, payload + off, 16);
+        for (int r = 0; r < 32; ++r)
+        {
+            const std::uint32_t* rk6 = &rk[(31 - r) * 6];
+            std::uint32_t t0[4];
+            t0[0] = s0[3];
+            t0[1] = (LeaRor(s0[0], 9) - (t0[0] ^ rk6[0])) ^ rk6[1];
+            t0[2] = (LeaRol(s0[1], 5) - (t0[1] ^ rk6[2])) ^ rk6[3];
+            t0[3] = (LeaRol(s0[2], 3) - (t0[2] ^ rk6[4])) ^ rk6[5];
+            std::memcpy(s0, t0, 16);
+        }
+        std::memcpy(payload + off, s0, 16);
+    }
+
+    ptr = payloadStart;
+    return true;
+}
 } // namespace
 
 bool BMD::Open2(const wchar_t* DirName, const wchar_t* ModelFileName, bool bReAlloc)
@@ -3969,6 +4050,15 @@ bool BMD::Open2(const wchar_t* DirName, const wchar_t* ModelFileName, bool bReAl
         if (!DecryptModulusBody(fileData.get(), dataSize, ptr))
         {
             wprintf(L"[Open2] ERROR: Invalid version 14 model data in %.64ls\n", ModelPath);
+            m_bCompletedAlloc = false;
+            return false;
+        }
+    }
+    else if (Version == 0xF)
+    {
+        if (!DecryptLea256Body(fileData.get(), dataSize, ptr))
+        {
+            wprintf(L"[Open2] ERROR: Invalid version 15 model data in %.64ls\n", ModelPath);
             m_bCompletedAlloc = false;
             return false;
         }

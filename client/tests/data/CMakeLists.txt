@@ -151,6 +151,19 @@ target_compile_definitions(test_character_bones PRIVATE
     MU_TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data"
 )
 
+# Loads the version 15 Guardian mount, item and NPC models (local assets; missing files are skipped).
+mu_add_test(
+    NAME test_guardian_models
+    SOURCES
+        test_guardian_models.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
+    LINK_LIBS
+        MuClient
+)
+target_compile_definitions(test_guardian_models PRIVATE
+    MU_TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data"
+)
+
 # The effect catalogue (Data/Effects): the format, the compiled symbol lists
 # and the shipped files. The registry check pulls in the effect code, which
 # needs the client globals of Winmain.cpp. The effect browser test reads the
