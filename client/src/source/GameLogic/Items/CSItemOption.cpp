@@ -346,36 +346,39 @@ void CSItemOption::calcSetOptionList(const SET_SEARCH_RESULT* optionList)
     Hero->ExtendState = 0;
     for (int i = 0; i < m_SetSearchResultCount; ++i)
     {
-        auto& set = m_SetSearchResult[i];
-
-        const ITEM_SET_OPTION& setOptions = m_ItemSetOption[set.SetNumber];
-        bool isThisSetComplete = false;
-        if (set.CompleteSetItemCount <= set.ItemCount)
+        if (BuildSetOptions(m_SetSearchResult[i], firstClass, secondClass))
         {
             Hero->ExtendState = 1;
-            isThisSetComplete = true;
-        }
-
-        const auto requireClass = isClassRequirementFulfilled(setOptions, firstClass, secondClass);
-        const auto standardOptionCount = std::min<int>(set.CompleteSetItemCount - 1, MAX_ITEM_SET_STANDARD_OPTION_COUNT);
-        for (int o = 0; o < standardOptionCount; ++o)
-        {
-            for (int n = 0; n < MAX_ITEM_SET_STANDARD_OPTION_PER_ITEM_COUNT; ++n)
-            {
-                TryAddSetOption(setOptions.byStandardOption[o][n], setOptions.byStandardOptionValue[o][n], o, set, setOptions, isThisSetComplete, false, false, requireClass, firstClass, secondClass);
-            }
-        }
-
-        for (int o = 0; o < MAX_ITEM_SET_EXT_OPTION_COUNT; ++o)
-        {
-            TryAddSetOption(setOptions.byExtOption[o], setOptions.byExtOptionValue[o], 0, set, setOptions, isThisSetComplete, false, true, requireClass, firstClass, secondClass);
-        }
-
-        for (int o = 0; o < MAX_ITEM_SET_FULL_OPTION_COUNT; ++o)
-        {
-            TryAddSetOption(setOptions.byFullOption[o], setOptions.byFullOptionValue[o], 255, set, setOptions, isThisSetComplete, true, false, requireClass, firstClass, secondClass);
         }
     }
+}
+
+bool CSItemOption::BuildSetOptions(SET_SEARCH_RESULT_OPT& set, int firstClass, int secondClass)
+{
+    const ITEM_SET_OPTION& setOptions = m_ItemSetOption[set.SetNumber];
+    const bool isThisSetComplete = set.CompleteSetItemCount <= set.ItemCount;
+
+    const auto requireClass = isClassRequirementFulfilled(setOptions, firstClass, secondClass);
+    const auto standardOptionCount = std::min<int>(set.CompleteSetItemCount - 1, MAX_ITEM_SET_STANDARD_OPTION_COUNT);
+    for (int o = 0; o < standardOptionCount; ++o)
+    {
+        for (int n = 0; n < MAX_ITEM_SET_STANDARD_OPTION_PER_ITEM_COUNT; ++n)
+        {
+            TryAddSetOption(setOptions.byStandardOption[o][n], setOptions.byStandardOptionValue[o][n], o, set, setOptions, isThisSetComplete, false, false, requireClass, firstClass, secondClass);
+        }
+    }
+
+    for (int o = 0; o < MAX_ITEM_SET_EXT_OPTION_COUNT; ++o)
+    {
+        TryAddSetOption(setOptions.byExtOption[o], setOptions.byExtOptionValue[o], 0, set, setOptions, isThisSetComplete, false, true, requireClass, firstClass, secondClass);
+    }
+
+    for (int o = 0; o < MAX_ITEM_SET_FULL_OPTION_COUNT; ++o)
+    {
+        TryAddSetOption(setOptions.byFullOption[o], setOptions.byFullOptionValue[o], 255, set, setOptions, isThisSetComplete, true, false, requireClass, firstClass, secondClass);
+    }
+
+    return isThisSetComplete;
 }
 
 bool CSItemOption::getExplainText(wchar_t* text, std::uint8_t option, int value)
@@ -1025,6 +1028,7 @@ int CSItemOption::RenderSetOptionListInItem(const ITEM* ip, int TextNum, bool bI
     mu_swprintf(TextList[TNum], L"\n"); TNum++;
 
 
+    bool isSetEquipped = false;
     for (int i = 0; i < m_SetSearchResultCount; i++)
     {
         const auto& set = m_SetSearchResult[i];
@@ -1032,8 +1036,20 @@ int CSItemOption::RenderSetOptionListInItem(const ITEM* ip, int TextNum, bool bI
         {
             // Set Found.
             TNum = RenderSetOptionList(set, TNum, bIsEquippedItem, true);
+            isSetEquipped = true;
             break;
         }
+    }
+
+    if (!isSetEquipped)
+    {
+        // Like the original client, an item of a set which isn't equipped (in the inventory,
+        // a store or a trade) still lists the options of its set, all of them inactive.
+        SET_SEARCH_RESULT_OPT set{};
+        set.SetNumber = m_bySelectedItemOption;
+        set.CompleteSetItemCount = setOption.bySetItemCount;
+        BuildSetOptions(set, gCharacterManager.GetBaseClass(Hero->Class), gCharacterManager.IsSecondClass(Hero->Class));
+        TNum = RenderSetOptionList(set, TNum, false, true);
     }
 
     mu_swprintf(TextList[TNum], L"\n"); TNum++;
