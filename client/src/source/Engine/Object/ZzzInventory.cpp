@@ -75,6 +75,7 @@
 #include "GameLogic/Skills/SkillManager.h"
 #include "Camera/CameraProjection.h"
 #include "Render/Text/CUIRenderText.h"
+#include "GameLogic/Items/GuardianMounts.h"
 
 namespace TooltipText = Engine::Items::TooltipText;
 
@@ -3629,6 +3630,12 @@ constexpr float SelectedItemTurnSpeed = 0.45f;
 void RenderObjectScreen(int Type, int ItemLevel, int excellentFlags, int ancientDiscriminator, vec3_t Target,
                         int Select, bool PickUp)
 {
+    // Guardians glow like +15 items in the inventory, at any level.
+    if (GameLogic::Items::IsGuardianMountItem(Data::Items::ToItemType(Type)))
+    {
+        ItemLevel = GameLogic::Items::GuardianGlowLevel;
+    }
+
     int Level = ItemLevel;
     vec3_t Direction, Position;
 

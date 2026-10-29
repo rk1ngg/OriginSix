@@ -49,7 +49,7 @@ body {
 }
 
 /* The original's stack: the elf's arrow line 11 high, then the frames 24 apart. */
-.pet { position: relative; width: 57px; height: 23px; margin-bottom: 1px; }
+.pet { display: block; position: relative; width: 57px; height: 23px; margin-bottom: 1px; }
 .pet-fill { position: absolute; left: 2px; top: 2px; width: 53px; height: 13px; background-color: rgba(0, 0, 0, 179); }
 .pet-frame { position: absolute; left: 0; top: 0; width: 57px; height: 23px; decorator: image(endurance-pet-back); }
 /* An <img> whose source rect is its width (item_endurance.rml): the texture's left part, unstretched. */

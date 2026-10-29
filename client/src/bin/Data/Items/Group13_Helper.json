@@ -6893,6 +6893,699 @@
         "summoner": 1,
         "rageFighter": 1
       }
+    },
+    {
+      "number": 146,
+      "name": {
+        "en": "Ghost Horse"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +255"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 150"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 147,
+      "name": {
+        "en": "Ice Dragon"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +305"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 180"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 148,
+      "name": {
+        "en": "Ice Dragon (Rare)"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +330"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 195"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 149,
+      "name": {
+        "en": "Fierce Lion"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +355"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 210"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 150,
+      "name": {
+        "en": "Fierce Lion (Rare)"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +380"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 225"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 151,
+      "name": {
+        "en": "Shining Tail"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +405"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 240"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 152,
+      "name": {
+        "en": "Shining Tail (Rare)"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +430"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 255"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 153,
+      "name": {
+        "en": "Ullr"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": {
+            "en": "Increases max HP +505"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Armor: 275"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Attack Speed +7"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
+    },
+    {
+      "number": 154,
+      "name": {
+        "en": "Ullr (Rare)"
+      },
+      "tags": ["noDurabilityLine"],
+      "description": [
+        {
+          "text": {
+            "en": "Mount"
+          }
+        },
+        {
+          "text": {
+            "en": "Guardian Item"
+          }
+        },
+        {
+          "text": "@life"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": {
+            "en": "Increase HP +777"
+          },
+          "color": "green"
+        },
+        {
+          "text": {
+            "en": "Increase Armor +555"
+          },
+          "color": "purple"
+        },
+        {
+          "text": {
+            "en": "Increase Attack +28"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increase Wizardry +28"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increases movement speed"
+          },
+          "color": "blue"
+        },
+        {
+          "text": {
+            "en": "Increase Attack Speed +28"
+          },
+          "color": "purple"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": {
+            "en": "Right click on your inventory to use."
+          },
+          "color": "yellow"
+        },
+        {
+          "text": {
+            "en": "Ctrl+Z to mount or dismount."
+          },
+          "color": "yellow"
+        }
+      ],
+      "nameLines": [
+        {
+          "color": "yellow"
+        }
+      ],
+      "width": 1,
+      "height": 1,
+      "durability": 255,
+      "classRequirements": {
+        "darkWizard": 1,
+        "darkKnight": 1,
+        "fairyElf": 1,
+        "magicGladiator": 1,
+        "darkLord": 1,
+        "summoner": 1,
+        "rageFighter": 1
+      }
     }
   ]
 }

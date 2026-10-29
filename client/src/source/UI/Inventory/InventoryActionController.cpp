@@ -11,6 +11,7 @@
 #include "Engine/Object/ZzzInventory.h"
 #include "UI/Inventory/UIJewelHarmony.h"
 #include "GameLogic/Items/CSItemOption.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "World/MapInfra/MapManager.h"
 #include "Network/Server/SocketSystem.h"
 #include "GameLogic/Social/MonkSystem.h"
@@ -662,6 +663,13 @@ bool CInventoryActionController::TryConsumeItem(CInventoryCtrl* targetControl, I
     }
 
     if (pItem->Type == ITEM_TOWN_PORTAL_SCROLL)
+    {
+        SendRequestUse(iIndex, 0);
+        return true;
+    }
+
+    // OriginSix Guardian mount: using it in the inventory rides or dismounts it.
+    if (GameLogic::Items::IsGuardianMountItem(pItem->Type))
     {
         SendRequestUse(iIndex, 0);
         return true;

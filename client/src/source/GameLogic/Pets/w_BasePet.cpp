@@ -7,6 +7,7 @@
 #include "Engine/Object/ZzzObject.h"
 #include "Engine/AI/ZzzAI.h"
 #include "Render/Effects/ZzzEffect.h"
+#include "GameLogic/Items/GuardianMounts.h"
 
 extern float EarthQuake;
 
@@ -157,7 +158,14 @@ void PetObject::Render(bool bForceRender)
         {
             int State = g_isCharacterBuff(m_obj->Owner, eBuff_Cloaking) ? 10 : 0;
 
-            RenderObject(m_obj, FALSE, 0, State);
+            if (GameLogic::Items::IsGuardianMountModel(m_obj->Type))
+            {
+                GameLogic::Items::RenderGuardianModel(m_obj, State);
+            }
+            else
+            {
+                RenderObject(m_obj, FALSE, 0, State);
+            }
 
             CreateEffect(m_timer->GetTimeElapsed(), bForceRender);
         }

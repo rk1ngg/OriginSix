@@ -29,17 +29,27 @@
 
 
 
+#include "GameLogic/Items/GuardianMounts.h"
+
 using namespace SEASON3B;
 using namespace mu::ui::window;
 
 namespace
 {
+// The model of the item in the pet slot. Not the hero's shown helper: a summoned OriginSix Guardian
+// is shown in its place, while the pet stays equipped.
+int EquippedHelperModel()
+{
+    const int itemType = CharacterMachine->Equipment[EQUIPMENT_HELPER].Type;
+    return itemType >= 0 ? Data::Items::ToModelSlot(itemType) : -1;
+}
+
 // The equipped helper that has an HP frame: every pet slot item (guardian angel, imp,
 // horns, dark horse, pets) but the gamble items, which only use the slot in the shop.
 bool HasHelperLifeFrame()
 {
-    return GameLogic::Items::IsPetSlotModel(Hero->Helper.Type) &&
-           !GameLogic::Items::IsGambleItemModel(Hero->Helper.Type);
+    return GameLogic::Items::IsPetSlotModel(EquippedHelperModel()) &&
+           !GameLogic::Items::IsGambleItemModel(EquippedHelperModel());
 }
 
 // The HP frame's name of the equipped helper (HasHelperLifeFrame()).
@@ -48,7 +58,8 @@ bool HasHelperLifeFrame()
 template <size_t N>
 void HelperLifeFrameName(wchar_t (&szText)[N])
 {
-    switch (Hero->Helper.Type)
+    const int helperModel = EquippedHelperModel();
+    switch (helperModel)
     {
     case MODEL_HELPER:
     {
@@ -57,7 +68,7 @@ void HelperLifeFrameName(wchar_t (&szText)[N])
     break;
     case MODEL_IMP:
     {
-        ITEM_ATTRIBUTE* p = &ItemAttribute[Data::Items::ToItemType(Hero->Helper.Type)];
+        ITEM_ATTRIBUTE* p = &ItemAttribute[Data::Items::ToItemType(helperModel)];
         wcsncpy_s(szText, p->Name, _TRUNCATE);
     }
     break;
@@ -115,7 +126,7 @@ void HelperLifeFrameName(wchar_t (&szText)[N])
     {
         // A pet slot item without a case of its own, such as one added in the item editor:
         // HasHelperLifeFrame() made sure the model is an item's.
-        wcsncpy_s(szText, ItemAttribute[Data::Items::ToItemType(Hero->Helper.Type)].Name, _TRUNCATE);
+        wcsncpy_s(szText, ItemAttribute[Data::Items::ToItemType(helperModel)].Name, _TRUNCATE);
     }
     break;
     }
@@ -416,6 +427,11 @@ void mu::ui::window::CItemEnduranceInfo::SyncLeftColumn()
         szText[0] = L'\0';
         HelperLifeFrameName(szText);
         addFrame(szText, CharacterMachine->Equipment[EQUIPMENT_HELPER].Durability, 255);
+    }
+    if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+    {
+        // A Guardian's full durability is its item's (1), not the pet slot's 255.
+        addFrame(ItemAttribute[guardian->Type].Name, guardian->Durability, std::max<int>(1, ItemAttribute[guardian->Type].Durability));
     }
     if (gCharacterManager.GetBaseClass(Hero->Class) == CLASS_DARK_LORD && Hero->m_pPet != nullptr)
     {

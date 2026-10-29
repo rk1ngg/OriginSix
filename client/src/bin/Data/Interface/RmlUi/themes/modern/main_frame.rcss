@@ -325,3 +325,18 @@
 #pet_skill_row .skill-cell:nth-child(2) { left: 0dp; }
 #pet_skill_row .skill-cell:nth-child(3) { left: 32dp; }
 #pet_skill_row .skill-cell:nth-child(4) { left: 64dp; }
+
+/* OriginSix: the summoned Guardian's Ctrl+Z box above the first skill slot: a skill box with the
+   Guardian's icon (drawn by C++ into #mount_icon), the selected box while ridden. */
+#mount_slot {
+	position: absolute;
+	left: 0dp;
+	top: -34dp;
+	width: 24dp;
+	height: 28dp;
+	pointer-events: auto;
+	cursor: pointer;
+}
+#mount_slot.riding { background-color: rgba(180, 138, 50, 60); }
+.mount-icon { position: absolute; left: 2dp; top: 3dp; width: 20dp; height: 22dp; pointer-events: none; }
+.mount-slot-label { font-size: 7dp; }

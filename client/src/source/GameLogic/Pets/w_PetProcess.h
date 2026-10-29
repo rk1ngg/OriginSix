@@ -15,6 +15,7 @@
 #endif // PJH_ADD_PANDA_PET
 #define UNICORN 6
 #define SKELETON 7
+#define GUARDIAN_MOUNT 8
 
 SmartPointer(PetInfo);
 class PetInfo

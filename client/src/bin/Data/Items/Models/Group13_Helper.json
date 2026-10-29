@@ -1642,6 +1642,114 @@
         "rotation": [90, 0, -45],
         "scale": 0.2
       }
+    },
+    {
+      "number": 146,
+      "file": "Data/Item/Ghosthorse_item_mask01.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 0, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 147,
+      "file": "Data/Item/hs_2GuadianiceCA.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 148,
+      "file": "Data/Item/hs_2GuadianiceCB.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 149,
+      "file": "Data/Item/hs_fiercelion_inB.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 150,
+      "file": "Data/Item/hs_fiercelion_inR.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 151,
+      "file": "Data/Item/shiningtails_in.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 152,
+      "file": "Data/Item/rare_shiningtails_in.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 153,
+      "file": "Data/Item/ur_inven.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
+    },
+    {
+      "number": 154,
+      "file": "Data/Item/urUp_inven.bmd",
+      "textureFolders": ["Item/texture"],
+      "inventory": {
+        "rotation": [270, 90, 0],
+        "scale": 0.0015
+      },
+      "ground": {
+        "rotation": [0, 0, 180]
+      }
     }
   ]
 }

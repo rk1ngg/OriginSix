@@ -157,6 +157,7 @@ namespace
 #include "GameLogic/Social/MonkSystem.h"
 #include "UI/Core/WindowSystem.h"
 #include "Render/Lighting/LightMoodSetting.h"
+#include "GameLogic/Items/GuardianMounts.h"
 
 CHARACTER* CharactersClient;
 CHARACTER CharacterView;
@@ -6236,6 +6237,10 @@ float CharacterMoveSpeed(CHARACTER* c)
                 Speed = 15;
             else if (c->Run < FENRIR_RUN_DELAY)
                 Speed = 16;
+            else if (const int guardian = GameLogic::Items::GetRiddenGuardianModel(o); guardian >= 0)
+            {
+                Speed = GameLogic::Items::GetGuardianRunSpeed(guardian);
+            }
             else
             {
                 if (c->Helper.ExcellentFlags > 0)
@@ -11461,10 +11466,14 @@ void RenderCharactersClient()
         {
             if (o->Visible)
             {
+                // The rider of an OriginSix Guardian sits on its back.
+                const float riderRaise = GameLogic::Items::GetGuardianRiderRaise(o);
+                o->Position[2] += riderRaise;
                 if (i != SelectedCharacter && i != SelectedNpc)
                     RenderCharacter(c, o);
                 else
                     RenderCharacter(c, o, true);
+                o->Position[2] -= riderRaise;
 
                 if (o->Type == MODEL_PLAYER)
                     battleCastle::CreateBattleCastleCharacter_Visual(c, o);
@@ -12731,7 +12740,22 @@ void ReadEquipmentExtended(int Key, BYTE flags, BYTE* Equipment, CHARACTER* pCha
         // offset += 2;
     }
 
-    switch (c->Helper.Type)
+    // OriginSix Guardian mount: ridden like Fenrir, shown with its own model.
+    const int guardianMount = c->Helper.Type >= 0 ? GameLogic::Items::GetGuardianMountModel(Data::Items::ToItemType(c->Helper.Type)) : -1;
+    if (guardianMount >= 0 && HelperVariant == GameLogic::Items::GuardianRiddenVariant)
+    {
+        c->Helper.Type = MODEL_HORN_OF_FENRIR;
+        if (pHelper == NULL)
+            CreateMount(guardianMount, o->Position, o);
+        else
+            CreateMountSub(guardianMount, o->Position, o, pHelper);
+    }
+    else if (guardianMount >= 0)
+    {
+        // Summoned, not ridden: the Guardian walks beside its owner.
+        ThePetProcess().CreatePet(Data::Items::ToItemType(c->Helper.Type), guardianMount, o->Position, c);
+    }
+    else switch (c->Helper.Type)
     {
     case MODEL_GUARDIAN_ANGEL:
     case MODEL_HORN_OF_UNIRIA:
@@ -12822,6 +12846,27 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
         c->TargetCharacter = HeroIndex;
         o->Kind = Data::Monsters::GetMonsterObjectKind(Type);
     }
+}
+
+// OriginSix lucky item merchants (690-696): a third class character of the merchant's class,
+// wearing its second ticket lucky set at +15. Atlans has no helm and Storm Jahad no gloves.
+static CHARACTER* CreateLuckyMerchant(int Key, int PositionX, int PositionY, CLASS_TYPE characterClass, int setNumber, bool hasHelm, bool hasGloves)
+{
+    CHARACTER* c = CreateCharacter(Key, MODEL_PLAYER, PositionX, PositionY);
+    c->Class = characterClass;
+    c->SkinIndex = gCharacterManager.GetSkinModelIndex(c->Class);
+    c->BodyPart[BODYPART_HELM].Type = hasHelm ? MODEL_HELM + setNumber : static_cast<int>(MODEL_BODY_HELM) + c->SkinIndex;
+    c->BodyPart[BODYPART_ARMOR].Type = MODEL_ARMOR + setNumber;
+    c->BodyPart[BODYPART_PANTS].Type = MODEL_PANTS + setNumber;
+    c->BodyPart[BODYPART_GLOVES].Type = hasGloves ? MODEL_GLOVES + setNumber : static_cast<int>(MODEL_BODY_GLOVES) + c->SkinIndex;
+    c->BodyPart[BODYPART_BOOTS].Type = MODEL_BOOTS + setNumber;
+    for (int part = BODYPART_HELM; part <= BODYPART_BOOTS; ++part)
+    {
+        c->BodyPart[part].Level = 15;
+    }
+
+    SetCharacterScale(c);
+    return c;
 }
 
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
@@ -14168,6 +14213,27 @@ CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Ke
         OpenNpc(MODEL_SCIENTIST);
         c = CreateCharacter(Key, MODEL_SCIENTIST, PositionX, PositionY);
         wcscpy(c->ID, L"마법사 파시");
+        break;
+    case MONSTER_LUCKY_MERCHANT_DARK_WIZARD:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_GRANDMASTER, 69, true, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_DARK_KNIGHT:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_BLADEMASTER, 67, true, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_FAIRY_ELF:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_HIGHELF, 68, true, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_MAGIC_GLADIATOR:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_DUELMASTER, 71, false, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_DARK_LORD:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_LORDEMPEROR, 66, true, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_SUMMONER:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_DIMENSIONMASTER, 70, true, true);
+        break;
+    case MONSTER_LUCKY_MERCHANT_RAGE_FIGHTER:
+        c = CreateLuckyMerchant(Key, PositionX, PositionY, CLASS_TEMPLENIGHT, 72, true, false);
         break;
     case MONSTER_LUMEN_THE_BARMAID:
         OpenNpc(MODEL_MERCHANT_FEMALE);

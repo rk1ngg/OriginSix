@@ -23,6 +23,7 @@
 #include "UI/Core/WindowSystem.h"
 #include "Scenes/MainScene.h"
 #include "GameLogic/Items/ItemCategories.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "Render/Renderer/MuRenderer.h"
 
 int EnableEvent = 0;
@@ -107,6 +108,17 @@ bool CreateMountSub(int Type, vec3_t Position, OBJECT* Owner, OBJECT* o, int Sub
         case MODEL_FENRIR_GOLD:
             o->Scale = 0.9f;
             break;
+        case MODEL_GUARDIAN_GHOST_HORSE:
+        case MODEL_GUARDIAN_ICE_DRAGON:
+        case MODEL_GUARDIAN_ICE_DRAGON_RARE:
+        case MODEL_GUARDIAN_FIERCE_LION:
+        case MODEL_GUARDIAN_FIERCE_LION_RARE:
+        case MODEL_GUARDIAN_SHINING_TAIL:
+        case MODEL_GUARDIAN_SHINING_TAIL_RARE:
+        case MODEL_GUARDIAN_ULLR:
+        case MODEL_GUARDIAN_ULLR_RARE:
+            o->Scale = GameLogic::Items::GetGuardianScale(o->Type);
+            break;
         case MODEL_DARK_HORSE:
             o->Scale = 1.f;
             break;
@@ -182,6 +194,15 @@ bool MoveMount(OBJECT* o, bool bForceRender)
         case MODEL_FENRIR_BLUE:
         case MODEL_FENRIR_RED:
         case MODEL_FENRIR_GOLD:
+        case MODEL_GUARDIAN_GHOST_HORSE:
+        case MODEL_GUARDIAN_ICE_DRAGON:
+        case MODEL_GUARDIAN_ICE_DRAGON_RARE:
+        case MODEL_GUARDIAN_FIERCE_LION:
+        case MODEL_GUARDIAN_FIERCE_LION_RARE:
+        case MODEL_GUARDIAN_SHINING_TAIL:
+        case MODEL_GUARDIAN_SHINING_TAIL_RARE:
+        case MODEL_GUARDIAN_ULLR:
+        case MODEL_GUARDIAN_ULLR_RARE:
             if ((TerrainWall[TERRAIN_INDEX_REPEAT((int)(o->Owner->Position[0] / TERRAIN_SCALE), (int)(o->Owner->Position[1] / TERRAIN_SCALE))] & TW_SAFEZONE) == TW_SAFEZONE && bForceRender == FALSE)
             {
                 o->Alpha = 0.f;
@@ -209,69 +230,69 @@ bool MoveMount(OBJECT* o, bool bForceRender)
                 || IsAliceRideAction_Fenrir(o->Owner->CurrentAction) == true
                 || o->Owner->CurrentAction == PLAYER_RAGE_FENRIR_ATTACK_RIGHT)
             {
-                SetAction(o, FENRIR_ATTACK);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_ATTACK));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_FENRIR_SKILL && o->Owner->CurrentAction <= PLAYER_FENRIR_SKILL_ONE_LEFT)
             {
-                SetAction(o, FENRIR_ATTACK_SKILL);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_ATTACK_SKILL));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_FENRIR_DAMAGE && o->Owner->CurrentAction <= PLAYER_FENRIR_DAMAGE_ONE_LEFT)
             {
-                SetAction(o, FENRIR_DAMAGE);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_DAMAGE));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_FENRIR_STAND && o->Owner->CurrentAction <= PLAYER_FENRIR_STAND_ONE_LEFT)
             {
-                SetAction(o, FENRIR_STAND);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_STAND));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction == PLAYER_DIE1)
             {
-                SetAction(o, FENRIR_STAND);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_STAND));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_DAMAGE && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_DAMAGE_ONE_LEFT)
             {
-                SetAction(o, FENRIR_DAMAGE);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_DAMAGE));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_ONE_LEFT)
             {
-                SetAction(o, FENRIR_ATTACK_SKILL);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_ATTACK_SKILL));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_STAND && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_STAND_ONE_LEFT)
             {
-                SetAction(o, FENRIR_STAND);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_STAND));
                 o->Velocity = 0.4f;
             }
             else if (o->Owner->CurrentAction >= PLAYER_SKILL_THRUST && o->Owner->CurrentAction <= PLAYER_SKILL_HP_UP_OURFORCES)
             {
-                SetAction(o, FENRIR_STAND);
+                SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_STAND));
                 o->Velocity = 0.4f;
             }
             else
             {
                 if (o->Owner->CurrentAction >= PLAYER_FENRIR_WALK && o->Owner->CurrentAction <= PLAYER_FENRIR_WALK_ONE_LEFT)
                 {
-                    SetAction(o, FENRIR_WALK);
+                    SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_WALK));
                     o->Velocity = 1.0f;
                 }
                 else if (o->Owner->CurrentAction >= PLAYER_FENRIR_RUN && o->Owner->CurrentAction <= PLAYER_FENRIR_RUN_ONE_LEFT_ELF)
                 {
-                    SetAction(o, FENRIR_RUN);
+                    SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_RUN));
                     o->Velocity = 0.6f;
                 }
                 else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_RUN && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_RUN_ONE_LEFT)
                 {
-                    SetAction(o, FENRIR_RUN);
+                    SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_RUN));
                     o->Velocity = 0.6f;
                 }
                 else if (o->Owner->CurrentAction >= PLAYER_RAGE_FENRIR_WALK && o->Owner->CurrentAction <= PLAYER_RAGE_FENRIR_WALK_TWO_SWORD)
                 {
-                    SetAction(o, FENRIR_WALK);
+                    SetAction(o, GameLogic::Items::ToGuardianMountAction(o->Type, FENRIR_WALK));
                     o->Velocity = 1.0f;
                 }
 
@@ -696,7 +717,7 @@ bool RenderMount(OBJECT* o, bool bForceRender)
             else if (SceneFlag == CHARACTER_SCENE)
                 o->Scale = 1.2f;
             else if (o->Type != MODEL_FENRIR_BLACK && o->Type != MODEL_FENRIR_BLUE && o->Type != MODEL_FENRIR_RED
-                && o->Type != MODEL_FENRIR_GOLD
+                && o->Type != MODEL_FENRIR_GOLD && !GameLogic::Items::IsGuardianMountModel(o->Type)
                 )
                 o->Scale = 1.0f;
 
@@ -706,7 +727,14 @@ bool RenderMount(OBJECT* o, bool bForceRender)
                 State = 10;
             }
 
-            RenderObject(o, false, 0, State);
+            if (GameLogic::Items::IsGuardianMountModel(o->Type))
+            {
+                GameLogic::Items::RenderGuardianModel(o, State);
+            }
+            else
+            {
+                RenderObject(o, false, 0, State);
+            }
 
             vec3_t Light;
             float  Luminosity = (float)(rand() % 30 + 70) * 0.01f;

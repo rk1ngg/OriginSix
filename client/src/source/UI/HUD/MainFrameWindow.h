@@ -11,6 +11,7 @@
 #include "UI/Core/WindowManager.h"
 #include "UI/RmlBridge/RmlThemedView.h"
 #include "UI/HUD/ItemHotKey.h"
+#include "UI/Inventory/ItemCameraTarget.h"
 #include "UI/HUD/SkillList.h"
 
 #include <memory>
@@ -101,6 +102,9 @@ namespace mu::ui::window
         CManager* m_pNewUIMng;
 
         CItemHotKey m_ItemHotKey;
+        // OriginSix: the summoned Guardian's icon in the Ctrl+Z box (#mount_icon), drawn like the item hotkeys.
+        std::unique_ptr<UI::Items::ItemCameraTarget> m_MountIconTarget;
+        bool m_bMountIconShown = false;
 
         bool m_bExpEffect;
         DWORD m_dwExpEffectTime;
@@ -157,6 +161,12 @@ namespace mu::ui::window
             float skillSlot0Cooldown = 0.f, skillSlot1Cooldown = 0.f, skillSlot2Cooldown = 0.f,
                   skillSlot3Cooldown = 0.f, skillSlot4Cooldown = 0.f;
             float currentSkillCooldown = 0.f;
+
+            // OriginSix: the Ctrl+Z box of the summoned Guardian -- shown while one is summoned,
+            // marked while ridden, with the ride cooldown wipe.
+            bool mountSlotVisible = false;
+            bool mountSlotRiding = false;
+            float mountSlotCooldown = 0.f;
 
             // Mirrors CSkillList::IsSkillGridOpen() (NOT the similarly-named IsSkillListUp() --
             // see that method's comment). Gates #skill_grid/#pet_skill_row visibility; cell arrays

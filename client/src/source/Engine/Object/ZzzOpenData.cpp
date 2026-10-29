@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
 #include "Engine/Object/ZzzObject.h"
@@ -713,6 +714,27 @@ void OpenSkills()
     gLoadData.AccessModel(MODEL_UNICON, L"Data\\Skill\\", L"Rider", 1);
     gLoadData.AccessModel(MODEL_PEGASUS, L"Data\\Skill\\", L"Rider", 2);
     gLoadData.AccessModel(MODEL_DARK_HORSE, L"Data\\Skill\\", L"DarkHorse");
+
+    // OriginSix Guardian mounts (version 15 models).
+    gLoadData.AccessModel(MODEL_GUARDIAN_GHOST_HORSE, L"Data\\Skill\\", L"ghost_horse");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_GHOST_HORSE, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_ICE_DRAGON, L"Data\\Skill\\", L"icedragon");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_ICE_DRAGON, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_ICE_DRAGON_RARE, L"Data\\Skill\\", L"icedragon_rare");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_ICE_DRAGON_RARE, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_FIERCE_LION, L"Data\\Skill\\", L"fiercelion");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_FIERCE_LION, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_FIERCE_LION_RARE, L"Data\\Skill\\", L"fiercelionR");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_FIERCE_LION_RARE, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_SHINING_TAIL, L"Data\\Skill\\", L"shiningtails");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_SHINING_TAIL, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_SHINING_TAIL_RARE, L"Data\\Skill\\", L"rare_shiningtails");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_SHINING_TAIL_RARE, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_ULLR, L"Data\\Skill\\", L"Ur");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_ULLR, L"Skill\\");
+    gLoadData.AccessModel(MODEL_GUARDIAN_ULLR_RARE, L"Data\\Skill\\", L"UrUp");
+    gLoadData.OpenTexture(MODEL_GUARDIAN_ULLR_RARE, L"Skill\\");
+    GameLogic::Items::LoadGuardianGlowTextures();
 
     gLoadData.AccessModel(MODEL_FENRIR_BLACK, L"Data\\Skill\\", L"fenril_black");
     gLoadData.OpenTexture(MODEL_FENRIR_BLACK, L"Skill\\");

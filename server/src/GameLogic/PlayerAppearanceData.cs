@@ -44,6 +44,15 @@ internal sealed class PlayerAppearanceData : IAppearanceData
         {
             if (this._player.Inventory != null)
             {
+                // An active Guardian mount appears in place of the pet.
+                if (this._player.GetActiveGuardian() is { } guardian && this._player.GetGuardianRide() != GuardianMounts.GuardianRide.MountPet)
+                {
+                    return this._player.Inventory.EquippedItems
+                        .Where(item => item.ItemSlot != InventoryConstants.PetSlot)
+                        .Append(guardian.AsAppearanceItem(this._player))
+                        .Select(item => item.GetAppearance());
+                }
+
                 return this._player.Inventory.EquippedItems.Select(item => item.GetAppearance());
             }
 

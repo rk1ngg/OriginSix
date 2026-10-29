@@ -31,6 +31,7 @@
 #include "GameLogic/Skills/SkillManager.h"
 #include "Data/GameData/ItemData/ItemModelSlots.h"
 #include "Data/GameData/MonsterData/MonsterDatabase.h"
+#include "GameLogic/Items/GuardianMounts.h"
 
 CLASS_ATTRIBUTE     ClassAttribute[MAX_CLASS];
 GATE_ATTRIBUTE* GateAttribute = NULL;
@@ -2164,6 +2165,16 @@ void CHARACTER_MACHINE::CalculateDamage()
         Character.AttackDamageMinLeft += _Temp;
         Character.AttackDamageMaxLeft += _Temp;
     }
+
+    // OriginSix: the summoned Guardian's attack.
+    if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+    {
+        const int attack = GameLogic::Items::GuardianAttacks[guardian->Type - GameLogic::Items::FirstGuardianMountItem];
+        Character.AttackDamageMinRight += attack;
+        Character.AttackDamageMaxRight += attack;
+        Character.AttackDamageMinLeft += attack;
+        Character.AttackDamageMaxLeft += attack;
+    }
 }
 
 void CHARACTER_MACHINE::CalculateCriticalDamage()
@@ -2369,6 +2380,14 @@ void CHARACTER_MACHINE::CalculateMagicDamage()
 
         Character.MagicDamageMin += _Temp;
         Character.MagicDamageMax += _Temp;
+    }
+
+    // OriginSix: the summoned Guardian's wizardry.
+    if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+    {
+        const int wizardry = GameLogic::Items::GuardianWizardries[guardian->Type - GameLogic::Items::FirstGuardianMountItem];
+        Character.MagicDamageMin += wizardry;
+        Character.MagicDamageMax += wizardry;
     }
 }
 
@@ -2703,6 +2722,12 @@ void CHARACTER_MACHINE::CalculateDefense()
     }
 
     Character.Defense += g_SocketItemMgr.m_StatusBonus.m_iDefenceBonus;
+
+    // OriginSix: the summoned Guardian's armor.
+    if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+    {
+        Character.Defense += static_cast<WORD>(GameLogic::Items::GuardianArmors[guardian->Type - GameLogic::Items::FirstGuardianMountItem]);
+    }
 
     if (Equipment[EQUIPMENT_WEAPON_LEFT].Type != -1 && Equipment[EQUIPMENT_WEAPON_LEFT].Durability != 0)
     {

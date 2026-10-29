@@ -25,6 +25,7 @@
 #endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
 
 #include "MUHelper/MuHelper.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 
 using namespace SEASON3B;
@@ -365,6 +366,12 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
     {
         MUHelper::g_MuHelper.Toggle();
         PlayBuffer(SOUND_CLICK01);
+        return false;
+    }
+    else if (mu::ui::window::IsPress('Z') && mu::ui::window::IsRepeat(VK_CONTROL))
+    {
+        // OriginSix: Ctrl+Z mounts or dismounts the summoned Guardian.
+        GameLogic::Items::ToggleGuardianRiding();
         return false;
     }
     else if (mu::ui::window::IsPress('Z'))

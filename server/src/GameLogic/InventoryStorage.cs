@@ -204,6 +204,7 @@ public class InventoryStorage : Storage, IInventoryStorage
             }
 
             this.UpdateSetPowerUps();
+            GuardianMounts.AddActivePowerUps(this._player);
         }
         else
         {

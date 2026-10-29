@@ -2241,6 +2241,9 @@ public class Player : AsyncDisposable, IBucketMapObserver, IAttackable, IAttacke
         {
             await this.DecreasePetDurabilityAsync(pet, damage).ConfigureAwait(false);
         }
+
+        // OriginSix: the active Guardian loses life like a pet.
+        await GuardianMounts.DecreaseLifeAsync(this, damage).ConfigureAwait(false);
     }
 
     private async ValueTask DecreaseDefenseItemDurabilityAsync(Item targetItem, float damage)

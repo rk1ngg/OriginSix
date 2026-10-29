@@ -275,7 +275,7 @@ TEST_CASE("Every item's tooltip is as recorded [data][items][tooltip]")
                     changedTooltips.emplace_back(key, text);
                 }
             });
-        CHECK(tooltips == 911 * 11 * 16);
+        CHECK(tooltips == 920 * 11 * 16); // 911 shipped + 9 OriginSix Guardian mounts
     }
     SetItemTooltipTextMeasure(nullptr);
 

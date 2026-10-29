@@ -4,6 +4,7 @@
 #include "I18N/All.h"
 
 #include "UI/HUD/MainFrameWindow.h"	// self
+#include "GameLogic/Items/GuardianMounts.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Widgets/UIBaseDef.h"
@@ -183,6 +184,9 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("skill_slot_3_cooldown", &model.skillSlot3Cooldown);
     c.Bind("skill_slot_4_cooldown", &model.skillSlot4Cooldown);
     c.Bind("current_skill_cooldown", &model.currentSkillCooldown);
+    c.Bind("mount_slot_visible", &model.mountSlotVisible);
+    c.Bind("mount_slot_riding", &model.mountSlotRiding);
+    c.Bind("mount_slot_cooldown", &model.mountSlotCooldown);
 
     // See CCharMakeWin::BindRmlModel()'s comment on why this must re-run in full every
     // call, including on a theme switch -- no guard here.
@@ -212,6 +216,8 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
                             g_pSkillList->OnHotkeySlotHover(args.empty() ? 0 : args[0].Get<int>(),
                                                             slot.left, slot.top);
                         });
+    c.BindEventCallback("mount_slot_click",
+        [](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { GameLogic::Items::ToggleGuardianRiding(); });
     c.BindEventCallback("skill_current_click",
         [](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { g_pSkillList->OnCurrentSkillClick(); });
     c.BindEventCallback("skill_current_hover",
@@ -297,6 +303,7 @@ void mu::ui::window::CMainFrameWindow::Release()
     UI::Placement::UnregisterParticipant("main_hud");
     UI::Placement::UnregisterParticipant("top_bar");
     m_ItemHotKey.SetSlotIconsShown(false);
+    m_MountIconTarget.reset();
 
     if (m_pNewUIMng)
     {
@@ -487,6 +494,22 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     };
 
     m_ItemHotKey.SyncSlotIcons(m_RmlView.Document());
+    if (!m_MountIconTarget)
+    {
+        m_MountIconTarget = std::make_unique<UI::Items::ItemCameraTarget>(
+            [](const Rml::Vector2f& offset, const Rml::Vector2f& size)
+            {
+                if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+                {
+                    RenderItem3D(offset.x, offset.y, size.x, size.y, guardian->Type, guardian->Level, 0, 0);
+                }
+            });
+    }
+    if (Rml::ElementDocument* document = m_RmlView.Document())
+    {
+        m_MountIconTarget->Sync(document->GetElementById("mount_icon"),
+                                m_bMountIconShown && GameLogic::Items::FindSummonedGuardian() != nullptr);
+    }
 
     // HP/MP -- legacy RenderLifeMana(). fLife/fMana there are the EMPTY fraction; store filled.
     DWORD wLifeMax, wLife, wManaMax, wMana;
@@ -727,6 +750,10 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     syncText(&MainFrameRmlModel::itemSlot3Count, "item_slot_3_count", stackCountText(m_ItemHotKey.GetSlotItemCount(3)));
     syncFloat(&MainFrameRmlModel::currentSkillCooldown, "current_skill_cooldown", g_pSkillList->GetCurrentSkillCooldownFraction());
 
+    syncBool(&MainFrameRmlModel::mountSlotVisible, "mount_slot_visible", GameLogic::Items::FindSummonedGuardian() != nullptr);
+    syncBool(&MainFrameRmlModel::mountSlotRiding, "mount_slot_riding", GameLogic::Items::IsHeroRidingGuardian());
+    syncFloat(&MainFrameRmlModel::mountSlotCooldown, "mount_slot_cooldown", GameLogic::Items::GetGuardianRideCooldownFraction());
+
     syncBool(&MainFrameRmlModel::skillGridOpen, "skill_grid_open", g_pSkillList->IsSkillGridOpen());
     syncBool(&MainFrameRmlModel::skillListUp, "skill_list_up", g_pSkillList->IsSkillListUp());
 
@@ -923,5 +950,10 @@ void mu::ui::window::CMainFrameWindow::SyncDocVisibility(bool sceneAllowsShow)
 
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), show);
     m_ItemHotKey.SetSlotIconsShown(show);
+    m_bMountIconShown = show;
+    if (!show && m_MountIconTarget)
+    {
+        m_MountIconTarget->Disable();
+    }
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(1), show);
 }

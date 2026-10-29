@@ -112,6 +112,7 @@ using namespace mu::ui::window;
 #include "Network/Server/ServerListManager.h"
 #include "GameLogic/Items/ItemCategories.h"
 #include "Data/GameData/ItemData/ItemModelSlots.h"
+#include "GameLogic/Items/GuardianMounts.h"
 
 #define MAX_DEBUG_MAX 10
 
@@ -2465,10 +2466,37 @@ void ReceiveChangePlayer(std::span<const BYTE> ReceiveBuffer)
         }
         break;
     case 8:
+    {
+        // A Guardian appears with the summoning effect, but not when its owner only mounts or dismounts it.
+        const bool hadGuardian = GameLogic::Items::IsGuardianMountItem(Data::Items::ToItemType(c->Helper.Type))
+                                 || GameLogic::Items::IsRidingGuardianMount(o);
         DeleteCharacterCompanions(c);
         if (Data->ItemGroup == 0xFF)
         {
             c->Helper.Type = -1;
+        }
+        else if (const int guardianMount = GameLogic::Items::GetGuardianMountModel(Type); guardianMount >= 0)
+        {
+            // OriginSix Guardian mount: ridden like Fenrir with its own model, or walking beside its owner.
+            c->Helper.Level = 0;
+            c->Helper.ExcellentFlags = 0;
+            if ((Data->ExcellentFlags & GameLogic::Items::GuardianRiddenExcellentFlag) != 0)
+            {
+                c->Helper.Type = MODEL_HORN_OF_FENRIR;
+                CreateMount(guardianMount, o->Position, o);
+            }
+            else
+            {
+                c->Helper.Type = Data::Items::ToModelSlot(Type);
+                ThePetProcess().CreatePet(Type, guardianMount, o->Position, c);
+                if (!hadGuardian)
+                {
+                    // The white spark of a character appearing after the character selection.
+                    vec3_t white = {1.f, 1.f, 1.f};
+                    CreateEffect(BITMAP_SPARK + 1, o->Position, o->Angle, white);
+                    PlayBuffer(SOUND_MAGIC);
+                }
+            }
         }
         else
         {
@@ -2528,8 +2556,19 @@ void ReceiveChangePlayer(std::span<const BYTE> ReceiveBuffer)
                 ThePetProcess().CreatePet(Type, c->Helper.Type, o->Position, c);
                 break;
             }
+
+            // OriginSix: the hero riding the mount pet keeps the summoned Guardian walking beside.
+            // Other players only learn of the pet, so they see the pet alone.
+            if (c == Hero)
+            {
+                if (const ITEM* guardian = GameLogic::Items::FindSummonedGuardian())
+                {
+                    ThePetProcess().CreatePet(guardian->Type, GameLogic::Items::GetGuardianMountModel(guardian->Type), o->Position, c);
+                }
+            }
         }
         break;
+    }
     }
 
     // Ancient full-set glow state (purple aura) is sent explicitly per equipment change.
@@ -6322,6 +6361,14 @@ void ReceiveModifyItemExtended(std::span<const BYTE> ReceiveBuffer)
     else
     {
         PlayBuffer(SOUND_JEWEL01);
+    }
+
+    // OriginSix: summoning or dismissing a Guardian changes its skill flag, and the armor it adds.
+    // (iType above is of the ground items, not of the inventory.)
+    if (const ITEM* modified = IsPlayerInventorySlot(itemindex) ? UI::Inventory::FindPlayerItem(itemindex) : nullptr;
+        modified != nullptr && GameLogic::Items::IsGuardianMountItem(modified->Type))
+    {
+        CharacterMachine->CalculateAll();
     }
 }
 

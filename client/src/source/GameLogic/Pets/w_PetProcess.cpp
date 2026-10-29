@@ -2,12 +2,14 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "w_PetActionStand.h"
 #include "w_PetActionRound.h"
 #include "w_PetActionDemon.h"
 #include "w_PetActionCollecter.h"
 #include "w_PetActionCollecter_Add.h"
 #include "w_PetActionUnicorn.h"
+#include "w_PetActionGuardian.h"
 #include "w_PetProcess.h"
 #include "Core/Utilities/ReadScript.h"
 #include "GameLogic/Pets/CompanionCleanup.h"
@@ -108,6 +110,9 @@ void PetProcess::Init()
 
     PetActionCollecterSkeletonPtr actionCollecter_Skeleton = PetActionCollecterSkeleton::Make();
     m_petsAction.insert(make_pair(SKELETON, actionCollecter_Skeleton));
+
+    PetActionGuardianPtr actionGuardian = PetActionGuardian::Make();
+    m_petsAction.insert(make_pair(GUARDIAN_MOUNT, actionGuardian));
 
     LoadData();
 }
@@ -266,6 +271,18 @@ bool PetProcess::LoadData()
     delete[] _action;
     delete[] _speed;
     delete[] Buffer;
+
+    // OriginSix Guardian mounts walk beside their owner while they are not ridden.
+    for (int itemType = GameLogic::Items::FirstGuardianMountItem; itemType <= GameLogic::Items::LastGuardianMountItem; ++itemType)
+    {
+        int guardianAction[] = {GUARDIAN_MOUNT};
+        float guardianSpeed[] = {0.25f};
+        PetInfoPtr guardianInfo = PetInfo::Make();
+        guardianInfo->SetBlendMesh(-1);
+        guardianInfo->SetScale(GameLogic::Items::GetGuardianScale(GameLogic::Items::GetGuardianMountModel(itemType)));
+        guardianInfo->SetActions(1, guardianAction, guardianSpeed);
+        m_petsInfo.insert(make_pair(itemType, guardianInfo));
+    }
 
     return TRUE;
 }
