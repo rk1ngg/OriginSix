@@ -118,11 +118,32 @@ public sealed class ItemAwareAttributeSystem : AttributeSystem
     /// <param name="account">The account.</param>
     /// <param name="character">The character.</param>
     /// <returns>The distinct stat attributes of the character and its account.</returns>
+    /// <summary>
+    /// OriginSix: the attack and magic speed cap of game masters, instead of the configured one (200 by default)
+    /// which applies to the other players.
+    /// </summary>
+    internal const float GameMasterSpeedCap = 300;
+
     private static IEnumerable<IAttribute> GetStatAttributes(Account account, Character character)
     {
-        return character.Attributes.Concat(account.Attributes)
+        IEnumerable<IAttribute> attributes = character.Attributes.Concat(account.Attributes)
             .DistinctBy(attribute => attribute.Definition);
+        if (character.CharacterStatus == CharacterStatus.GameMaster || account.State == AccountState.GameMaster)
+        {
+            // The speeds of a game master get their own cap: an attribute definition with the same id, so the
+            // relationships and power-ups of the configured speeds compose into it.
+            attributes = attributes.Concat(new IAttribute[]
+            {
+                new ComposableAttribute(WithMaximum(Stats.AttackSpeed, GameMasterSpeedCap)),
+                new ComposableAttribute(WithMaximum(Stats.MagicSpeed, GameMasterSpeedCap)),
+            });
+        }
+
+        return attributes;
     }
+
+    private static AttributeDefinition WithMaximum(AttributeDefinition definition, float maximum)
+        => new(definition.Id, definition.Designation ?? string.Empty, definition.Description ?? string.Empty) { MaximumValue = maximum };
 
     private void ReleaseItemPowerUps()
     {
