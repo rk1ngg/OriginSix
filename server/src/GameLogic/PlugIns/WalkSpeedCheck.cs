@@ -184,7 +184,11 @@ internal sealed class WalkSpeedCheck
 
     private static double GetToleranceMs(SpeedHackDetectConfiguration config, double stepDelayMs)
     {
-        return config.WalkSpeedToleranceMs * (stepDelayMs / WalkSpeedValidator.NormalStepDelayMs);
+        // The tolerance is a duration: a network stall or a burst of walk requests costs the same
+        // wall-clock time whether the character walks or rides. A mount walks its tiles in less time, so
+        // scaling the tolerance down by its step delay would shrink the budget for the same burst. The
+        // tolerance is consequently never scaled below its configured value; only a slower mover gets more.
+        return config.WalkSpeedToleranceMs * Math.Max(1.0, stepDelayMs / WalkSpeedValidator.NormalStepDelayMs);
     }
 
     private static SpeedHackViolationSeverity GetSeverity(SpeedHackDetectConfiguration config, SpeedHackState state)

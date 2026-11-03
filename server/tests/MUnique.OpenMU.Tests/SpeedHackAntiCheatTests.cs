@@ -793,6 +793,59 @@ public class SpeedHackAntiCheatTests
     }
 
     /// <summary>
+    /// Tests that a mounted player who clicks short walks in quick succession is not flagged
+    /// (false positive from the field: a game master on a Gold Fenrir got disconnected).
+    /// A mount walks its tiles in less time, so the walk credit used to shrink with the step
+    /// delay, and the client's requests - whose rate does not depend on how fast the character
+    /// walks - drained the smaller credit and turned every click into a violation.
+    /// </summary>
+    [Test]
+    public async Task TestQuickShortWalksOnFastMountDoNotTriggerViolationAsync()
+    {
+        var mountItem = new Item
+        {
+            ItemSlot = MUnique.OpenMU.DataModel.InventoryConstants.PetSlot,
+            Definition = new ItemDefinition
+            {
+                Group = 13,
+                Number = 37, // Fenrir
+            }
+        };
+        var (player, plugin, timeProvider) = await CreateStrictWalkPlayerAsync(new List<Item> { mountItem }).ConfigureAwait(false);
+        plugin.Configuration!.WalkSpeedToleranceMs = 1000;
+        player.Attributes![Stats.MovementSpeed] = 19; // upgraded Fenrir
+        player.Position = StartPoint;
+        var stepDelay = player.StepDelay;
+        Assert.That(stepDelay.TotalMilliseconds, Is.EqualTo(4000.0 / 19.0).Within(0.1));
+
+        // Click short walks: the first ones at the mount's pace, then the connection stalls for a
+        // moment, and the walks of the following clicks are executed at once. The burst costs the
+        // same wall-clock time as on foot, so the tolerance must not shrink below the configured
+        // value for the faster mover: the ten steps of the burst fit into the window and the
+        // configured tolerance, but not into a tolerance scaled down by the mount's step delay.
+        var severities = new List<SpeedHackViolationSeverity>();
+        for (int i = 0; i < 13; i++)
+        {
+            if (i < 3)
+            {
+                timeProvider.Advance(stepDelay);
+            }
+            else if (i == 3)
+            {
+                timeProvider.Advance(stepDelay * 5);
+            }
+
+            var from = new Point((byte)(StartPoint.X + i), StartPoint.Y);
+            var to = new Point((byte)(from.X + 1), from.Y);
+            severities.Add(await RecordStepAndCheckAsync(player, plugin, from, to).ConfigureAwait(false));
+        }
+
+        Assert.That(severities, Is.All.EqualTo(SpeedHackViolationSeverity.None));
+        Assert.That(plugin.GetWarningCount(player), Is.EqualTo(0));
+        Assert.That(player.Account?.State, Is.EqualTo(AccountState.Normal));
+    }
+
+    /// <summary>
     /// Tests that privileged accounts (game masters, spectators) are never banned or disconnected, even when exceeding the warning limit.
     /// </summary>
     /// <param name="accountState">The privileged account state.</param>
@@ -1466,7 +1519,7 @@ public class SpeedHackAntiCheatTests
         var plugin = player.GameContext.FeaturePlugIns.GetPlugIn<SpeedHackDetectPlugIn>()!;
 
         // The same walk pattern which bans a regular player in TestWalkSpeedHackDetectionBansAccountAsync.
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 13; i++)
         {
             var nextFrom = new Point((byte)(StartPoint.X + (i * 2)), StartPoint.Y);
             var nextTo = new Point((byte)(StartPoint.X + (i * 2) + 2), StartPoint.Y);
