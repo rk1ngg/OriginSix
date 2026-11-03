@@ -16,7 +16,7 @@ services:
       retries: 30
 
   openmu:
-    image: originsix-openmu:upstream-20261104
+    image: originsix-openmu:upstream-20261104b
     environment:
       DB_HOST: database
       DB_ADMIN_USER: postgres
