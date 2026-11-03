@@ -339,67 +339,88 @@ public class IllusionTempleDataUpdatePlugIn : UpdatePlugInBase
                 continue;
             }
 
-            this.RemoveObsoleteStatueSpawns(map);
-
-            if (map.MonsterSpawns.Any(spawn => spawn.MonsterDefinition == stoneStatue))
+            var obsoleteSpawns = this.GetObsoleteStatueSpawns(map);
+            try
             {
-                continue;
-            }
-
-            short spawnNumber = 100;
-            foreach (var (x, y) in StatuePositions)
-            {
-                // Only one of the pool positions is spawned at a time, randomly picked by the game logic.
-                this.AddSpawn(context, map, spawnNumber++, stoneStatue, x, y, SpawnTrigger.ManuallyForEvent);
-            }
-
-            this.AddSpawn(context, map, spawnNumber++, allianceGuardian, AllianceGuardianPosition.X, AllianceGuardianPosition.Y, SpawnTrigger.AutomaticDuringEvent);
-            this.AddSpawn(context, map, spawnNumber++, illusionGuardian, IllusionGuardianPosition.X, IllusionGuardianPosition.Y, SpawnTrigger.AutomaticDuringEvent);
-            this.AddSpawn(context, map, spawnNumber++, allianceBox, AllianceBoxPosition.X, AllianceBoxPosition.Y, SpawnTrigger.AutomaticDuringEvent);
-            this.AddSpawn(context, map, spawnNumber++, illusionBox, IllusionBoxPosition.X, IllusionBoxPosition.Y, SpawnTrigger.AutomaticDuringEvent);
-
-            if (temple.ArenaMonsterCycleLength <= 0)
-            {
-                continue;
-            }
-
-            for (var i = 0; i < ArenaMonsterPositions.Length; i++)
-            {
-                var monsterNumber = (short)(temple.ArenaMonsterBase + (i % temple.ArenaMonsterCycleLength));
-                var monsterDefinition = gameConfiguration.Monsters.FirstOrDefault(monster => monster.Number == monsterNumber);
-                if (monsterDefinition is null)
+                if (map.MonsterSpawns.Any(spawn => spawn.MonsterDefinition == stoneStatue))
                 {
                     continue;
                 }
 
-                var (x, y) = ArenaMonsterPositions[i];
-                this.AddSpawn(context, map, spawnNumber++, monsterDefinition, x, y, SpawnTrigger.AutomaticDuringEvent);
+                short spawnNumber = 100;
+                foreach (var (x, y) in StatuePositions)
+                {
+                    // Only one of the pool positions is spawned at a time, randomly picked by the game logic.
+                    this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, stoneStatue, x, y, SpawnTrigger.ManuallyForEvent);
+                }
+
+                this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, allianceGuardian, AllianceGuardianPosition.X, AllianceGuardianPosition.Y, SpawnTrigger.AutomaticDuringEvent);
+                this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, illusionGuardian, IllusionGuardianPosition.X, IllusionGuardianPosition.Y, SpawnTrigger.AutomaticDuringEvent);
+                this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, allianceBox, AllianceBoxPosition.X, AllianceBoxPosition.Y, SpawnTrigger.AutomaticDuringEvent);
+                this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, illusionBox, IllusionBoxPosition.X, IllusionBoxPosition.Y, SpawnTrigger.AutomaticDuringEvent);
+
+                if (temple.ArenaMonsterCycleLength <= 0)
+                {
+                    continue;
+                }
+
+                for (var i = 0; i < ArenaMonsterPositions.Length; i++)
+                {
+                    var monsterNumber = (short)(temple.ArenaMonsterBase + (i % temple.ArenaMonsterCycleLength));
+                    var monsterDefinition = gameConfiguration.Monsters.FirstOrDefault(monster => monster.Number == monsterNumber);
+                    if (monsterDefinition is null)
+                    {
+                        continue;
+                    }
+
+                    var (x, y) = ArenaMonsterPositions[i];
+                    this.AddSpawn(context, map, obsoleteSpawns, spawnNumber++, monsterDefinition, x, y, SpawnTrigger.AutomaticDuringEvent);
+                }
+            }
+            finally
+            {
+                foreach (var spawn in obsoleteSpawns)
+                {
+                    map.MonsterSpawns.Remove(spawn);
+                }
             }
         }
     }
 
     /// <summary>
-    /// Removes the previous "Cursed Statue" / "Captured Stone Statue" spawns (NPC 658 to 668) from a
+    /// Gets the previous "Cursed Statue" / "Captured Stone Statue" spawns (NPC 658 to 668) of a
     /// temple map. They were placeholders based on the wrong NPC numbers - the event actually uses a
     /// single "Stone Statue" (380), which is picked at random from a small pool of positions. Leaving
-    /// the old ones in place would litter the arena with statues that have no function.
+    /// the old ones in place would litter the arena with statues that have no function, so the ones
+    /// which aren't reused for a new spawn are removed.
     /// </summary>
     /// <param name="map">The temple map to clean up.</param>
-    private void RemoveObsoleteStatueSpawns(GameMapDefinition map)
+    /// <returns>The obsolete spawns.</returns>
+    private List<MonsterSpawnArea> GetObsoleteStatueSpawns(GameMapDefinition map)
     {
-        var obsoleteSpawns = map.MonsterSpawns
+        return map.MonsterSpawns
             .Where(spawn => spawn.MonsterDefinition?.Number is >= ObsoleteStatueRangeStart and <= ObsoleteStatueRangeEnd)
             .ToList();
-        foreach (var spawn in obsoleteSpawns)
-        {
-            map.MonsterSpawns.Remove(spawn);
-        }
     }
 
-    private void AddSpawn(IContext context, GameMapDefinition map, short spawnNumber, MonsterDefinition monsterDefinition, byte x, byte y, SpawnTrigger spawnTrigger)
+    private void AddSpawn(IContext context, GameMapDefinition map, List<MonsterSpawnArea> obsoleteSpawns, short spawnNumber, MonsterDefinition monsterDefinition, byte x, byte y, SpawnTrigger spawnTrigger)
     {
-        var area = context.CreateNew<MonsterSpawnArea>();
-        area.SetGuid(map.Number, spawnNumber);
+        // The obsolete statues got the same identifiers as the new spawns, so one with the identifier
+        // of the new spawn is reused. Removing it and adding a new spawn with its identifier would track
+        // two spawns with the same key.
+        var id = GuidHelper.CreateGuid<MonsterSpawnArea>(map.Number, spawnNumber);
+        var area = obsoleteSpawns.FirstOrDefault(spawn => spawn.GetId() == id);
+        if (area is not null)
+        {
+            obsoleteSpawns.Remove(area);
+        }
+        else
+        {
+            area = context.CreateNew<MonsterSpawnArea>();
+            area.SetGuid(map.Number, spawnNumber);
+            map.MonsterSpawns.Add(area);
+        }
+
         area.GameMap = map;
         area.MonsterDefinition = monsterDefinition;
         area.Quantity = 1;
@@ -409,7 +430,8 @@ public class IllusionTempleDataUpdatePlugIn : UpdatePlugInBase
         area.X2 = x;
         area.Y1 = y;
         area.Y2 = y;
-        map.MonsterSpawns.Add(area);
+        area.WaveNumber = 0;
+        area.MaximumHealthOverride = null;
     }
 
     /// <summary>
