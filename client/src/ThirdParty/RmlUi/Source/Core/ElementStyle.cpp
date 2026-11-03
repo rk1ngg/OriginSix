@@ -978,6 +978,23 @@ PropertyIdSet ElementStyle::ComputeValues(Style::ComputedValues& values, const S
 		resolved_unit_dependencies.reset();
 #endif
 
+	// Font-size and line-height are computed ahead of the loop below, which is where properties that use a changed
+	// variable are dirtied, so check these two here: otherwise they keep their old value after a variable change.
+	if (!dirty_variables.empty())
+	{
+		for (const PropertyId id : {PropertyId::FontSize, PropertyId::LineHeight})
+		{
+			const Property* property = GetLocalProperty(id);
+			if (!property || dirty_properties.Contains(id))
+				continue;
+			variable_dependencies.clear();
+			ResolveVariables(id, property, variable_dependencies, property_storage);
+			if (std::any_of(variable_dependencies.begin(), variable_dependencies.end(),
+					[&](const String& name) { return dirty_variables.count(name) != 0; }))
+				dirty_properties.Insert(id);
+		}
+	}
+
 	// Always do font-size first if dirty, because of em-relative values
 	if (dirty_properties.Contains(PropertyId::FontSize))
 	{

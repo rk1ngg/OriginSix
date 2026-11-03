@@ -170,6 +170,86 @@ TEST_CASE("custom_properties.inheritance_change_variable")
 	TestsShell::ShutdownShell();
 }
 
+TEST_CASE("custom_properties.change_variable_font_size_line_height")
+{
+	static const String rml = R"(
+<rml>
+<head>
+	<style>
+	body {
+		--text: 10px;
+		--line: 2;
+	}
+	#outer {
+		--inner-text: var(--text);
+	}
+	#direct {
+		font-size: var(--text);
+		line-height: var(--line);
+		padding-left: 1em;
+	}
+	#nested {
+		font-size: var(--inner-text);
+		padding-left: 2em;
+	}
+	#line {
+		font-size: 10px;
+		line-height: var(--text);
+	}
+	</style>
+</head>
+
+<body id="body">
+<div id="outer">
+	<p id="direct"/>
+	<div><p id="nested"/></div>
+	<p id="line"/>
+</div>
+</body>
+</rml>
+)";
+
+	Context* context = TestsShell::GetContext();
+	ElementDocument* document = context->LoadDocumentFromMemory(rml);
+	document->Show();
+	TestsShell::RenderLoop();
+
+	Element* outer = document->GetElementById("outer");
+	Element* direct = document->GetElementById("direct");
+	Element* nested = document->GetElementById("nested");
+	Element* line = document->GetElementById("line");
+
+	CHECK(direct->GetComputedValues().font_size() == doctest::Approx(10.f));
+	CHECK(direct->GetComputedValues().line_height().value == doctest::Approx(20.f));
+	CHECK(direct->GetBox().GetEdge(BoxArea::Padding, BoxEdge::Left) == doctest::Approx(10.f));
+	CHECK(nested->GetComputedValues().font_size() == doctest::Approx(10.f));
+	CHECK(nested->GetBox().GetEdge(BoxArea::Padding, BoxEdge::Left) == doctest::Approx(20.f));
+	CHECK(line->GetComputedValues().line_height().value == doctest::Approx(10.f));
+
+	// Changing the variables later must recompute font-size and line-height, and the em lengths that depend on them.
+	document->SetProperty("--text", "20px");
+	document->SetProperty("--line", "3");
+	TestsShell::RenderLoop();
+
+	CHECK(direct->GetComputedValues().font_size() == doctest::Approx(20.f));
+	CHECK(direct->GetComputedValues().line_height().value == doctest::Approx(60.f));
+	CHECK(direct->GetBox().GetEdge(BoxArea::Padding, BoxEdge::Left) == doctest::Approx(20.f));
+	CHECK(nested->GetComputedValues().font_size() == doctest::Approx(20.f));
+	CHECK(nested->GetBox().GetEdge(BoxArea::Padding, BoxEdge::Left) == doctest::Approx(40.f));
+	CHECK(line->GetComputedValues().line_height().value == doctest::Approx(20.f));
+
+	// A variable changed on an ancestor through a chained custom property.
+	outer->SetProperty("--inner-text", "15px");
+	TestsShell::RenderLoop();
+
+	CHECK(nested->GetComputedValues().font_size() == doctest::Approx(15.f));
+	CHECK(nested->GetBox().GetEdge(BoxArea::Padding, BoxEdge::Left) == doctest::Approx(30.f));
+	CHECK(direct->GetComputedValues().font_size() == doctest::Approx(20.f));
+
+	document->Close();
+	TestsShell::ShutdownShell();
+}
+
 TEST_CASE("custom_properties.shorthands")
 {
 	static const String shorthand_rml = R"(
