@@ -285,6 +285,42 @@
   <data name="FruitConsumeHandlerPlugIn_Description" xml:space="preserve">
     <value>Plugin which handles the fruit consumption.</value>
   </data>
+  <data name="StrengthResetFruitConsumeHandlerPlugIn_Name" xml:space="preserve">
+    <value>Reset Fruit of Strength Consume Handler</value>
+  </data>
+  <data name="StrengthResetFruitConsumeHandlerPlugIn_Description" xml:space="preserve">
+    <value>Plugin which handles the reset fruit of strength, which takes back invested strength points and returns them as level up points.</value>
+  </data>
+  <data name="AgilityResetFruitConsumeHandlerPlugIn_Name" xml:space="preserve">
+    <value>Reset Fruit of Agility Consume Handler</value>
+  </data>
+  <data name="AgilityResetFruitConsumeHandlerPlugIn_Description" xml:space="preserve">
+    <value>Plugin which handles the reset fruit of agility, which takes back invested agility points and returns them as level up points.</value>
+  </data>
+  <data name="VitalityResetFruitConsumeHandlerPlugIn_Name" xml:space="preserve">
+    <value>Reset Fruit of Vitality Consume Handler</value>
+  </data>
+  <data name="VitalityResetFruitConsumeHandlerPlugIn_Description" xml:space="preserve">
+    <value>Plugin which handles the reset fruit of vitality, which takes back invested vitality points and returns them as level up points.</value>
+  </data>
+  <data name="EnergyResetFruitConsumeHandlerPlugIn_Name" xml:space="preserve">
+    <value>Reset Fruit of Energy Consume Handler</value>
+  </data>
+  <data name="EnergyResetFruitConsumeHandlerPlugIn_Description" xml:space="preserve">
+    <value>Plugin which handles the reset fruit of energy, which takes back invested energy points and returns them as level up points.</value>
+  </data>
+  <data name="CommandResetFruitConsumeHandlerPlugIn_Name" xml:space="preserve">
+    <value>Reset Fruit of Command Consume Handler</value>
+  </data>
+  <data name="CommandResetFruitConsumeHandlerPlugIn_Description" xml:space="preserve">
+    <value>Plugin which handles the reset fruit of command, which takes back invested command points and returns them as level up points.</value>
+  </data>
+  <data name="ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Name" xml:space="preserve">
+    <value>Points per durability</value>
+  </data>
+  <data name="ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Description" xml:space="preserve">
+    <value>The number of stat points which one durability of a reset fruit takes back.</value>
+  </data>
   <data name="HarmonyJewelConsumeHandlerPlugIn_Name" xml:space="preserve">
     <value>Harmony Jewel Consume Handler</value>
   </data>
@@ -734,6 +770,12 @@
   </data>
   <data name="StartChaosCastleEventChatCommandPlugIn_Description" xml:space="preserve">
     <value>Handles the chat command '/startcc'. Starts the chaos castle event at the next possible time.</value>
+  </data>
+  <data name="StartIllusionTempleEventChatCommandPlugIn_Name" xml:space="preserve">
+    <value>Start Illusion Temple Event Chat Command</value>
+  </data>
+  <data name="StartIllusionTempleEventChatCommandPlugIn_Description" xml:space="preserve">
+    <value>Handles the chat command '/startit'. Starts the illusion temple event at the next possible time.</value>
   </data>
   <data name="StartDevilSquareEventChatCommandPlugIn_Name" xml:space="preserve">
     <value>Start Devil Square Event Chat Command</value>
@@ -1362,6 +1404,8 @@
   <data name="BotFeaturePlugIn_Description" xml:space="preserve"><value>Spawns server-side bots which hunt monsters on the maps. Configure the accounts to animate and enable the feature.</value></data>
   <data name="MaximumConnectionsPerIpPlugIn_Name" xml:space="preserve"><value>Maximum Connections Per IP</value></data>
   <data name="MaximumConnectionsPerIpPlugIn_Description" xml:space="preserve"><value>Limits the maximum number of parallel connections from the same IP address.</value></data>
+  <data name="LoginTimeoutPlugIn_Name" xml:space="preserve"><value>Login Timeout</value></data>
+  <data name="LoginTimeoutPlugIn_Description" xml:space="preserve"><value>Disconnects clients which don't log in within the configured time after they connected.</value></data>
   <data name="SpeedHackDetectPlugIn_Name" xml:space="preserve"><value>Speedhack Anti-Cheat</value></data>
   <data name="SpeedHackDetectPlugIn_Description" xml:space="preserve"><value>Detects and prevents player walk and attack speedhacking.</value></data>
   <data name="KanturuGatewayPlugIn_Name" xml:space="preserve"><value>KanturuGatewayPlugIn</value></data>
@@ -1424,11 +1468,17 @@
   <data name="MonsterAttributeScalerConfiguration_DamagePercentage_Caption" xml:space="preserve"><value>Damage Percentage</value></data>
   <data name="MonsterAttributeScalerConfiguration_ScaleAllPercentage_Caption" xml:space="preserve"><value>Scale All Percentage</value></data>
   <data name="MaximumConnectionsPerIpPlugInConfiguration_MaximumConnectionsPerIp_Caption" xml:space="preserve"><value>Maximum Connections Per Ip</value></data>
+  <data name="LoginTimeoutPlugInConfiguration_Timeout_Caption" xml:space="preserve"><value>Timeout</value></data>
   <data name="SpeedHackDetectConfiguration_AttackSpeedMinIntervalMs_Caption" xml:space="preserve"><value>Attack Speed Min Interval Ms</value></data>
   <data name="SpeedHackDetectConfiguration_AttackSpeedScalingFactor_Caption" xml:space="preserve"><value>Attack Speed Scaling Factor</value></data>
   <data name="SpeedHackDetectConfiguration_AttackSpeedBaseDelayMs_Caption" xml:space="preserve"><value>Attack Speed Base Delay Ms</value></data>
   <data name="SpeedHackDetectConfiguration_MaxAttackTokens_Caption" xml:space="preserve"><value>Max Attack Tokens</value></data>
   <data name="SpeedHackDetectConfiguration_MaxAllowedWalkStartOffset_Caption" xml:space="preserve"><value>Max Allowed Walk Start Offset</value></data>
+  <data name="SpeedHackDetectConfiguration_SkillHitAreaRangeSlack_Caption" xml:space="preserve"><value>Skill Hit Area Range Slack</value></data>
+  <data name="SpeedHackDetectConfiguration_SkillHitCounterReplayWindowMs_Caption" xml:space="preserve"><value>Skill Hit Counter Replay Window Ms</value></data>
+  <data name="SpeedHackDetectConfiguration_SkillHitMaxAreaToHitDelaySeconds_Caption" xml:space="preserve"><value>Skill Hit Max Area To Hit Delay Seconds</value></data>
+  <data name="SpeedHackDetectConfiguration_EnforceWalkSpeed_Caption" xml:space="preserve"><value>Enforce Walk Speed</value></data>
+  <data name="SpeedHackDetectConfiguration_WalkSpeedWindowSeconds_Caption" xml:space="preserve"><value>Walk Speed Window Seconds</value></data>
   <data name="SpeedHackDetectConfiguration_WalkSpeedToleranceMs_Caption" xml:space="preserve"><value>Walk Speed Tolerance Ms</value></data>
   <data name="SpeedHackDetectConfiguration_WarningHistoryHours_Caption" xml:space="preserve"><value>Warning History Hours</value></data>
   <data name="SpeedHackDetectConfiguration_AlertDebounceSeconds_Caption" xml:space="preserve"><value>Alert Debounce Seconds</value></data>
@@ -1438,6 +1488,21 @@
   <data name="SpeedHackDetectConfiguration_ViolationScoreRejectThreshold_Caption" xml:space="preserve"><value>Violation Score Reject Threshold</value></data>
   <data name="SpeedHackDetectConfiguration_ViolationScoreHalfLifeMinutes_Caption" xml:space="preserve"><value>Violation Score Half Life Minutes</value></data>
   <data name="SpeedHackDetectConfiguration_AutoBan_Caption" xml:space="preserve"><value>Auto Ban</value></data>
+  <data name="SpeedHackDetectConfiguration_MagicSpeedBaseDelayMs_Caption" xml:space="preserve"><value>Magic Speed Base Delay Ms</value></data>
+  <data name="SpeedHackDetectConfiguration_MagicSpeedScalingFactor_Caption" xml:space="preserve"><value>Magic Speed Scaling Factor</value></data>
+  <data name="SpeedHackDetectConfiguration_MagicSpeedMinIntervalMs_Caption" xml:space="preserve"><value>Magic Speed Min Interval Ms</value></data>
+  <data name="SpeedHackDetectConfiguration_PingClockToleranceMs_Caption" xml:space="preserve"><value>Ping Clock Tolerance Ms</value></data>
+  <data name="SpeedHackDetectConfiguration_PingAttackSpeedTolerance_Caption" xml:space="preserve"><value>Ping Attack Speed Tolerance</value></data>
+  <data name="SpeedHackDetectConfiguration_AttackSpeedProfiles_Caption" xml:space="preserve"><value>Per-Skill Attack Speed Profiles</value></data>
+  <data name="SpeedHackDetectConfiguration_AttackSpeedProfiles_Description" xml:space="preserve"><value>Optional overrides for individual skills. A profile replaces the common attack or magic speed settings for its skill.</value></data>
+  <data name="AttackSpeedProfile_SkillId_Caption" xml:space="preserve"><value>Skill Id</value></data>
+  <data name="AttackSpeedProfile_SpeedSource_Caption" xml:space="preserve"><value>Speed Source</value></data>
+  <data name="AttackSpeedProfile_SpeedSource_Description" xml:space="preserve"><value>Which speed attribute scales the delay: Attack Speed for physical skills, Magic Speed for wizardry and curse skills.</value></data>
+  <data name="AttackSpeedProfile_BaseDelayMs_Caption" xml:space="preserve"><value>Base Delay Ms</value></data>
+  <data name="AttackSpeedProfile_ScalingFactor_Caption" xml:space="preserve"><value>Scaling Factor</value></data>
+  <data name="AttackSpeedProfile_MinimumIntervalMs_Caption" xml:space="preserve"><value>Minimum Interval Ms</value></data>
+  <data name="AttackSpeedSource_AttackSpeed" xml:space="preserve"><value>Attack Speed</value></data>
+  <data name="AttackSpeedSource_MagicSpeed" xml:space="preserve"><value>Magic Speed</value></data>
   <data name="InvasionSpawnConfiguration_Y_Caption" xml:space="preserve"><value>Y</value></data>
   <data name="InvasionSpawnConfiguration_X_Caption" xml:space="preserve"><value>X</value></data>
   <data name="InvasionSpawnConfiguration_IsSpawnOnAllMaps_Caption" xml:space="preserve"><value>Is Spawn On All Maps</value></data>
@@ -1519,6 +1584,24 @@
   </data>
   <data name="BloodCastleArchangelTalkPlugIn_Description" xml:space="preserve">
     <value>Handles talking to the Archangel in the blood castle event, where players hand in the quest item to win the event.</value>
+  </data>
+  <data name="IllusionTempleStoneStatueTalkPlugIn_Name" xml:space="preserve">
+    <value>Illusion Temple Stone Statue</value>
+  </data>
+  <data name="IllusionTempleStoneStatueTalkPlugIn_Description" xml:space="preserve">
+    <value>Handles talking to the Stone Statue in the illusion temple event, where players pick up the sacred relic.</value>
+  </data>
+  <data name="IllusionTempleAllianceStorageTalkPlugIn_Name" xml:space="preserve">
+    <value>Illusion Temple Alliance Item Storage</value>
+  </data>
+  <data name="IllusionTempleAllianceStorageTalkPlugIn_Description" xml:space="preserve">
+    <value>Handles talking to the Alliance Item Storage in the illusion temple event, to which the allied forces carry the sacred relic to score a point.</value>
+  </data>
+  <data name="IllusionTempleIllusionStorageTalkPlugIn_Name" xml:space="preserve">
+    <value>Illusion Temple Illusion Item Storage</value>
+  </data>
+  <data name="IllusionTempleIllusionStorageTalkPlugIn_Description" xml:space="preserve">
+    <value>Handles talking to the Illusion Item Storage in the illusion temple event, to which the illusion forces carry the sacred relic to score a point.</value>
   </data>
   <data name="NpcTalkPlugInConfiguration_Npc_Name" xml:space="preserve">
     <value>NPC</value>

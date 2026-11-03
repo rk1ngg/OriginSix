@@ -1,4 +1,4 @@
-// <copyright file="PlayerMapTransitions.cs" company="MUnique">
+﻿// <copyright file="PlayerMapTransitions.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -145,6 +145,11 @@ internal sealed class PlayerMapTransitions
     public async ValueTask WarpToAsync(ExitGate gate)
     {
         var player = this._player;
+        if (player.PlayerState.CurrentState.IsDisconnectedOrFinished() || player.SelectedCharacter is null)
+        {
+            return;
+        }
+
         var isRespawnOnSameMap = object.Equals(player.CurrentMap?.Definition, gate.Map);
 
         // A common guard for all warps, because an instance of the map may still exist after the map got deactivated.
@@ -343,10 +348,15 @@ internal sealed class PlayerMapTransitions
     internal async ValueTask PlaceAtGateAsync(ExitGate gate)
     {
         var player = this._player;
+        if (player.SelectedCharacter is not { } character)
+        {
+            return;
+        }
+
         var landingPoint = gate.GetRandomPoint();
-        player.SelectedCharacter!.PositionX = landingPoint.X;
-        player.SelectedCharacter.PositionY = landingPoint.Y;
-        player.SelectedCharacter.CurrentMap = gate.Map;
+        character.PositionX = landingPoint.X;
+        character.PositionY = landingPoint.Y;
+        character.CurrentMap = gate.Map;
         player.Rotation = gate.Direction;
 
         await this._movement.ResetMovementStateAsync().ConfigureAwait(false);
@@ -365,6 +375,15 @@ internal sealed class PlayerMapTransitions
     {
         var player = this._player;
         var mapNumber = mapDefinition.Number.ToUnsigned();
+
+        // A mini game runs on its own instance of the map, which can't be resolved by the map number -
+        // that one always returns the regular instance. Without this, a player who respawns during a
+        // mini game lands on an empty copy of the map, invisible to the other participants.
+        if (player.CurrentMiniGame?.Map is { } miniGameMap && miniGameMap.Definition.Number == mapDefinition.Number)
+        {
+            return miniGameMap;
+        }
+
         if (await player.GameContext.GetMapAsync(mapNumber).ConfigureAwait(false) is { } hostedMap)
         {
             return hostedMap;

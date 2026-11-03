@@ -898,6 +898,114 @@ namespace MUnique.OpenMU.GameLogic.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Plugin which handles the reset fruit of strength, which takes back invested strength points and returns them as level up points..
+        /// </summary>
+        public static string StrengthResetFruitConsumeHandlerPlugIn_Description {
+            get {
+                return ResourceManager.GetString("StrengthResetFruitConsumeHandlerPlugIn_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Fruit of Strength Consume Handler.
+        /// </summary>
+        public static string StrengthResetFruitConsumeHandlerPlugIn_Name {
+            get {
+                return ResourceManager.GetString("StrengthResetFruitConsumeHandlerPlugIn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin which handles the reset fruit of agility, which takes back invested agility points and returns them as level up points..
+        /// </summary>
+        public static string AgilityResetFruitConsumeHandlerPlugIn_Description {
+            get {
+                return ResourceManager.GetString("AgilityResetFruitConsumeHandlerPlugIn_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Fruit of Agility Consume Handler.
+        /// </summary>
+        public static string AgilityResetFruitConsumeHandlerPlugIn_Name {
+            get {
+                return ResourceManager.GetString("AgilityResetFruitConsumeHandlerPlugIn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin which handles the reset fruit of vitality, which takes back invested vitality points and returns them as level up points..
+        /// </summary>
+        public static string VitalityResetFruitConsumeHandlerPlugIn_Description {
+            get {
+                return ResourceManager.GetString("VitalityResetFruitConsumeHandlerPlugIn_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Fruit of Vitality Consume Handler.
+        /// </summary>
+        public static string VitalityResetFruitConsumeHandlerPlugIn_Name {
+            get {
+                return ResourceManager.GetString("VitalityResetFruitConsumeHandlerPlugIn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin which handles the reset fruit of energy, which takes back invested energy points and returns them as level up points..
+        /// </summary>
+        public static string EnergyResetFruitConsumeHandlerPlugIn_Description {
+            get {
+                return ResourceManager.GetString("EnergyResetFruitConsumeHandlerPlugIn_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Fruit of Energy Consume Handler.
+        /// </summary>
+        public static string EnergyResetFruitConsumeHandlerPlugIn_Name {
+            get {
+                return ResourceManager.GetString("EnergyResetFruitConsumeHandlerPlugIn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin which handles the reset fruit of command, which takes back invested command points and returns them as level up points..
+        /// </summary>
+        public static string CommandResetFruitConsumeHandlerPlugIn_Description {
+            get {
+                return ResourceManager.GetString("CommandResetFruitConsumeHandlerPlugIn_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points per durability.
+        /// </summary>
+        public static string ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Name {
+            get {
+                return ResourceManager.GetString("ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of stat points which one durability of a reset fruit takes back..
+        /// </summary>
+        public static string ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Description {
+            get {
+                return ResourceManager.GetString("ResetFruitConsumeHandlerConfiguration_PointsPerDurability_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Fruit of Command Consume Handler.
+        /// </summary>
+        public static string CommandResetFruitConsumeHandlerPlugIn_Name {
+            get {
+                return ResourceManager.GetString("CommandResetFruitConsumeHandlerPlugIn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plugin which handles the fruit consumption..
         /// </summary>
         public static string FruitConsumeHandlerPlugIn_Description {
@@ -3589,7 +3697,25 @@ namespace MUnique.OpenMU.GameLogic.Properties {
                 return ResourceManager.GetString("StartChaosCastleEventChatCommandPlugIn_Name", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Handles the chat command &apos;/startit&apos;. Starts the illusion temple event at the next possible time..
+        /// </summary>
+        public static string StartIllusionTempleEventChatCommandPlugIn_Description {
+            get {
+                return ResourceManager.GetString("StartIllusionTempleEventChatCommandPlugIn_Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start Illusion Temple Event Chat Command.
+        /// </summary>
+        public static string StartIllusionTempleEventChatCommandPlugIn_Name {
+            get {
+                return ResourceManager.GetString("StartIllusionTempleEventChatCommandPlugIn_Name", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Handles the chat command &apos;/startds&apos;. Starts the devil square event at the next possible time..
         /// </summary>
@@ -4435,6 +4561,12 @@ namespace MUnique.OpenMU.GameLogic.Properties {
         /// <summary>Gets the localized MaximumConnectionsPerIpPlugIn_Description text.</summary>
         public static string MaximumConnectionsPerIpPlugIn_Description => ResourceManager.GetString("MaximumConnectionsPerIpPlugIn_Description", resourceCulture)!;
 
+        /// <summary>Gets the localized LoginTimeoutPlugIn_Name text.</summary>
+        public static string LoginTimeoutPlugIn_Name => ResourceManager.GetString("LoginTimeoutPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized LoginTimeoutPlugIn_Description text.</summary>
+        public static string LoginTimeoutPlugIn_Description => ResourceManager.GetString("LoginTimeoutPlugIn_Description", resourceCulture)!;
+
         /// <summary>Gets the localized SpeedHackDetectPlugIn_Name text.</summary>
         public static string SpeedHackDetectPlugIn_Name => ResourceManager.GetString("SpeedHackDetectPlugIn_Name", resourceCulture)!;
 
@@ -4621,6 +4753,9 @@ namespace MUnique.OpenMU.GameLogic.Properties {
         /// <summary>Gets the localized MaximumConnectionsPerIpPlugInConfiguration_MaximumConnectionsPerIp_Caption text.</summary>
         public static string MaximumConnectionsPerIpPlugInConfiguration_MaximumConnectionsPerIp_Caption => ResourceManager.GetString("MaximumConnectionsPerIpPlugInConfiguration_MaximumConnectionsPerIp_Caption", resourceCulture)!;
 
+        /// <summary>Gets the localized LoginTimeoutPlugInConfiguration_Timeout_Caption text.</summary>
+        public static string LoginTimeoutPlugInConfiguration_Timeout_Caption => ResourceManager.GetString("LoginTimeoutPlugInConfiguration_Timeout_Caption", resourceCulture)!;
+
         /// <summary>Gets the localized SpeedHackDetectConfiguration_AttackSpeedMinIntervalMs_Caption text.</summary>
         public static string SpeedHackDetectConfiguration_AttackSpeedMinIntervalMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_AttackSpeedMinIntervalMs_Caption", resourceCulture)!;
 
@@ -4635,6 +4770,21 @@ namespace MUnique.OpenMU.GameLogic.Properties {
 
         /// <summary>Gets the localized SpeedHackDetectConfiguration_MaxAllowedWalkStartOffset_Caption text.</summary>
         public static string SpeedHackDetectConfiguration_MaxAllowedWalkStartOffset_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_MaxAllowedWalkStartOffset_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_SkillHitAreaRangeSlack_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_SkillHitAreaRangeSlack_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_SkillHitAreaRangeSlack_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_SkillHitCounterReplayWindowMs_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_SkillHitCounterReplayWindowMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_SkillHitCounterReplayWindowMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_SkillHitMaxAreaToHitDelaySeconds_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_SkillHitMaxAreaToHitDelaySeconds_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_SkillHitMaxAreaToHitDelaySeconds_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_EnforceWalkSpeed_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_EnforceWalkSpeed_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_EnforceWalkSpeed_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_WalkSpeedWindowSeconds_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_WalkSpeedWindowSeconds_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_WalkSpeedWindowSeconds_Caption", resourceCulture)!;
 
         /// <summary>Gets the localized SpeedHackDetectConfiguration_WalkSpeedToleranceMs_Caption text.</summary>
         public static string SpeedHackDetectConfiguration_WalkSpeedToleranceMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_WalkSpeedToleranceMs_Caption", resourceCulture)!;
@@ -4662,6 +4812,51 @@ namespace MUnique.OpenMU.GameLogic.Properties {
 
         /// <summary>Gets the localized SpeedHackDetectConfiguration_AutoBan_Caption text.</summary>
         public static string SpeedHackDetectConfiguration_AutoBan_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_AutoBan_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_MagicSpeedBaseDelayMs_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_MagicSpeedBaseDelayMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_MagicSpeedBaseDelayMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_MagicSpeedScalingFactor_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_MagicSpeedScalingFactor_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_MagicSpeedScalingFactor_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_MagicSpeedMinIntervalMs_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_MagicSpeedMinIntervalMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_MagicSpeedMinIntervalMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_PingClockToleranceMs_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_PingClockToleranceMs_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_PingClockToleranceMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_PingAttackSpeedTolerance_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_PingAttackSpeedTolerance_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_PingAttackSpeedTolerance_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_AttackSpeedProfiles_Caption text.</summary>
+        public static string SpeedHackDetectConfiguration_AttackSpeedProfiles_Caption => ResourceManager.GetString("SpeedHackDetectConfiguration_AttackSpeedProfiles_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized SpeedHackDetectConfiguration_AttackSpeedProfiles_Description text.</summary>
+        public static string SpeedHackDetectConfiguration_AttackSpeedProfiles_Description => ResourceManager.GetString("SpeedHackDetectConfiguration_AttackSpeedProfiles_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_SkillId_Caption text.</summary>
+        public static string AttackSpeedProfile_SkillId_Caption => ResourceManager.GetString("AttackSpeedProfile_SkillId_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_SpeedSource_Caption text.</summary>
+        public static string AttackSpeedProfile_SpeedSource_Caption => ResourceManager.GetString("AttackSpeedProfile_SpeedSource_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_SpeedSource_Description text.</summary>
+        public static string AttackSpeedProfile_SpeedSource_Description => ResourceManager.GetString("AttackSpeedProfile_SpeedSource_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_BaseDelayMs_Caption text.</summary>
+        public static string AttackSpeedProfile_BaseDelayMs_Caption => ResourceManager.GetString("AttackSpeedProfile_BaseDelayMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_ScalingFactor_Caption text.</summary>
+        public static string AttackSpeedProfile_ScalingFactor_Caption => ResourceManager.GetString("AttackSpeedProfile_ScalingFactor_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedProfile_MinimumIntervalMs_Caption text.</summary>
+        public static string AttackSpeedProfile_MinimumIntervalMs_Caption => ResourceManager.GetString("AttackSpeedProfile_MinimumIntervalMs_Caption", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedSource_AttackSpeed text.</summary>
+        public static string AttackSpeedSource_AttackSpeed => ResourceManager.GetString("AttackSpeedSource_AttackSpeed", resourceCulture)!;
+
+        /// <summary>Gets the localized AttackSpeedSource_MagicSpeed text.</summary>
+        public static string AttackSpeedSource_MagicSpeed => ResourceManager.GetString("AttackSpeedSource_MagicSpeed", resourceCulture)!;
 
         /// <summary>Gets the localized InvasionSpawnConfiguration_Y_Caption text.</summary>
         public static string InvasionSpawnConfiguration_Y_Caption => ResourceManager.GetString("InvasionSpawnConfiguration_Y_Caption", resourceCulture)!;
@@ -4704,6 +4899,24 @@ namespace MUnique.OpenMU.GameLogic.Properties {
 
         /// <summary>Gets the localized BloodCastleArchangelTalkPlugIn_Description text.</summary>
         public static string BloodCastleArchangelTalkPlugIn_Description => ResourceManager.GetString("BloodCastleArchangelTalkPlugIn_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleStoneStatueTalkPlugIn_Name text.</summary>
+        public static string IllusionTempleStoneStatueTalkPlugIn_Name => ResourceManager.GetString("IllusionTempleStoneStatueTalkPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleStoneStatueTalkPlugIn_Description text.</summary>
+        public static string IllusionTempleStoneStatueTalkPlugIn_Description => ResourceManager.GetString("IllusionTempleStoneStatueTalkPlugIn_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleAllianceStorageTalkPlugIn_Name text.</summary>
+        public static string IllusionTempleAllianceStorageTalkPlugIn_Name => ResourceManager.GetString("IllusionTempleAllianceStorageTalkPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleAllianceStorageTalkPlugIn_Description text.</summary>
+        public static string IllusionTempleAllianceStorageTalkPlugIn_Description => ResourceManager.GetString("IllusionTempleAllianceStorageTalkPlugIn_Description", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleIllusionStorageTalkPlugIn_Name text.</summary>
+        public static string IllusionTempleIllusionStorageTalkPlugIn_Name => ResourceManager.GetString("IllusionTempleIllusionStorageTalkPlugIn_Name", resourceCulture)!;
+
+        /// <summary>Gets the localized IllusionTempleIllusionStorageTalkPlugIn_Description text.</summary>
+        public static string IllusionTempleIllusionStorageTalkPlugIn_Description => ResourceManager.GetString("IllusionTempleIllusionStorageTalkPlugIn_Description", resourceCulture)!;
 
         /// <summary>Gets the localized NpcTalkPlugInConfiguration_Npc_Name text.</summary>
         public static string NpcTalkPlugInConfiguration_Npc_Name => ResourceManager.GetString("NpcTalkPlugInConfiguration_Npc_Name", resourceCulture)!;

@@ -844,4 +844,22 @@
   <data name="SetIntroducedGameVersionsPlugInBase_Description" xml:space="preserve">
     <value>Dieses Update legt fest, in welcher Version des Originalspiels die Karten, Charakterklassen, Monster, Gegenstände und Minispiele eingeführt wurden. Damit können die Inhalte bestimmter Spielversionen gesammelt aktiviert oder deaktiviert werden. Bereits festgelegte Versionen bleiben erhalten.</value>
   </data>
+  <data name="AddCrystalSwordIceChanceUpdatePlugIn_Name" xml:space="preserve">
+    <value>Eis-Chance des Kristallschwerts hinzufügen</value>
+  </data>
+  <data name="AddCrystalSwordIceChanceUpdatePlugIn_Description" xml:space="preserve">
+    <value>Fügt die Eis-Chance des Kristallschwerts hinzu, durch die ein Angriff stattdessen zu einer Eis-Fähigkeit wird.</value>
+  </data>
+  <data name="AddResetFruitsUpdatePlugIn_Name" xml:space="preserve">
+    <value>Rücksetzfrüchte hinzufügen</value>
+  </data>
+  <data name="AddResetFruitsUpdatePlugIn_Description" xml:space="preserve">
+    <value>Diese Aktualisierung fügt die Rücksetzfrüchte für Stärke, Beweglichkeit, Vitalität, Energie und Kommando hinzu, die investierte Punkte eines Werts zurücknehmen und als Level-Up-Punkte zurückgeben. Die Pakete des Item-Shops, die sie enthalten, werden zum Verkauf angeboten.</value>
+  </data>
+  <data name="AddFreeTicketItemsUpdatePlugIn_Name" xml:space="preserve">
+    <value>Freie Event-Tickets hinzufügen</value>
+  </data>
+  <data name="AddFreeTicketItemsUpdatePlugIn_Description" xml:space="preserve">
+    <value>Diese Aktualisierung fügt die freien Tickets für Devil Square, Blood Castle, Illusion Temple und Chaos Castle hinzu, mit denen man das Event jeder Stufe betreten kann. Die Pakete des Item-Shops, die sie enthalten, werden zum Verkauf angeboten.</value>
+  </data>
 </root>
