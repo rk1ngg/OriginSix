@@ -7,14 +7,16 @@ as documented references rather than nested remotes:
 
 - `server/` (`https://github.com/MUnique/OpenMU`): Updated on 2026-11-04 from
   `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` to upstream `master`
-  `c39f6c1673c9782b1b7e02da56f687b051970500` (305 commits), without `bd080fa6`
-  (client-to-server packet layouts of the 1.04d client, pending the paired client
-  update). The local walk tolerance of fast mounts (`WalkSpeedCheck.cs`) and
-  loopback scripts remain preserved.
-- `client/` (`https://github.com/sven-n/MuMain`): Updated on 2026-10-28 from
-  `063169014914add35a777178b15d8c9fbaae4b51` to upstream `main`
-  `55a7b4459c18487f6517fdf75d62a360117cc1ed` (27 merged PRs / 1,062 commits,
-  including BMD v14 support via `cryptopp` and JSON item tooltips).
+  `c39f6c1673c9782b1b7e02da56f687b051970500` (305 commits); `bd080fa6`
+  (client-to-server packet layouts of the 1.04d client) followed with the
+  client's packets 0.11.0. The local walk tolerance of fast mounts
+  (`WalkSpeedCheck.cs`) and loopback scripts remain preserved.
+- `client/` (`https://github.com/sven-n/MuMain`): Updated on 2026-11-04 from
+  `55a7b4459c18487f6517fdf75d62a360117cc1ed` to upstream `main`
+  `247ba8966dcc3c687480f19195f66fbcd41dad82` (61 merged PRs / 712 commits,
+  including the read-only draw refactor and packets 0.11.0). The vendored RmlUi
+  follows the submodule at `27a73bf5`; the Webzen art of the classic theme and
+  the map name ornaments stays local.
 - `web/` (`https://github.com/mamfloo/open-mu-web`): Imported on 2026-10-28 at
   upstream `master` `093908290dd09e21e0058de0309ee1df413c8aee` and customized
   with the OriginSix Dark Obsidian & Arcane Gold (`WeiCMS`/MurenMU-inspired) UI.
@@ -166,6 +168,7 @@ large). Use full SHAs and statuses **reviewed**, **applied**, **skipped**, or
 | 2026-10-28 | `sven-n/MuMain` `063169014914add35a777178b15d8c9fbaae4b51..55a7b4459c18487f6517fdf75d62a360117cc1ed` | applied (working tree) | 27 PRs / 1,062 commits: BMD v14 model loader (`#804`, adds vcpkg `cryptopp`), JSON item tooltips (`#819`–`#836`, `#863`), `std::chrono` gameplay timers (`#847`), UI & pathfinding fixes | Applied via `git apply --directory=client` | `cmake --preset windows-x64` & `cmake --build --preset windows-x64-release` (`979/979` targets built, `Main.exe` succeeded with `cryptopp`) |
 | 2026-10-28 | `mamfloo/open-mu-web` `093908290dd09e21e0058de0309ee1df413c8aee` | applied (working tree) | Initial import of OpenMU Next.js + Prisma web portal into `web/` | Adapted with loopback-only scripts (`local-web.ps1`, port `127.0.0.1:3080`) and WeiCMS/MurenMU-inspired Dark Obsidian & Arcane Gold UI | `local-web.ps1 -Action Dev -Port 3080` verified HTTP 200 across `/`, `/ranking`, `/register`, `/info`, `/download` |
 | 2026-11-04 | `MUnique/OpenMU` `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6..c39f6c1673c9782b1b7e02da56f687b051970500` | applied (`9721346b`) | 305 commits: login place reservation and connection limits, out-of-scope packet split, speed hack refactor (walk window, attack speed), admin panel/API key hardening, trade/storage/party/drop fixes, castle siege fixes, reset fruits and free tickets, 3 schema migrations | Without `bd080fa6` (client-to-server layouts need the client's packet library update); merchant fixed price moved to the new price line; walk tolerance of mounts re-applied in `WalkSpeedCheck.cs` (`bf04c8bb`); upstream Illusion Temple update failed on an existing database (identifier conflict of reused spawn ids), fixed locally (`b91949e5`, not yet reported upstream) | `dotnet build src/MUnique.OpenMU.sln -c Release` (0 errors); `dotnet test` all suites passed except 3 `DiscordCommandsTest` cases (CRLF on Windows, files unchanged by the sync); `SpeedHackAntiCheatTests` 66/66; local server healthy on `originsix-openmu:upstream-20261104` after the migrations and mandatory updates (backup `.local/backups/openmu-before-upstream-c39f6c16-20261104.sql.gz`) |
+| 2026-11-04 | `sven-n/MuMain` `55a7b4459c18487f6517fdf75d62a360117cc1ed..247ba8966dcc3c687480f19195f66fbcd41dad82` | applied (`d2629ddf`) | 61 PRs / 712 commits: read-only draws (#929-#955), login reconnect (#927), MU Helper fixes (#945), ancient set option fixes (#906), server list channels (#895, #939), localized map names (#812), classic theme (#711), packets 0.11.0 (#948), RmlUi update (#941) | 5 conflicts resolved; the unequipped set option tooltip uses `AddSetOptions` of #906; Guardian seat offset, scale, aura lights and rider lift moved out of the draws (`d2629ddf`, `a3d563b2`, `b18cd07b`); classic theme got the mount box (`8d6d28a9`); RmlUi `afc25fec..27a73bf5` applied to the vendored copy (`8f542699`); Webzen art (162 files) kept out of Git; server `bd080fa6` applied for packets 0.11.0 (`85e9719b`) | `cmake --build` (all targets); `ctest` 1780/1780 passed; owner checked the Guardian riders in game on 2026-11-04 |
 
 Future entry must include PR/reference, vanilla impact, prerequisite commits,
 conflicts/adaptation, approval reference, local resulting SHA if committed, and
