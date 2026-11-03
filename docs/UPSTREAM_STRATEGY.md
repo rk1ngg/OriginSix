@@ -5,10 +5,11 @@
 OriginSix is a single snapshot monorepo. The official source URLs are retained
 as documented references rather than nested remotes:
 
-- `server/` (`https://github.com/MUnique/OpenMU`): Updated on 2026-10-28 from
-  `cc0ccd268d70303b1b65bce58b178afcb1437fd5` to upstream `master`
-  `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` (48 merged PRs / 380 commits).
-  Local speed-hack anti-cheat mount scaling (`SpeedHackDetectPlugIn.cs`) and
+- `server/` (`https://github.com/MUnique/OpenMU`): Updated on 2026-11-04 from
+  `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` to upstream `master`
+  `c39f6c1673c9782b1b7e02da56f687b051970500` (305 commits), without `bd080fa6`
+  (client-to-server packet layouts of the 1.04d client, pending the paired client
+  update). The local walk tolerance of fast mounts (`WalkSpeedCheck.cs`) and
   loopback scripts remain preserved.
 - `client/` (`https://github.com/sven-n/MuMain`): Updated on 2026-10-28 from
   `063169014914add35a777178b15d8c9fbaae4b51` to upstream `main`
@@ -164,6 +165,7 @@ large). Use full SHAs and statuses **reviewed**, **applied**, **skipped**, or
 | 2026-10-28 | `MUnique/OpenMU` `cc0ccd268d70303b1b65bce58b178afcb1437fd5..c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6` | applied (working tree) | 48 PRs / 380 commits: monster roaming/aggro fixes, Chaos Mix client rate/cost sync (`#1300`), item stat profile formulas (`#1321`), Illusion Temple/Doppelganger/Kalima/Lucky Item/Imperial Guardian fixes | Applied via `git apply --directory=server`; preserved local `SpeedHackDetectPlugIn.cs` mount scaling | `dotnet build src/MUnique.OpenMU.sln -c Release` (0 errors); `SpeedHackAntiCheatTests` (22/22 passed) |
 | 2026-10-28 | `sven-n/MuMain` `063169014914add35a777178b15d8c9fbaae4b51..55a7b4459c18487f6517fdf75d62a360117cc1ed` | applied (working tree) | 27 PRs / 1,062 commits: BMD v14 model loader (`#804`, adds vcpkg `cryptopp`), JSON item tooltips (`#819`–`#836`, `#863`), `std::chrono` gameplay timers (`#847`), UI & pathfinding fixes | Applied via `git apply --directory=client` | `cmake --preset windows-x64` & `cmake --build --preset windows-x64-release` (`979/979` targets built, `Main.exe` succeeded with `cryptopp`) |
 | 2026-10-28 | `mamfloo/open-mu-web` `093908290dd09e21e0058de0309ee1df413c8aee` | applied (working tree) | Initial import of OpenMU Next.js + Prisma web portal into `web/` | Adapted with loopback-only scripts (`local-web.ps1`, port `127.0.0.1:3080`) and WeiCMS/MurenMU-inspired Dark Obsidian & Arcane Gold UI | `local-web.ps1 -Action Dev -Port 3080` verified HTTP 200 across `/`, `/ranking`, `/register`, `/info`, `/download` |
+| 2026-11-04 | `MUnique/OpenMU` `c5f6b380ac25ffeee0bf6ee15a5873e8cbd654b6..c39f6c1673c9782b1b7e02da56f687b051970500` | applied (`9721346b`) | 305 commits: login place reservation and connection limits, out-of-scope packet split, speed hack refactor (walk window, attack speed), admin panel/API key hardening, trade/storage/party/drop fixes, castle siege fixes, reset fruits and free tickets, 3 schema migrations | Without `bd080fa6` (client-to-server layouts need the client's packet library update); merchant fixed price moved to the new price line; walk tolerance of mounts re-applied in `WalkSpeedCheck.cs` (`bf04c8bb`); upstream Illusion Temple update failed on an existing database (identifier conflict of reused spawn ids), fixed locally (`b91949e5`, not yet reported upstream) | `dotnet build src/MUnique.OpenMU.sln -c Release` (0 errors); `dotnet test` all suites passed except 3 `DiscordCommandsTest` cases (CRLF on Windows, files unchanged by the sync); `SpeedHackAntiCheatTests` 66/66; local server healthy on `originsix-openmu:upstream-20261104` after the migrations and mandatory updates (backup `.local/backups/openmu-before-upstream-c39f6c16-20261104.sql.gz`) |
 
 Future entry must include PR/reference, vanilla impact, prerequisite commits,
 conflicts/adaptation, approval reference, local resulting SHA if committed, and
