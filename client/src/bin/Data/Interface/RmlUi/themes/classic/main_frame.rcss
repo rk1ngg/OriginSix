@@ -289,3 +289,20 @@
 }
 #pet_skill_row.hidden { display: none; }
 
+
+/* OriginSix: the summoned Guardian's Ctrl+Z box above the current skill slot, with the Guardian's
+   icon (drawn by C++ into #mount_icon); its border lights up while the Guardian is ridden. */
+#mount_slot {
+	position: absolute;
+	left: 4dp;
+	top: -32dp;
+	width: 24dp;
+	height: 28dp;
+	background-color: #000000b0;
+	border: 1dp #6b5a3a;
+	pointer-events: auto;
+	cursor: pointer;
+}
+#mount_slot.riding { border-color: #ffd27a; }
+.mount-icon { position: absolute; left: 1dp; top: 2dp; width: 20dp; height: 22dp; pointer-events: none; }
+.mount-slot-label { font-size: 7dp; }
