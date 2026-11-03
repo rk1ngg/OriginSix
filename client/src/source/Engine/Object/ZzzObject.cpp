@@ -471,6 +471,8 @@ bool Calc_ObjectAnimation(const OBJECT* o, bool Translate, int Select)
     b->BodyScale = o->Scale;
     b->CurrentAction = o->CurrentAction;
     VectorCopy(o->Position, b->BodyOrigin);
+    if (o->Type == MODEL_PLAYER)
+        b->BodyOrigin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
 
     AnimateObjectBones(o, b, Translate);
     return true;
@@ -7993,6 +7995,8 @@ void StepPartCloth(OBJECT* o, PART_t* p, int Type, int ItemLevel, bool Translate
         BMD* b = &Models[Type];
         b->BodyScale = o->Scale;
         VectorCopy(o->Position, b->BodyOrigin);
+        if (o->Type == MODEL_PLAYER)
+            b->BodyOrigin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
         OBB_t obb;
         b->TransformCheap(o->BoneTransform, o->BoundingBoxMin, o->BoundingBoxMax, &obb, Translate);
 
@@ -8078,6 +8082,11 @@ void RenderPartObject(const OBJECT* o, int Type, const void* p2, const vec3_t Li
     b->ContrastEnable = o->ContrastEnable;
     b->LightEnable = o->LightEnable;
     VectorCopy(o->Position, b->BodyOrigin);
+    if (o->Type == MODEL_PLAYER)
+    {
+        // The parts of an OriginSix Guardian's rider sit on its back with the rider.
+        b->BodyOrigin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
+    }
 
     BoneScale = 1.f;
     if (3 == Select)
