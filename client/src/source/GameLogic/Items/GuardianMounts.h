@@ -122,7 +122,10 @@ float GetGuardianRiderRaise(const OBJECT* rider);
 void LoadGuardianGlowTextures();
 
 // Renders a ridden or walking Guardian with its +15 glow; state is the object state of RenderObject (e.g. cloaking).
-void RenderGuardianModel(OBJECT* o, int state);
+void RenderGuardianModel(const OBJECT* o, int state);
+
+// Spawns the aura lights along a drawn Guardian's body; part of the update, as the draw spawns nothing.
+void CreateGuardianAuraLights(OBJECT* o);
 
 // Mounting or dismounting takes this long before the Guardian can be mounted or dismounted again.
 constexpr unsigned int GuardianRideCooldownMs = 1000;

@@ -38,13 +38,20 @@ build-linux/
 # Bundled UI fonts (curated, shipped with the client) are source-controlled.
 !**/bin/fonts/
 !**/bin/fonts/**
+# The map banner's ornament (OZT and its layout), cut out of the map-name images by
+# tools/MapNameFont/ornament.py.
+!src/bin/Data/Interface/MapNameOrnament/
+!src/bin/Data/Interface/MapNameOrnament/**
 # RmlUi UI content (RML/RCSS documents and themes) is authored source, not build output.
 !src/bin/Data/
 !src/bin/Data/Interface/
 !src/bin/Data/Interface/RmlUi/
 !src/bin/Data/Interface/RmlUi/**
-# Webzen client textures used by local themes stay outside the repository.
+# Webzen client textures used by local themes stay outside the repository, like the classic
+# theme's interface and login art (Data/Interface/Classic, Data/Logo/Classic) and the map
+# banner's ornament images.
 src/bin/Data/Interface/RmlUi/themes/*/textures/
+src/bin/Data/Interface/MapNameOrnament/*.OZT
 # Item data (JSON, written by the item editor) is source-controlled.
 !src/bin/Data/Items/
 !src/bin/Data/Items/**
@@ -110,3 +117,4 @@ docs/reviews/
 
 # In-game test runner output (docs/in-game-tests.md)
 in-game-test-results/
+__pycache__/

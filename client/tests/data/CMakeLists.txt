@@ -1,11 +1,13 @@
 mu_add_test(
     NAME test_item_database
     SOURCES
+        test_color_folders.cpp
         test_item_check_targets.cpp
         test_item_code_references.cpp
         test_item_database.cpp
         test_item_description_placeholders.cpp
         test_item_edit_history.cpp
+        test_item_ground_labels.cpp
         test_item_json.cpp
         test_item_list_model.cpp
         test_item_model_json.cpp
@@ -41,6 +43,8 @@ target_compile_definitions(light_mood_data_tests PRIVATE
 mu_add_test(
     NAME server_list_data_tests
     SOURCES
+        test_channel_name_builder.cpp
+        test_load_bar.cpp
         test_server_list_edits.cpp
         test_server_list_json.cpp
         test_server_list_manager.cpp
@@ -59,13 +63,17 @@ target_compile_definitions(server_list_data_tests PRIVATE
 mu_add_test(
     NAME monster_data_tests
     SOURCES
+        test_data_check_areas.cpp
+        test_data_checks_window.cpp
+        test_issue_table.cpp
         test_legacy_monster_kind.cpp
+        test_map_picker.cpp
+        test_maps.cpp
         test_monster_attack_checks.cpp
         test_monster_attack_readers.cpp
         test_monster_attacks.cpp
         test_monster_browser_window.cpp
         test_monster_check_targets.cpp
-        test_monster_checks_window.cpp
         test_monster_code_references.cpp
         test_monster_data_edits.cpp
         test_monster_data_files.cpp
@@ -113,6 +121,7 @@ mu_add_test(
     NAME test_item_database_files
     SOURCES
         test_helper_pickup_filters.cpp
+        test_colors_window.cpp
         test_dark_lord_pet_tooltip.cpp
         test_item_database_files.cpp
         test_item_descriptions.cpp
@@ -123,6 +132,7 @@ mu_add_test(
         test_item_stats.cpp
         test_item_tooltip_layouts.cpp
         test_item_sync_diff.cpp
+        test_item_sync_server.cpp
         test_item_tooltip_text.cpp
         test_item_tooltips.cpp
         test_item_value_formulas.cpp
@@ -161,6 +171,19 @@ mu_add_test(
         MuClient
 )
 target_compile_definitions(test_guardian_models PRIVATE
+    MU_TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data"
+)
+
+# Drawing later (DeferredDraws) against drawing at once, for models posed from the shipped player files.
+mu_add_test(
+    NAME test_draw_parity
+    SOURCES
+        test_draw_parity.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
+    LINK_LIBS
+        MuClient
+)
+target_compile_definitions(test_draw_parity PRIVATE
     MU_TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data"
 )
 

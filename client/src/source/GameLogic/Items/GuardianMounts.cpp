@@ -169,7 +169,29 @@ float GetGuardianRiderRaise(const OBJECT* rider)
     return 0.f;
 }
 
-void RenderGuardianModel(OBJECT* o, int state)
+namespace
+{
+// The aura colors of the Guardians.
+constexpr float AuraColors[][3] = {
+    {0.25f, 0.55f, 1.f},  // Ghost Horse: cyan
+    {0.3f, 0.7f, 1.f},    // Ice Dragon: ice blue
+    {0.6f, 0.35f, 1.f},   // Ice Dragon (Rare): violet
+    {1.f, 0.5f, 0.15f},   // Fierce Lion: orange
+    {1.f, 0.2f, 0.2f},    // Fierce Lion (Rare): red
+    {1.f, 0.6f, 0.2f},    // Shining Tail: amber
+    {0.45f, 0.4f, 1.f},   // Shining Tail (Rare): blue violet
+    {0.2f, 0.55f, 1.f},   // Ullr: blue
+    {1.f, 0.45f, 0.1f},   // Ullr (Rare): ember
+};
+
+// The slow pulse of the glow and the aura.
+float GetGuardianPulse()
+{
+    return 0.75f + 0.25f * static_cast<float>(sin(WorldTime * 0.003));
+}
+} // namespace
+
+void RenderGuardianModel(const OBJECT* o, int state)
 {
     RenderObject(o, false, 0, state);
     if (state != 0 || o->Alpha <= 0.01f)
@@ -179,7 +201,7 @@ void RenderGuardianModel(OBJECT* o, int state)
 
     // The model's own glow layers, drawn bright over it and pulsing slowly.
     BMD* b = &Models[o->Type];
-    const float pulse = 0.75f + 0.25f * static_cast<float>(sin(WorldTime * 0.003));
+    const float pulse = GetGuardianPulse();
     const std::vector<GLuint>& glow = GetGlowTextures(o->Type);
     // Unlit, so the glow is as bright as its texture in any light.
     Vector(1.f, 1.f, 1.f, b->BodyLight);
@@ -211,17 +233,6 @@ void RenderGuardianModel(OBJECT* o, int state)
     }
 
     // The aura: a soft chrome sheen in the Guardian's color over the whole model, pulsing with the glow.
-    static constexpr float AuraColors[][3] = {
-        {0.25f, 0.55f, 1.f},  // Ghost Horse: cyan
-        {0.3f, 0.7f, 1.f},    // Ice Dragon: ice blue
-        {0.6f, 0.35f, 1.f},   // Ice Dragon (Rare): violet
-        {1.f, 0.5f, 0.15f},   // Fierce Lion: orange
-        {1.f, 0.2f, 0.2f},    // Fierce Lion (Rare): red
-        {1.f, 0.6f, 0.2f},    // Shining Tail: amber
-        {0.45f, 0.4f, 1.f},   // Shining Tail (Rare): blue violet
-        {0.2f, 0.55f, 1.f},   // Ullr: blue
-        {1.f, 0.45f, 0.1f},   // Ullr (Rare): ember
-    };
     constexpr float AuraStrength = 0.45f;
     const float* color = AuraColors[o->Type - MODEL_GUARDIAN_GHOST_HORSE];
     const float aura = AuraStrength * pulse * o->Alpha;
@@ -229,11 +240,22 @@ void RenderGuardianModel(OBJECT* o, int state)
     b->RenderBody(RENDER_CHROME | RENDER_BRIGHT, 1.f, -1, 1.f, o->BlendMeshTexCoordU, o->BlendMeshTexCoordV, -1, BITMAP_CHROME);
     b->EndRender();
     b->LightEnable = lightEnable;
+}
+
+void CreateGuardianAuraLights(OBJECT* o)
+{
+    if (o->Alpha <= 0.01f || (o->Owner != nullptr && g_isCharacterBuff(o->Owner, eBuff_Cloaking)))
+    {
+        return;
+    }
 
     // The aura lights: soft lights in the Guardian's color along its body, like the S18 Guardians' aura.
     constexpr int AuraLights = 12;
     constexpr float AuraLightSize = 2.2f;
     constexpr float AuraLightStrength = 0.55f;
+    BMD* b = &Models[o->Type];
+    const float pulse = GetGuardianPulse();
+    const float* color = AuraColors[o->Type - MODEL_GUARDIAN_GHOST_HORSE];
     VectorCopy(o->Position, b->BodyOrigin);
     b->BodyScale = o->Scale;
     b->CurrentAction = o->CurrentAction;

@@ -302,6 +302,7 @@
           "levels": [1, 1]
         }
       ],
+      "groundLabels": [{"style": "white"}],
       "width": 1,
       "height": 1,
       "sellValue": 30,
@@ -347,6 +348,7 @@
           "levels": [1, 1]
         }
       ],
+      "groundLabels": [{"style": "white", "levels": [1, 1]}],
       "width": 1,
       "height": 2,
       "level": 15,
@@ -393,6 +395,101 @@
         "es": "Caja de la Suerte",
         "pt": "Caixa da sorte"
       },
+      "description": [
+        {
+          "text": {
+            "en": "When you drop it on the ground,",
+            "de": "Wenn Sie es auf den Boden fallen lassen,",
+            "es": "Cuando lo dejas caer al suelo,",
+            "id": "Saat Anda menjatuhkannya ke tanah,",
+            "ja": "投げると次の",
+            "pl": "Gdy upuścisz go na ziemię,",
+            "pt": "Quando você deixa cair no chão,",
+            "ru": "Когда ты уронишь его на землю,",
+            "tl": "Kapag ibinagsak mo ito sa lupa,",
+            "uk": "Коли ти впустиш його на землю,",
+            "zh-TW": "當你把它丟到地上時，"
+          },
+          "levels": [7, 7]
+        },
+        {
+          "text": {
+            "en": "[Rena/Zen/Jewel/Item]",
+            "de": "[Rena/Zen/Juwel/Gegenstand]",
+            "es": "[Rena/Zen/Joya/Objeto]",
+            "id": "[Rena/Zen/Permata/Barang]",
+            "ja": "レナ・ゼン・宝石・アイテム",
+            "pl": "[Rena/Zen/Klejnot/Przedmiot]",
+            "pt": "[Rena/Zen/Jóia/Item]",
+            "ru": "[Рена/Дзен/Драгоценный камень/Предмет]",
+            "tl": "[Rena/Zen/Jewel/Item]",
+            "uk": "[Rena/Zen/Jewel/Item]",
+            "zh-TW": "[蕾娜/禪/寶石/物品]"
+          },
+          "levels": [7, 7]
+        },
+        {
+          "text": {
+            "en": "you will get one of the above items.",
+            "de": "erhalten Sie einen der oben genannten Gegenstände.",
+            "es": "Obtendrá uno de los artículos anteriores.",
+            "id": "Anda akan mendapatkan salah satu item di atas.",
+            "ja": "の中で1つを入手できます。",
+            "pl": "otrzymasz jeden z powyższych przedmiotów.",
+            "pt": "você receberá um dos itens acima.",
+            "ru": "вы получите один из вышеперечисленных предметов.",
+            "tl": "makakakuha ka ng isa sa mga item sa itaas.",
+            "uk": "ви отримаєте один із зазначених вище предметів.",
+            "zh-TW": "您將獲得上述物品之一。"
+          },
+          "levels": [7, 7]
+        },
+        {
+          "text": {
+            "en": "Free entrance to Kalima",
+            "de": "Freier Eintritt nach Kalima",
+            "es": "Entrada gratuita a Kalima.",
+            "id": "Tiket masuk gratis ke Kalima",
+            "ja": "カルリマ入場自由",
+            "pl": "Bezpłatny wstęp do Kalimy",
+            "pt": "Entrada gratuita em Kalima",
+            "ru": "Бесплатный вход в Калиму.",
+            "tl": "Libreng pasukan sa Kalima",
+            "uk": "Безкоштовний вхід в Каліму",
+            "zh-TW": "免費進入卡利馬"
+          },
+          "levels": [14, 14]
+        },
+        {
+          "text": {
+            "en": "Increase stamina",
+            "de": "Vitalität erhöhen",
+            "es": "aumentar la resistencia",
+            "id": "Meningkatkan stamina",
+            "ja": "体力増加",
+            "pl": "Zwiększa wytrzymałość",
+            "pt": "Aumentar a resistência",
+            "ru": "Увеличение выносливости",
+            "tl": "Dagdagan ang tibay",
+            "uk": "Підвищити витривалість",
+            "zh-TW": "增加耐力"
+          },
+          "levels": [14, 14]
+        },
+        {
+          "text": "@throwForZenOrItems",
+          "when": ["level!=7", "level!=14"]
+        },
+        {
+          "text": "@cannotBeSold",
+          "color": "red"
+        },
+        {
+          "text": "@cannotStoreInVault",
+          "color": "red",
+          "levels": [13, 13]
+        }
+      ],
       "nameLines": [
         {
           "text": {
@@ -629,6 +726,7 @@
           "levels": [15, 15]
         }
       ],
+      "groundLabels": [{"style": "white", "levels": [1, 1]}, {"style": "white", "levels": [3, 3]}, {"style": "white", "levels": [5, 6]}, {"style": "white", "levels": [8, 12]}, {"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "sellable": false,
@@ -710,6 +808,7 @@
           "levels": [2, 2]
         }
       ],
+      "groundLabels": [{"style": "white"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -736,6 +835,7 @@
             "ru": "Используется для повышения уровня вашего предмета до 6.",
             "tl": "Ginagamit ito upang taasan ang antas ng iyong item hanggang 6",
             "uk": "Він використовується для підвищення рівня вашого предмета до 6",
+            "zh-CN": "用于将道具等级提升至最高 +6",
             "zh-TW": "它用於將您的物品等級提高到 6"
           }
         }
@@ -745,6 +845,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -773,6 +874,7 @@
             "ru": "Используется для повышения уровня вашего предмета до 7,8,9.",
             "tl": "Ginagamit ito upang mapataas ang antas ng iyong item hanggang 7,8,9",
             "uk": "Використовується для підвищення рівня вашого предмета до 7,8,9",
+            "zh-CN": "提高道具等级 +7、+8、+9 时使用",
             "zh-TW": "它用於將您的物品等級提高到7、8、9"
           }
         }
@@ -782,6 +884,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 30,
@@ -796,6 +899,7 @@
         "es": "Zen",
         "pt": "Zen"
       },
+      "groundLabels": [{"style": "zen"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -822,6 +926,7 @@
             "ru": "Увеличивает выбор предмета на 1 уровень.",
             "tl": "Pinapataas ng 1 level ang opsyon sa item",
             "uk": "Збільшує опцію предмета на 1 рівень",
+            "zh-CN": "道具追加属性提高一个阶段",
             "zh-TW": "將物品選項增加 1 級"
           }
         }
@@ -831,6 +936,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 72,
@@ -854,6 +960,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "devilSquareEntry"}],
       "width": 1,
       "height": 1,
       "level": 1,
@@ -877,6 +984,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "devilSquareEntry"}],
       "width": 1,
       "height": 1,
       "level": 1,
@@ -903,6 +1011,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "devilSquareEntry"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1045,6 +1154,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "eventItem", "levels": [1, 3]}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1074,6 +1184,7 @@
             "ru": "Используется для создания фруктов, повышающих характеристики.",
             "tl": "Ginagamit upang lumikha ng mga prutas na nagpapataas ng mga istatistika",
             "uk": "Використовується для створення фруктів, які підвищують характеристики",
+            "zh-CN": "用于合成提高属性的果实",
             "zh-TW": "用於製造增加屬性的水果"
           }
         }
@@ -1083,6 +1194,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 78,
@@ -1139,6 +1251,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem", "levels": [1, 1]}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1198,6 +1311,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem", "levels": [1, 1]}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1283,6 +1397,9 @@
       "repairable": false
     },
     {
+      "number": 27
+    },
+    {
       "number": 28,
       "name": {
         "en": "Lost Map",
@@ -1305,6 +1422,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1330,6 +1448,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1356,6 +1475,7 @@
             "ru": "Создавайте и улучшайте предметы для осады",
             "tl": "Gumawa at pagbutihin ang mga item para sa pagkubkob",
             "uk": "Створюйте та покращуйте предмети для облоги",
+            "zh-CN": "用于制作和强化攻城设施",
             "zh-TW": "創建和改進攻城物品"
           }
         }
@@ -1365,6 +1485,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "sellValue": 75,
@@ -1378,6 +1499,17 @@
         "es": "Caja de Chocolate Rosa",
         "pt": "Caixa de chocolate rosa"
       },
+      "description": [
+        {
+          "text": "@dropItToReceiveTheGift",
+          "colors": [
+            {
+              "when": ["level<=1"],
+              "color": "purple"
+            }
+          ]
+        }
+      ],
       "nameLines": [
         {
           "text": {
@@ -1402,6 +1534,7 @@
           "levels": [1, 1]
         }
       ],
+      "groundLabels": [{"style": "giftBoxPink", "levels": [0, 1]}, {"style": "white"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1414,6 +1547,17 @@
         "es": "Caja de Chocolate Roja",
         "pt": "Caixa de chocolate vermelha"
       },
+      "description": [
+        {
+          "text": "@dropItToReceiveTheGift",
+          "colors": [
+            {
+              "when": ["level<=1"],
+              "color": "red"
+            }
+          ]
+        }
+      ],
       "nameLines": [
         {
           "text": {
@@ -1438,6 +1582,7 @@
           "levels": [1, 1]
         }
       ],
+      "groundLabels": [{"style": "giftBoxRed", "levels": [0, 1]}, {"style": "white"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1450,6 +1595,17 @@
         "es": "Caja de Chocolate Azul",
         "pt": "Caixa de chocolate azul"
       },
+      "description": [
+        {
+          "text": "@dropItToReceiveTheGift",
+          "colors": [
+            {
+              "when": ["level<=1"],
+              "color": "blue"
+            }
+          ]
+        }
+      ],
       "nameLines": [
         {
           "text": {
@@ -1474,6 +1630,7 @@
           "levels": [1, 1]
         }
       ],
+      "groundLabels": [{"style": "giftBoxBlue", "levels": [0, 1]}, {"style": "white"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1629,6 +1786,7 @@
             "ru": "Драгоценность с примесями",
             "tl": "Hiyas na may mga dumi",
             "uk": "Коштовний камінь з домішками",
+            "zh-CN": "混有不纯物，无法发挥其力量的宝石",
             "zh-TW": "含有雜質的寶石"
           }
         }
@@ -1641,6 +1799,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -1669,6 +1828,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -1697,6 +1857,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -1725,6 +1886,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewel"}],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -1739,6 +1901,12 @@
         "es": "Calabaza de la Suerte",
         "pt": "Abóbora da sorte"
       },
+      "description": [
+        {
+          "text": "@dropItToReceiveTheGift",
+          "color": "darkYellow"
+        }
+      ],
       "nameLines": [
         {
           "text": {
@@ -1746,6 +1914,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 1,
       "level": 1,
@@ -1761,6 +1930,22 @@
       },
       "description": [
         {
+          "text": {
+            "en": "Attack Speed increase +{addOptionValue1}",
+            "de": "Angriffsgeschwindigkeit +{addOptionValue1}",
+            "es": "Aumento de velocidad de ataque +{addOptionValue1}",
+            "id": "Kecepatan Serangan meningkat +{addOptionValue1}",
+            "ja": "攻撃速度上昇 +{addOptionValue1}",
+            "pl": "Zwiększenie prędkości ataku +{addOptionValue1}",
+            "pt": "Aumento de velocidade de ataque +{addOptionValue1}",
+            "ru": "Увеличение скорости атаки +{addOptionValue1}",
+            "tl": "Tumaas ang Bilis ng Pag-atake +{addOptionValue1}",
+            "uk": "Збільшення швидкості атаки +{addOptionValue1}",
+            "zh-TW": "攻擊速度增加+{addOptionValue1}"
+          },
+          "color": "darkYellow"
+        },
+        {
           "text": "@numberOfItems",
           "when": ["durability"]
         }
@@ -1772,6 +1957,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -1786,6 +1972,22 @@
       },
       "description": [
         {
+          "text": {
+            "en": "Attack Power increase +{addOptionValue1}",
+            "de": "Angriffskraft +{addOptionValue1}",
+            "es": "Aumento del poder de ataque +{addOptionValue1}",
+            "id": "Kekuatan Serangan meningkat +{addOptionValue1}",
+            "ja": "攻撃力上昇 +{addOptionValue1}",
+            "pl": "Zwiększenie siły ataku +{addOptionValue1}",
+            "pt": "Aumento de poder de ataque +{addOptionValue1}",
+            "ru": "Увеличение силы атаки +{addOptionValue1}",
+            "tl": "Pagtaas ng Attack Power +{addOptionValue1}",
+            "uk": "Збільшення сили атаки +{addOptionValue1}",
+            "zh-TW": "攻擊力增加+{addOptionValue1}"
+          },
+          "color": "darkYellow"
+        },
+        {
           "text": "@numberOfItems",
           "when": ["durability"]
         }
@@ -1797,6 +1999,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -1811,6 +2014,22 @@
       },
       "description": [
         {
+          "text": {
+            "en": "Defense Power increase +{addOptionValue1}",
+            "de": "Verteidigungskraft +{addOptionValue1}",
+            "es": "Aumento del poder de defensa +{addOptionValue1}",
+            "id": "Peningkatan Kekuatan Pertahanan +{addOptionValue1}",
+            "ja": "防御力上昇 +{addOptionValue1}",
+            "pl": "Zwiększenie siły obrony +{addOptionValue1}",
+            "pt": "Aumento do poder de defesa +{addOptionValue1}",
+            "ru": "Увеличение защитной силы +{addOptionValue1}",
+            "tl": "Pagtaas ng Defense Power +{addOptionValue1}",
+            "uk": "Збільшення сили захисту +{addOptionValue1}",
+            "zh-TW": "防禦力增加+{addOptionValue1}"
+          },
+          "color": "darkYellow"
+        },
+        {
           "text": "@numberOfItems",
           "when": ["durability"]
         }
@@ -1822,6 +2041,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -1836,6 +2056,22 @@
       },
       "description": [
         {
+          "text": {
+            "en": "Increase max. life +{addOptionValue1}",
+            "de": "Max. Leben erhöhen +{addOptionValue1}",
+            "es": "Aumentar máx. vida +{addOptionValue1}",
+            "id": "Tingkatkan maks. hidup +{addOptionValue1}",
+            "ja": "最大生命力増加 +{addOptionValue1}",
+            "pl": "Zwiększa maks. życie +{addOptionValue1}",
+            "pt": "Aumentar máx. vida +{addOptionValue1}",
+            "ru": "Увеличить макс. жизнь +{addOptionValue1}",
+            "tl": "Taasan ang max. buhay +{addOptionValue1}",
+            "uk": "Збільшити макс. життя +{addOptionValue1}",
+            "zh-TW": "增加最大生命+{addOptionValue1}"
+          },
+          "color": "darkYellow"
+        },
+        {
           "text": "@numberOfItems",
           "when": ["durability"]
         }
@@ -1847,6 +2083,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1861,6 +2098,22 @@
       },
       "description": [
         {
+          "text": {
+            "en": "Increase max. mana +{addOptionValue1}",
+            "de": "Max. Mana erhöhen +{addOptionValue1}",
+            "es": "Aumentar máx. maná +{addOptionValue1}",
+            "id": "Tingkatkan maks. mana +{addOptionValue1}",
+            "ja": "最大マナ増加 +{addOptionValue1}",
+            "pl": "Zwiększa maks. manę +{addOptionValue1}",
+            "pt": "Aumentar máx. mana +{addOptionValue1}",
+            "ru": "Увеличить макс. мана +{addOptionValue1}",
+            "tl": "Taasan ang max. mana +{addOptionValue1}",
+            "uk": "Збільшити макс. мана +{addOptionValue1}",
+            "zh-TW": "增加最大法力+{addOptionValue1}"
+          },
+          "color": "darkYellow"
+        },
+        {
           "text": "@numberOfItems",
           "when": ["durability"]
         }
@@ -1872,6 +2125,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "halloween"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -1938,7 +2192,7 @@
         "es": "Talismán de la Suerte",
         "pt": "Talismã da sorte"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -1973,6 +2227,7 @@
           "when": ["durability"]
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1989,13 +2244,14 @@
         "es": "Tarjeta de Caos",
         "pt": "Cartão do caos"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@specialItemsWithCombinations",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2048,13 +2304,14 @@
         "es": "Boleto de Ítem Raro1",
         "pt": "Bilhete de item raro1"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2071,13 +2328,14 @@
         "es": "Boleto de Ítem Raro2",
         "pt": "Bilhete de item raro2"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2094,13 +2352,14 @@
         "es": "Boleto de Ítem Raro3",
         "pt": "Bilhete de item raro3"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2117,13 +2376,14 @@
         "es": "Boleto de Ítem Raro4",
         "pt": "Bilhete de item raro4"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2140,13 +2400,14 @@
         "es": "Boleto de Ítem Raro5",
         "pt": "Bilhete de item raro5"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2199,6 +2460,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2352,7 +2614,7 @@
         "es": "Pócima de Curación de Élite",
         "pt": "Poção de cura de elite"
       },
-      "tags": ["elitePotion", "cashShop"],
+      "tags": ["elitePotion", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2375,6 +2637,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2391,7 +2654,7 @@
         "es": "Pócima de Maná de Élite",
         "pt": "Poção de mana de elite"
       },
-      "tags": ["elitePotion", "cashShop"],
+      "tags": ["elitePotion", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2414,6 +2677,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2430,7 +2694,7 @@
         "es": "Rollo de Rapidez",
         "pt": "Pergaminho da rapidez"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2453,6 +2717,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2469,7 +2734,7 @@
         "es": "Rollo de Defensa",
         "pt": "Pergaminho da defesa"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2492,6 +2757,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2508,7 +2774,7 @@
         "es": "Rollo de Ira",
         "pt": "Pergaminho da ira"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2531,6 +2797,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2547,7 +2814,7 @@
         "es": "Rollo de Magia",
         "pt": "Pergaminho do poder de magia"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2570,6 +2837,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2586,7 +2854,7 @@
         "es": "Rollo de Salud",
         "pt": "Pergaminho de vida"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2609,6 +2877,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2625,7 +2894,7 @@
         "es": "Rollo de Maná",
         "pt": "Pergaminho de mana"
       },
-      "tags": ["buffScroll", "cashShop"],
+      "tags": ["buffScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -2648,6 +2917,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -2664,7 +2934,7 @@
         "es": "Elixir de Fuerza",
         "pt": "Elixir da força"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": ["elixir", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2704,6 +2974,7 @@
           "text": "@available"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -2720,7 +2991,7 @@
         "es": "Elixir de Agilidad",
         "pt": "Elixir da agilidade"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": ["elixir", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2760,6 +3031,7 @@
           "text": "@available"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -2776,7 +3048,7 @@
         "es": "Elixir de Salud",
         "pt": "Elixir da vida"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": ["elixir", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2816,6 +3088,7 @@
           "text": "@available"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -2832,7 +3105,7 @@
         "es": "Elixir de Energía",
         "pt": "Elixir da energia"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": ["elixir", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2872,6 +3145,7 @@
           "text": "@available"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -2888,7 +3162,7 @@
         "es": "Elixir de Control",
         "pt": "Elixir do controle"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": ["elixir", "cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -2943,6 +3217,7 @@
           "text": "@available"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -2965,6 +3240,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -2983,6 +3259,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3019,6 +3296,7 @@
           "color": "purple"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -3055,6 +3333,7 @@
           "color": "purple"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3091,6 +3370,7 @@
           "color": "purple"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3113,6 +3393,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -3135,6 +3416,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -3157,6 +3439,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cherryBlossom"}],
       "width": 1,
       "height": 2,
       "repairable": false
@@ -3169,7 +3452,8 @@
         "es": "Tarjeta Personaje Invocador",
         "pt": "Cartão do Pers. Invocador"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3186,13 +3470,14 @@
         "es": "Tarjeta de Caos Oro",
         "pt": "Cartão dourado do caos"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@specialItemsWithCombinations",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3209,13 +3494,14 @@
         "es": "Tarjeta de Caos Rara",
         "pt": "Cartão raro do caos"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@specialItemsWithCombinations",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3232,7 +3518,7 @@
         "es": "Pócima Curación Élite Media",
         "pt": "Poção média de cura de elite"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -3255,6 +3541,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3271,13 +3558,14 @@
         "es": "Tarjeta de Caos Mini",
         "pt": "Mini cartão do caos"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@specialItemsWithCombinations",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3294,7 +3582,7 @@
         "es": "Ensamble Talismán del Caos",
         "pt": "Talismã do Agrup. do Caos"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -3345,6 +3633,7 @@
           "color": "purple"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3361,7 +3650,7 @@
         "es": "Rollo de Batalla",
         "pt": "Pergaminho da batalha"
       },
-      "tags": ["battleOrStrengthScroll", "cashShop"],
+      "tags": ["battleOrStrengthScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -3384,6 +3673,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -3400,7 +3690,7 @@
         "es": "Rollo de Fuerza",
         "pt": "Pergaminho da força"
       },
-      "tags": ["battleOrStrengthScroll", "cashShop"],
+      "tags": ["battleOrStrengthScroll", "cashShop", "noClassLines"],
       "description": [
         {
           "text": {
@@ -3423,6 +3713,7 @@
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 2,
       "height": 2,
       "tradable": false,
@@ -3479,6 +3770,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3522,6 +3814,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "level": 32,
@@ -3590,6 +3883,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3615,6 +3909,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3640,6 +3935,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3665,6 +3961,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3690,6 +3987,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3715,6 +4013,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3740,6 +4039,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3792,6 +4092,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3859,6 +4160,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "questItem"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -3889,6 +4191,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3924,6 +4227,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3942,6 +4246,7 @@
         "pt": "Reinic. de Habilidade Mestre"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3959,6 +4264,7 @@
         "pt": "Ajuste de atributos"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3976,6 +4282,7 @@
         "pt": "Serviço Nova Local. de Pers."
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -3993,6 +4300,7 @@
         "pt": "Serviço Novo Nome do Pers."
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4010,6 +4318,7 @@
         "pt": "Serviço Nova Local. de Serv."
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4027,6 +4336,7 @@
         "pt": "Pacote Premium"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4061,6 +4371,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4095,6 +4406,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "droppable": false,
@@ -4126,6 +4438,7 @@
           }
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "droppable": false,
@@ -4145,6 +4458,7 @@
           "text": "@mayTurnIntoRareItem"
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4167,6 +4481,7 @@
           "text": "@mayTurnIntoRareItem"
         }
       ],
+      "groundLabels": [{"style": "eventItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4196,6 +4511,7 @@
         "pt": "Passe de 30 dias"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4213,6 +4529,7 @@
         "pt": "Passe de 90 dias"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4230,6 +4547,7 @@
         "pt": "Passe de 30 dias - Pontos"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4247,6 +4565,7 @@
         "pt": "Passe de 90 dias - Pontos"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4264,6 +4583,7 @@
         "pt": "Passe de 3 horas"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4281,6 +4601,7 @@
         "pt": "Passe de 5 horas"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4298,6 +4619,7 @@
         "pt": "Passe de 10 horas"
       },
       "tags": ["cashShop"],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4314,7 +4636,7 @@
         "es": "Pócima de SD de Élite",
         "pt": "Poção de SD de elite"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@numberOfItems",
@@ -4359,6 +4681,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4381,6 +4704,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4403,6 +4727,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4425,6 +4750,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4447,6 +4773,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4469,6 +4796,7 @@
           "text": "@boxOfVariousItems"
         }
       ],
+      "groundLabels": [{"style": "cashShopService"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4534,6 +4862,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewelryCase"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -4556,6 +4885,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewelryCase"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -4578,6 +4908,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewelryCase"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -4600,6 +4931,7 @@
           "color": "yellow"
         }
       ],
+      "groundLabels": [{"style": "jewelryCase"}],
       "width": 1,
       "height": 1,
       "repairable": false
@@ -4612,13 +4944,14 @@
         "es": "Boleto de Ítem Raro 7",
         "pt": "Bilhete de item raro7"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4635,13 +4968,14 @@
         "es": "Boleto de Ítem Raro 8",
         "pt": "Bilhete de item raro8"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4658,13 +4992,14 @@
         "es": "Boleto de Ítem Raro 9",
         "pt": "Bilhete de item raro9"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4681,13 +5016,14 @@
         "es": "Boleto de Ítem Raro 10",
         "pt": "Bilhete de item raro10"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4704,13 +5040,14 @@
         "es": "Boleto de Ítem Raro 11",
         "pt": "Bilhete de item raro11"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4727,13 +5064,14 @@
         "es": "Boleto de Ítem Raro 12",
         "pt": "Bilhete de item raro12"
       },
-      "tags": ["cashShop"],
+      "tags": ["cashShop", "noClassLines"],
       "description": [
         {
           "text": "@contactCsTeam",
           "color": "blue"
         }
       ],
+      "groundLabels": [{"style": "cashShopItem"}],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -4902,6 +5240,7 @@
             "ru": "Драгоценный камень, используемый для ремонта счастливого предмета.",
             "tl": "Jewel na ginamit sa pag-aayos ng Lucky Item.",
             "uk": "Коштовний камінь, який використовується для ремонту щасливого предмета.",
+            "zh-CN": "用于修理幸运道具耐久度的宝石",
             "zh-TW": "用於修復幸運物品的寶石。"
           }
         }
