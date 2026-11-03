@@ -6888,6 +6888,7 @@ LinkPlacement PlaceLinkedPart(float x, float y, float z, const CHARACTER* c, BYT
 
         R_ConcatTransforms(bones[linkBone], Matrix, placement.parent);
         VectorCopy(c->Object.Position, placement.origin);
+        placement.origin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
     }
     else
     {
@@ -6896,6 +6897,7 @@ LinkPlacement PlaceLinkedPart(float x, float y, float z, const CHARACTER* c, BYT
         VectorRotate(p, bones[linkBone], placement.position);
         VectorScale(placement.position, Models[o->Type].BodyScale, placement.position);
         VectorAdd(c->Object.Position, placement.position, placement.origin);
+        placement.origin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
         std::memcpy(placement.parent, bones[linkBone], sizeof(placement.parent));
     }
     if (Type == MODEL_BOSS_HEAD)
@@ -12076,6 +12078,8 @@ static BMD* PlaceCharacterModel(OBJECT* o)
     b->BodyScale = o->Scale;
     b->CurrentAction = o->CurrentAction;
     VectorCopy(o->Position, b->BodyOrigin);
+    // The rider of an OriginSix Guardian sits on its back.
+    b->BodyOrigin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
     return b;
 }
 
@@ -12345,14 +12349,10 @@ void RenderCharactersClient()
         {
             if (o->Visible)
             {
-                // The rider of an OriginSix Guardian sits on its back.
-                const float riderRaise = GameLogic::Items::GetGuardianRiderRaise(o);
-                o->Position[2] += riderRaise;
                 if (i != SelectedCharacter && i != SelectedNpc)
                     RenderCharacter(c, o);
                 else
                     RenderCharacter(c, o, true);
-                o->Position[2] -= riderRaise;
 
 #ifdef _EDITOR
                 if (s_bShowCharacterPickBoxes)

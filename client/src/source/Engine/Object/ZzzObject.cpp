@@ -33,6 +33,7 @@
 #include "Engine/Physics/PhysicsManager.h"
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Pets/w_PetProcess.h"
+#include "GameLogic/Items/GuardianMounts.h"
 #include "Character/CSParts.h"
 #include "GameLogic/Items/CSItemOption.h"
 #include "GameLogic/Events/CSChaosCastle.h"
@@ -333,6 +334,9 @@ void ObjectModelOrigin(const OBJECT* o, vec3_t origin)
         origin[1] += 60.f;
     else if (o->Type == MODEL_STATUE_OF_SAINT)
         origin[1] += 120.f;
+    else if (o->Type == MODEL_PLAYER)
+        // The rider of an OriginSix Guardian sits on its back.
+        origin[2] += GameLogic::Items::GetGuardianRiderRaise(o);
 }
 
 // Where an object's model stands when it is posed and drawn.
